@@ -1,20 +1,22 @@
 /** @type {import('tailwindcss').Config} */
 
-const {colors:defaultColors} = require('tailwindcss/defaultTheme')
-const colors ={
-  ...defaultColors,
-  ...{
-    "custom-yellow":{
-      "500": "#edae0a",
-    },
-  },
-}
+// const {colors:defaultColors} = require('tailwindcss/defaultTheme')
+// const colors ={
+//   ...defaultColors,
+//   ...{
+//     "custom-yellow":{
+//       "500": "#edae0a",
+//     },
+//   },
+// }
 module.exports = {
   content: ["./index.html", "./src/**/*.{html,js,vue}"],
   theme: {
     extend: {
       fontFamily: {
         headline: ["Oswald"],
+        main: ["OpenSans"],
+        mainB: ["OpenSansB"]
       },
     },
     debugScreens: {
@@ -28,7 +30,7 @@ module.exports = {
     colors: {
       brwn: "#800000",
       crm: "#ffebcd",
-      gray: "rgba(0,0,0,0.7)"
+      gray: "rgba(0,0,0,0.6)"
     },
   },
   plugins: [require("tailwindcss-debug-screens")],
