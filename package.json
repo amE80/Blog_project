@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.0.0",
+    "tailwindcss-debug-screens": "^2.2.1",
     "vite": "^4.0.0"
   }
 }
