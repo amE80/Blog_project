@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    @font-face {
+font-family: Oswald;
+src: url(/dist/font/Oswald-Regular.ttf) format("truetype");
+}
+
+}
