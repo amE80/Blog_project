@@ -12,7 +12,7 @@ import TopNav from "../components/Navigation/topNav.vue";
 import MainContent from "../components/MainContent/mainContent.vue";
 export default{
 
- name:'theMainPage',
+ name:'homePage',
     
 components:{
     TopNav,
