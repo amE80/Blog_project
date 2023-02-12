@@ -37,6 +37,7 @@
 <script>
 import UserIcon from '../Icon/userIcon.vue';
 import HeartIcon from '../Icon/heartIcon.vue';
+
  export default{
   name:'mainContent',
     data() {
@@ -49,7 +50,7 @@ methods:{
         return this.like++;
     }
 },
-component:{
+components:{
   UserIcon,
   HeartIcon,
 }
