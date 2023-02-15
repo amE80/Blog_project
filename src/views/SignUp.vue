@@ -34,7 +34,7 @@
 
           <div class="flex justify-between ">
             
-           <a href="#" class="font-medium hover:underline text-sm md:text-base">Already have an account?  sign in here</a>
+           <router-link :to="{name : 'signIn'}" class="font-medium hover:underline text-sm md:text-base">Already have an account? sign in here</router-link> 
                 
             
             <button
@@ -57,17 +57,18 @@
 </template>
 
 <script>
-import TopNav from "../components/Navigation/topNav.vue";
+import TopNav from "../components/Navigation/TopNav.vue";
 export default {
     name:"signUp",
+    components:{
+    TopNav,
+},
 data(){
     return{
 
     }
 },
-components:{
-    TopNav,
-}
+
 }
 
 

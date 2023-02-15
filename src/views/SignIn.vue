@@ -4,7 +4,7 @@
     
       
       <div class="w-9/12 sm:w-7/12 lg:w-5/12 mx-auto mt-20">
-        <p class="text-5xl text-center mb-9 text-brwn font-semibold">Welcome Back! </p>
+        <p class="text-4xl md:text-5xl text-center mb-9 text-brwn font-semibold">Welcome Back! </p>
         <form class="mt-20">
             
          
@@ -28,7 +28,7 @@
 
           <div class="flex justify-between ">
             
-           <a href="#" class="font-medium hover:underline text-sm md:text-base">Don't have an account? sign up here</a>
+           <router-link :to="{name: 'signUp'}" class="font-medium hover:underline text-sm md:text-base">Don't have an account? sign up here</router-link>
                 
             
             <button
@@ -52,16 +52,17 @@
 </template>
 
 <script>
-import TopNav from "../components/Navigation/topNav.vue";
+import TopNav from "../components/Navigation/TopNav.vue";
 export default {
     name:"signIn",
+    components:{
+    TopNav,
+},
 data(){
     return{
 
     }
 },
-components:{
-    TopNav,
-}
+
 }
 </script>

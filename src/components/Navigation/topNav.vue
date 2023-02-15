@@ -3,9 +3,9 @@
         <ul class="flex items-center justify-between">
              <li class="text-2xl font-bold md:text-3xl text-brwn "> <h2> Blog Hub </h2></li>
            <ul class="flex items-center justify-between w-40 sm:w-48">      
-            <li @click="goToHome" class="text-sm cursor-pointer md:text-base hover:text-brwn font-main text-lightGray">Home </li>
-            <li @click="goToSignIn" class="text-sm cursor-pointer md:text-base hover:text-brwn font-main text-lightGray" >Sign in </li>
-            <li @click="goToSignUp" class="text-sm cursor-pointer md:text-base hover:text-brwn font-main text-lightGray">Sign up </li>
+            <li  class="text-sm cursor-pointer md:text-base hover:text-brwn font-main text-lightGray"><router-link :to="{name: 'home'}"> Home </router-link></li>
+            <li  class="text-sm cursor-pointer md:text-base hover:text-brwn font-main text-lightGray" ><router-link :to="{name: 'signIn'}"> Sign in </router-link> </li>
+            <li  class="text-sm cursor-pointer md:text-base hover:text-brwn font-main text-lightGray"><router-link :to="{name: 'signUp'}"> Sign up </router-link></li>
         </ul>
           
         </ul>
@@ -16,15 +16,7 @@
 export default {
     name:'navigationBar',
     methods:{
-        goToHome(){
-            this.$router.push('/');
-        },
-        goToSignIn(){
-            this.$router.push('/sign-in');
-        },
-        goToSignUp(){
-            this.$router.push('/sign-up');
-        },
+       
     }
     
 }
