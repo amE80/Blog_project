@@ -33,6 +33,8 @@ module.exports = {
       gray: "rgba(0,0,0,0.6)",
       lightGray: "rgba(0,0,0,0.3)",
       red : "#880808",
+      black : '#000',
+      white : '#fff',
     },
   },
   plugins: [require("tailwindcss-debug-screens")],
