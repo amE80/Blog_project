@@ -3,9 +3,9 @@
         <ul class="flex items-center justify-between">
              <li class="text-2xl font-bold md:text-3xl text-brwn "> <h2> Blog Hub </h2></li>
            <ul class="flex items-center justify-between w-40 sm:w-48">      
-            <li @click="goToHome" class="text-sm cursor-pointer md:text-base hover:text-brwn font-main text-gray">Home </li>
-            <li @click="goToSignIn" class="text-sm cursor-pointer md:text-base hover:text-brwn font-main text-gray" >Sign in </li>
-            <li @click="goToSignUp" class="text-sm cursor-pointer md:text-base hover:text-brwn font-main text-gray">Sign up </li>
+            <li @click="goToHome" class="text-sm cursor-pointer md:text-base hover:text-brwn font-main text-lightGray">Home </li>
+            <li @click="goToSignIn" class="text-sm cursor-pointer md:text-base hover:text-brwn font-main text-lightGray" >Sign in </li>
+            <li @click="goToSignUp" class="text-sm cursor-pointer md:text-base hover:text-brwn font-main text-lightGray">Sign up </li>
         </ul>
           
         </ul>
