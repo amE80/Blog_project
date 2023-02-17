@@ -8,9 +8,9 @@
 </template>
 
 <script>
-import Header from "../components/Header/header.vue";
-import TopNav from "../components/Navigation/topNav.vue";
-import MainContent from "../components/MainContent/mainContent.vue";
+import Header from "../components/Header/Header.vue";
+import TopNav from "../components/Navigation/TopNav.vue";
+import MainContent from "../components/MainContent/MainContent.vue";
 
 export default{
 
