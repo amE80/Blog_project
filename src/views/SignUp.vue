@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import TopNav from "../components/Navigation/TopNav.vue";
+import TopNav from "../components/Navigation/topNav.vue";
 import { Field, Form, ErrorMessage } from "vee-validate";
 export default {
     name:"signUp",
