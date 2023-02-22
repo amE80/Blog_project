@@ -22,8 +22,13 @@ export default{
                 };
                 const message = messages[ctx.rule.name] ? messages[ctx.rule.name]: `this field is invalid`;
                 return message;
-            }
-        })
+            },
+            validateOnBlur:true,
+            validateOnChange: true,
+            validateOnInput : true,
+            validateOnModelUpdate: true
+        });
+     
     }
 
 
