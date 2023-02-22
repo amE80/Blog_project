@@ -37,9 +37,29 @@
 <script>
 import UserIcon from '../Icon/userIcon.vue';
 import HeartIcon from '../Icon/heartIcon.vue';
+import axios from 'axios';
 
  export default{
+  setup(){
+  function getPosts (){
+  axios.get('https://api.realworld.io/api/articles/')
+  .then(function (response) {
+    // handle success
+    console.log(response.data);
+  })
+  .catch(function (error) {
+    // handle error
+    console.log(error);
+  })
+
+}
+getPosts()
+  },
   name:'mainContent',
+  components:{
+  UserIcon,
+  HeartIcon,
+},
     data() {
     return{
         like: 0,
@@ -48,12 +68,10 @@ import HeartIcon from '../Icon/heartIcon.vue';
 methods:{
   increaseLike(){
         return this.like++;
-    }
+    },
+    
 },
-components:{
-  UserIcon,
-  HeartIcon,
-}
+
 
     }
 </script>
