@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import TopNav from "../components/Navigation/topNav.vue";
+import TopNav from "../components/Navigation/TopNav.vue";
 import { Field, Form, ErrorMessage } from "vee-validate";
 export default {
     name:"signIn",
