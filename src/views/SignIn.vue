@@ -5,11 +5,11 @@
       
       <div class="w-9/12 sm:w-7/12 lg:w-5/12 mx-auto mt-20">
         <p class="text-4xl md:text-5xl text-center mb-9 text-brwn font-semibold">Welcome Back! </p>
-        <Form class="mt-20" :validation-schema="schema">
+        <Form class="mt-10 space-y-6" :validation-schema="schema">
             
          
           
-          <div class="mb-6">
+          <div class="">
             <Field
               name="email"
               type="email"
@@ -21,7 +21,7 @@
           </div>
 
           
-          <div class="mb-6">
+          <div class="">
             <Field
               name="password"
               type="password"
