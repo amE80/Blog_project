@@ -4,15 +4,12 @@
 
 @layer base {
     @font-face {
-font-family: Oswald;
-src: url(../) format("truetype");
-}
-@font-face {
-font-family: OpenSans;
-src: url(/dist/font/OpenSans-Regular.ttf) format("truetype");
-}
-@font-face {
-font-family: OpenSansB;
-src: url(/dist/font/OpenSans-SemiBold.ttf) format("truetype");
-}
-}
+        font-family: Oswald;
+        src: url(../assets/fonts/Oswald-Medium.ttf) format("truetype");
+        }
+        @font-face {
+        font-family: OpenSans;
+        src: url(../assets/fonts/OpenSans-Regular.ttf),url(../assets/fonts/OpenSans-SemiBold.ttf) format("truetype");
+        }
+        
+        }
