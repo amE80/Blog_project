@@ -3,27 +3,27 @@
     <div class="border-b border-b-lightGray">
       <p class="inline font-medium border-b-2 text-brwn">Recently shared</p>
     </div>
-    <div class="pb-4 border-b a-blog border-b-lightGray">
+    <div class="pb-4 border-b a-blog border-b-lightGray" v-for="article in articles" :key="article.id">
     <div class="flex justify-between">
       <div class="flex items-center mt-5 content">
         <div class="rounded-full w-11 h-11 bg-brwn">
           <UserIcon />
 
         </div>
-        <section class="ml-2">
-          <p class="text-sm">fname lname</p>
-          <p class="text-sm text-gray">date</p>
+        <section v-if="article.author" class="ml-2">
+          <p class="text-sm">{{ article.author.username }}</p>
+          <p class="text-sm text-gray">{{ article.createdAt }}</p>
         </section>
       </div>
       <button @click="increaseLike" class="flex items-center justify-center w-auto h-10 px-2 mt-5 border-2 rounded text-red border-red hover:bg-red hover:text-crm">
         
-       <span> {{ like }} </span>
+       <span> {{ article.favoritesCount }} </span>
        <heart-icon />
       </button>
     </div>
-    <div class="w-11/12 mt-4">
-    <p class="">Lorem ipsum dolor njedslnf jkndfjksn; nfvjk fdkf sit amet consectetur adipisicing elit. Excepturi dolor deserunt ullam dignissimos omnis porro architecto fuga soluta odit velit!</p>
-<p class="text-sm text-gray">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem expedita mollitia harum, consequatur unde cum perspiciatis. Quibusdam asperiores temporibus, tempore earum voluptate odit molestiae itaque consequatur modi harum, ipsum at soluta eveniet quis sunt nostrum aut? Iure beatae nesciunt dolor, consectetur rerum officia placeat ut ullam voluptates, provident non qui.</p>
+    <div class="w-11/12 mt-4" >
+    <p class="">{{ article.title }}</p>
+<p class="text-sm text-gray">{{ article.description }}</p>
 <p class="mt-4 text-sm text-gray" >see more... </p>
 </div>
 </div>
@@ -40,21 +40,7 @@ import HeartIcon from '../Icon/heartIcon.vue';
 import axios from 'axios';
 
  export default{
-  setup(){
-  function getPosts (){
-  axios.get('https://api.realworld.io/api/articles/')
-  .then(function (response) {
-    // handle success
-    console.log(response.data);
-  })
-  .catch(function (error) {
-    // handle error
-    console.log(error);
-  })
 
-}
-getPosts()
-  },
   name:'mainContent',
   components:{
   UserIcon,
@@ -63,12 +49,28 @@ getPosts()
     data() {
     return{
         like: 0,
+        articles: null,
     };
+},
+created(){
+  this.getPosts();
 },
 methods:{
   increaseLike(){
         return this.like++;
     },
+    getPosts (){
+  axios.get('https://api.realworld.io/api/articles/')
+  .then((response) => {
+    // handle success
+  this.articles = response.data.articles;
+  console.log(response.data.articles)
+  })
+  .catch((error) => {
+    // handle error
+    console.log(error);
+  })
+}
     
 },
 
