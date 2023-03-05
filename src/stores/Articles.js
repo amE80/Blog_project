@@ -15,18 +15,33 @@ export const useArticlesStore = defineStore('articleStore', {
             this.fetching_in_progress = true;
             axiosAPI.get('articles/').then((response) => {
               //changing date format
-              const newData = response.data.articles.map((artTime) => {
+              const articles = response.data.articles.map((artTime) => {
                 artTime.createdAt = DateTime.fromISO(artTime.createdAt).toFormat("yyyy/MM/dd hh:mm")
-                return artTime
+                return artTime 
               });
-              console.log(newData);
-              this.articles = newData
+              console.log(articles);
+              this.articles = articles;
               this.fetching_in_progress = false;
+              
             })
               .catch((error) => {
                 console.log(error);
                 this.fetching_in_progress = false;
               })
+          },
+
+         toggleFav(slug){
+          const article = this.articles.find(a => a.slug === slug)
+          article.favorited = !article.favorited ;
+
+          if (article.favorited){
+            article.favoritesCount ++ ;
           }
+          
+          else if (!article.favorited){
+            article.favoritesCount -- 
+          }
+
+         }
     }
 })

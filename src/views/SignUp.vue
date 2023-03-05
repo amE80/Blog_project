@@ -4,27 +4,27 @@
     
       
       <div class="w-9/12 sm:w-7/12 lg:w-5/12 mx-auto mt-20">
-        <p class="text-5xl text-center mb-9 text-brwn font-semibold">Welcome! </p>
+        <p class="text-5xl text-center mb-9 text-mainRed font-semibold">Welcome! </p>
         <Form class="mt-10 space-y-6" :validation-schema="schema">
             
           <div class="">
             <Field
               name="userName"
               type="text"
-              class="block w-full px-4 py-2 text-lg md:text-xl font-normal transition bg-white border border-solid rounded border-lightGray focus:border-gray focus:outline-none"
+              class="block w-full px-4 py-2 text-lg md:text-xl font-normal transition bg-white border border-solid rounded border-gray-400 focus:border-gray-700 focus:outline-none"
               placeholder="User name"
             />
-            <ErrorMessage name="userName" class="mt-1 text-red" />
+            <ErrorMessage name="userName" class="mt-1 text-red-800" />
           </div>
           
           <div class="">
             <Field
               name="email"
               type="email"
-              class="block w-full px-4 py-2 text-lg md:text-xl font-normal transition bg-white border border-solid rounded border-lightGray focus:border-gray focus:outline-none"
+              class="block w-full px-4 py-2 text-lg md:text-xl font-normal transition bg-white border border-solid rounded border-gray-400 focus:border-gray-700 focus:outline-none"
               placeholder="Email address"
             />
-            <ErrorMessage name="email" class="mt-1 text-red" />
+            <ErrorMessage name="email" class="mt-1 text-red-800" />
 
           </div>
 
@@ -33,21 +33,21 @@
             <Field
               name="password"
               type="password"
-              class="block w-full px-4 py-2 text-lg md:text-xl font-normal transition bg-white border border-solid rounded border-lightGray focus:border-gray focus:outline-none"
+              class="block w-full px-4 py-2 text-lg md:text-xl font-normal transition bg-white border border-solid rounded border-gray-400 focus:border-gray-700 focus:outline-none"
               placeholder="Password"
             />
-            <ErrorMessage name="password" class="mt-1 text-red" />
+            <ErrorMessage name="password" class="mt-1 text-red-800" />
 
           </div>
 
-          <div class="flex justify-between ">
+          <div class="flex justify-between items-center">
             
            <router-link :to="{name : 'signIn'}" class="font-medium hover:underline text-sm md:text-base">Already have an account? sign in here</router-link> 
                 
             
             <button
             type="submit"
-            class="w-20 md:w-32 py-4 px-2 text-sm md:text-base font-medium transition bg-brwn text-crm rounded-lg"
+            class="w-20 md:w-32 font-semibold py-3 px-1 text-sm md:text-base transition bg-mainRed text-cream rounded-lg"
            
           >
             Sign Up
