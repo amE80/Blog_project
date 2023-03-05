@@ -11,14 +11,9 @@ module.exports = {
         mainB: ["OpenSansB"]
       },
       colors: {
-        'brwn': "#800000",
-        'crm': "#ffebcd",
-        'gray': "rgba(0,0,0,0.6)",
-        'lightGray': "rgba(0,0,0,0.3)",
-        'red' : "#880808",
-        'black' : '#000',
-        'white' : '#fff',
-      
+        'mainRed': "#800000",
+        'cream': "#ffebcd",
+        'bloodRed' : "#880808",
         },
     },
     debugScreens: {
