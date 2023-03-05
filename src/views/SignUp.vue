@@ -40,14 +40,14 @@
 
           </div>
 
-          <div class="flex justify-between ">
+          <div class="flex justify-between items-center">
             
            <router-link :to="{name : 'signIn'}" class="font-medium hover:underline text-sm md:text-base">Already have an account? sign in here</router-link> 
                 
             
             <button
             type="submit"
-            class="w-20 md:w-32 py-4 px-2 text-sm md:text-base font-medium transition bg-brwn text-crm rounded-lg"
+            class="w-20 md:w-32 font-semibold py-3 px-1 text-sm md:text-base transition bg-brwn text-crm rounded-lg"
            
           >
             Sign Up
