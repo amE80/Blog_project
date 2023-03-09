@@ -61,7 +61,6 @@ export default {
     return {
       artTime: null,
       articles: null,
-      isLiked: false, 
     };
   },
 
@@ -82,8 +81,8 @@ export default {
 <style scoped>
 .red {
 
-  background-color: #880808;
-  color: #ffebcd;
+  background-color: #6b21a8;
+  color: #fff;
 
 }
 </style>
