@@ -40,7 +40,6 @@ export const useAuthStore = defineStore('authStore', {
             console.log(error)
             const values=error.response.data.errors
             this.errorMassage = Object.entries(values);
-            // console.log(this.errorMassage)
             this.operation_in_submission = false ;
             this.operation_show_alert = false ; 
           })

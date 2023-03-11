@@ -16,11 +16,11 @@
 <script>
 
 export default {
+    name:'navigationBar',
     data(){
         return{
             user:JSON.parse( localStorage.getItem('user'))
         }
     },
-    name:'navigationBar',
 }
 </script>

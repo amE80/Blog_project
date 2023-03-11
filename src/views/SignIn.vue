@@ -77,13 +77,13 @@ import { useAuthStore } from "../stores/Auth.js";
 import TopNav from "../components/Navigation/TopNav.vue";
 import { Field, Form, ErrorMessage } from "vee-validate";
 export default {
+  name:"signIn",  
   setup(){
     const authStore = useAuthStore();
     return{
       authStore
     }
   },
-    name:"signIn",
     components:{
     TopNav,
     Form, Field, ErrorMessage ,
