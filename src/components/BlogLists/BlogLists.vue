@@ -6,7 +6,7 @@
 </template>
 <script>
      export default{
-        name : 'kindOfBlogs',
+        name : 'listsOfBlogs',
      data(){
         return{
          token:localStorage.getItem('token'),
