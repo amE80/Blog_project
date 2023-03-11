@@ -3,10 +3,13 @@ import axios from "axios";
 
 // This is your base url
 const BASE_URL = 'https://api.realworld.io/api/';
-
 // Token should be changed
-const token = ''
-
+let token = ''
+if(localStorage.getItem('token')){
+   token = localStorage.getItem('token')
+}else{
+    token=''
+}
 export const axiosAPI = axios.create({
     baseURL: BASE_URL,
     headers: {

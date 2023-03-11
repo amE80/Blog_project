@@ -1,10 +1,9 @@
 <template>
   <main class="my-10 mx-7 md:mx-20 font-main">
-    <div class="border-b border-b-gray-400">
-      <p class="inline font-medium border-b-2 border-b-mainRed text-mainRed">Recently shared</p>
-    </div>
+    <blog-lists @relateBlogs="showBlogs($event)" />
     <div v-if="articleStore.fetching_in_progress" class="text-xl ml-10 mt-10">loading...</div>
-    <div v-else class="pb-4 border-b a-blog border-b-gray-400" v-for="article in articleStore.articles"
+    <div v-if="blogs">fuckkkkkkk</div>
+    <div v-if="!blogs && !articleStore.fetching_in_progress"  class="pb-4 border-b a-blog border-b-gray-400" v-for="article in articleStore.articles"
       :key="article.id">
       <div class="flex justify-between">
         <div class="flex items-center mt-5 content">
@@ -39,6 +38,7 @@
 import UserIcon from '../Icon/userIcon.vue';
 import HeartIcon from '../Icon/heartIcon.vue';
 import { useArticlesStore } from "../../stores/Articles";
+import BlogLists from '../BlogLists/BlogLists.vue'
 import axios from 'axios';
 
 export default {
@@ -54,13 +54,15 @@ export default {
 
   components: {
     UserIcon,
-    HeartIcon
+    HeartIcon,
+    BlogLists
   },
 
   data() {
     return {
       artTime: null,
       articles: null,
+      blogs :false
     };
   },
 
@@ -71,6 +73,9 @@ export default {
   methods :{
     increaseLike (slug){
       this.articleStore.toggleFav(slug)
+    },
+    showBlogs(data){
+      this.blogs = data;
     }
   }
 
