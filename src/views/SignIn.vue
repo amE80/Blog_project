@@ -104,11 +104,7 @@ methods:{
   submitLogin(user){
     this.authStore.login({user})
   },
-  created() {
-        if (this.$cookies.get("token") != null) {
-            this.$router.push('/home')
-        }
-    },
+ 
 }
 
 }
