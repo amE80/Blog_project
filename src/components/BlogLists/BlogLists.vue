@@ -5,12 +5,14 @@
     </ul>
 </template>
 <script>
+import { useUserStore } from "../../stores/User.js";
      export default{
-        name : 'kindOfBlogs',
+        name : 'listsOfBlogs',
      data(){
         return{
          token:localStorage.getItem('token'),
-         activedBlogs:false
+         activedBlogs:null,
+         username: ""
           }
     }   ,
     methods:{
@@ -19,8 +21,10 @@
             this.$emit('relateBlogs',this.activedBlogs)
         },
         sendUserBlog(){
+            this.username = this.userStore.user.username;
             this.activedBlogs = true;
-            this.$emit('relateBlogs',this.activedBlogs)
+            this.$emit('relateBlogs',this.activedBlogs);
+            this.$router.push({query: { author: this.username } })
         }
     }
 }
