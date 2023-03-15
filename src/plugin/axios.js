@@ -13,6 +13,7 @@ if(localStorage.getItem('token')){
 export const axiosAPI = axios.create({
     baseURL: BASE_URL,
     headers: {
+        withCredentials: true,
         // There is token which you should add hen you login to website
         // I put it empty as default but you need to change it!
         "Authorization": `Bearer ${token}`
