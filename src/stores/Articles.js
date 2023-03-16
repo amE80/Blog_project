@@ -9,17 +9,50 @@ export const useArticlesStore = defineStore('articleStore', {
         fetching_in_progress : false,
         artTime: null,
         articles: null,
+        article:null,
+        userArticles:null,
+        aBlog:null
     }),
     actions: {
+      async getAnArticle(data){
+        const article = this.articles.find(a => a === data)
+        this.aBlog = article;
+      this.$router.push({ name: 'article' })
+      },
+      async getAUser(data){
+        const article = this.articles.find(a => a === data)
+        this.aBlog = article;
+      this.$router.push({ name: 'userProfile' })
+      },
+      async getUserPosts(a){
+        
+        this.fetching_in_progress = true;
+        axiosAPI.get('articles',{ params: { author: a }}
+        ).then((response) => {
+          //changing date format
+          const articles = response.data.articles.map((artTime) => {
+            artTime.createdAt = DateTime.fromISO(artTime.createdAt).toFormat("yyyy/MM/dd hh:mm")
+            return artTime 
+          });
+          console.log('users art')
+          this.userArticles = articles;
+          this.fetching_in_progress = false;
+          
+        })
+          .catch((error) => {
+            console.log(error);
+            this.fetching_in_progress = false;
+          })
+      },
        async getPosts() {
             this.fetching_in_progress = true;
-            axiosAPI.get('articles/').then((response) => {
+            axiosAPI.get('articles').then((response) => {
               //changing date format
               const articles = response.data.articles.map((artTime) => {
                 artTime.createdAt = DateTime.fromISO(artTime.createdAt).toFormat("yyyy/MM/dd hh:mm")
                 return artTime 
               });
-              console.log(articles);
+              console.log('all art')
               this.articles = articles;
               this.fetching_in_progress = false;
               
@@ -28,6 +61,17 @@ export const useArticlesStore = defineStore('articleStore', {
                 console.log(error);
                 this.fetching_in_progress = false;
               })
+          },
+
+          async shareBlog(a) {
+            const article = a;
+            console.log(article)
+            axiosAPI.post('articles', article).then((response)=>{
+              this.$router.push({name:'home'})
+            })
+            .catch((error) => {
+              console.log(error)
+            })
           },
 
          toggleFav(slug){

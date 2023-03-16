@@ -3,6 +3,7 @@ import { axiosAPI } from '../plugin/axios';
 
 export const useUserStore = defineStore('userStore', {
     state: () => ({
+        prof: false,
         user: null,
         operation_in_submission : false , 
         operation_show_alert : false , 
@@ -12,6 +13,17 @@ export const useUserStore = defineStore('userStore', {
 
     }),
     actions: {
+      
+      async getProfile(){
+        axiosAPI.get("user").then((response)=>{
+          this.prof = true;
+          this.user = response.data.user
+
+        }).catch((error)=>{
+          console.log(error)
+        })
+
+      },
         async register(u) {
         this.errorMassage=null,
         this.operation_in_submission = true , 
@@ -20,7 +32,6 @@ export const useUserStore = defineStore('userStore', {
         this.operation_alert_msg= "Please wait! It's take a few time"
         axiosAPI.post('users',u).then((response)=>
         {
-            console.log(response);
             this.operation_alert_variant = "bg-green-500";
             this.operation_alert_msg= "Success! meow :) moving in sign in page..";
             setTimeout(() => {
@@ -36,9 +47,17 @@ export const useUserStore = defineStore('userStore', {
         .catch((error) => {
             const values=error.response.data.errors
             this.errorMassage = Object.entries(values);
-            console.log(this.errorMassage)
             this.operation_in_submission = false ;
             this.operation_show_alert = false ; 
+          })
+        },
+        async updateUser(us){
+          axiosAPI.put('user',us).then((response)=>{
+            this.$router.push({name:'home'})
+            console.log(response)
+          })
+          .catch((error) => {
+          console.log(error)
           })
         }
     }

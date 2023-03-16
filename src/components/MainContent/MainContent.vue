@@ -7,9 +7,9 @@
       :key="userArticle.id">
       <div class="flex justify-between">
         <div  class="flex items-center mt-5 content">
-        <img @click="goToUser(article)" :src='userArticle.author.image' class="rounded-full cursor-pointer w-11 h-11" alt="pic">
+        <img @click="goToUser()" :src='userArticle.author.image' class="rounded-full cursor-pointer w-11 h-11" alt="pic">
           <section  class="ml-2">
-            <p @click="goToUser(article)" class="text-sm cursor-pointer">{{ userArticle.author.username }}</p>
+            <p @click="goToUser()" class="text-sm cursor-pointer">{{ userArticle.author.username }}</p>
             <p class="text-sm text-gray-700">{{ userArticle.createdAt }}</p>
           </section>
         </div>
@@ -25,7 +25,7 @@
         
         
       </div>
-      <div @click="goToArticle(article)" class="w-11/12 mt-4 cursor-pointer">
+      <div @click="goToArticle()" class="w-11/12 mt-4 cursor-pointer">
         <p class="">{{ userArticle.title }}</p>
         <p class="text-sm text-gray-700">{{ userArticle.description }}</p>
         <p class="mt-4 text-sm text-gray-700">see more... </p>
@@ -40,9 +40,9 @@
       :key="article.id">
       <div class="flex justify-between">
         <div  class="flex items-center mt-5 content">
-        <img :src='article.author.image' @click="goToUser(article)" class="rounded-full cursor-pointer w-11 h-11" alt="pic">
+        <img :src='article.author.image' @click="goToUser()" class="rounded-full cursor-pointer w-11 h-11" alt="pic">
           <section  class="ml-2">
-            <p @click="goToUser(article)" class="text-sm cursor-pointer">{{ article.author.username }}</p>
+            <p @click="goToUser()" class="text-sm cursor-pointer">{{ article.author.username }}</p>
             <p class="text-sm text-gray-700">{{ article.createdAt }}</p>
           </section>
         </div>
@@ -58,7 +58,7 @@
         
         
       </div>
-      <div @click="goToArticle(article)"  class="w-11/12 mt-4 cursor-pointer">
+      <div @click="goToArticle( )"  class="w-11/12 mt-4 cursor-pointer">
         <p class="">{{ article.title }}</p>
         <p class="text-sm text-gray-700">{{ article.description }}</p>
         <p class="mt-4 text-sm text-gray-700">see more... </p>
