@@ -7,14 +7,24 @@
 <script>
 import { useUserStore } from "../../stores/User.js";
      export default{
+        setup(){
+    const userStore = useUserStore();
+    return{
+      userStore
+    }
+  },
+        
         name : 'listsOfBlogs',
+        created(){
+            this.userStore.getProfile()
+        },
      data(){
         return{
          token:localStorage.getItem('token'),
-         activedBlogs:null,
-         username: ""
+         activedBlogs: false,
+         username:null
           }
-    }   ,
+    }  ,
     methods:{
         sendAllBlog(){
             this.activedBlogs = false;

@@ -19,7 +19,6 @@ export const useAuthStore = defineStore('authStore', {
 
         axiosAPI.post('users/login',u).then((response)=>
         {
-            console.log(response);
             this.operation_alert_variant = "bg-green-500";
             this.operation_alert_msg= "Success! meow :) moving in home page..";
        
