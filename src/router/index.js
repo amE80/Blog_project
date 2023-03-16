@@ -4,6 +4,8 @@ import SignIn from '../views/SignIn.vue'
 import SignUp from '../views/SignUp.vue'
 import Edit from '../views/EditUser.vue'
 import AddBlog from '../views/AddBlog.vue'
+import Article from '../views/Article.vue'
+import UserProfile from '../views/Profile.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -46,6 +48,23 @@ const router = createRouter({
         accsess:true
       }
     },
+    {
+      path: '/a-article/',
+      name: 'article',
+      component:Article,
+      meta:{
+        accsess:true
+      }
+    },
+    {
+      path: '/user-profile/',
+      name: 'userProfile',
+      component:UserProfile,
+      meta:{
+        accsess:true
+      }
+    },
+   
 
   ]
 })
