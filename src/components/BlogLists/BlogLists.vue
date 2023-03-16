@@ -5,36 +5,38 @@
     </ul>
 </template>
 <script>
+
 import { useUserStore } from "../../stores/User.js";
-     export default{
-        setup(){
-    const userStore = useUserStore();
+
+export default{
+    name : 'listsOfBlogs',
+
+    setup(){
+        const userStore = useUserStore();
+            userStore.getProfile()
     return{
       userStore
     }
-  },
-        
-        name : 'listsOfBlogs',
-        created(){
-            this.userStore.getProfile()
-        },
+  },    
      data(){
         return{
-         token:localStorage.getItem('token'),
          activedBlogs: false,
-         username:null
+         token: localStorage.getItem('token'),
+         username:null,
+         userInformation :JSON.parse(localStorage.getItem('user')),
           }
     }  ,
     methods:{
         sendAllBlog(){
             this.activedBlogs = false;
-            this.$emit('relateBlogs',this.activedBlogs)
+            this.$emit('relateBlogs',this.activedBlogs);
+            this.$router.push({name:'home'})
         },
         sendUserBlog(){
-            this.username = this.userStore.user.username;
+            this.username = this.userInformation.username;
             this.activedBlogs = true;
             this.$emit('relateBlogs',this.activedBlogs);
-            this.$router.push({query: { author: this.username } })
+            this.$router.push({ name: 'user_article', query: {author:this.username}})
         }
     }
 }

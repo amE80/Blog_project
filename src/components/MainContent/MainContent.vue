@@ -2,84 +2,70 @@
   <main class="my-10 mx-7 md:mx-20 font-main">
     <blog-lists @relateBlogs="showBlogs($event)" />
     <div v-if="articleStore.fetching_in_progress" class="text-xl ml-10 mt-10">loading...</div>
-    
-    <div v-if="blogs && !articleStore.fetching_in_progress"  class="pb-4 border-b a-blog border-b-gray-400" v-for="userArticle in articleStore.userArticles"
-      :key="userArticle.id">
+
+    <div v-if="blogs && !articleStore.fetching_in_progress" class="pb-4 border-b a-blog border-b-gray-400"
+      v-for="userArticle in articleStore.userArticles" :key="userArticle.id">
       <div class="flex justify-between">
-        <div  class="flex items-center mt-5 content">
-        <img @click="goToUser()" :src='userArticle.author.image' class="rounded-full cursor-pointer w-11 h-11" alt="pic">
-          <section  class="ml-2">
-            <p @click="goToUser()" class="text-sm cursor-pointer">{{ userArticle.author.username }}</p>
+        <div class="flex items-center mt-5 content">
+          <img @click="goToUser" :src='userArticle.author.image' class="rounded-full cursor-pointer w-11 h-11" alt="pic">
+          <section class="ml-2">
+            <p @click="goToUser" class="text-sm cursor-pointer">{{ userArticle.author.username }}</p>
             <p class="text-sm text-gray-700">{{ userArticle.createdAt }}</p>
           </section>
         </div>
 
-        <button  :class="{'red' : userArticle.favorited }"
-        @click="increaseLike(userArticle.slug)"
+        <button :class="{ 'red': userArticle.favorited }" @click="increaseLike(userArticle.slug)"
           class="flex cursor-pointer items-center justify-center w-auto h-10 px-2 mt-5 border-2 rounded text-bloodRed border-bloodRed bg-cream">
-            <span> {{ userArticle.favoritesCount }} </span>
-            <heart-icon />
-          </button>
-
-       
-        
-        
+          <span> {{ userArticle.favoritesCount }} </span>
+          <heart-icon />
+        </button>
       </div>
-      <div @click="goToArticle()" class="w-11/12 mt-4 cursor-pointer">
+      <div @click="goToArticle" class="w-11/12 mt-4 cursor-pointer">
         <p class="">{{ userArticle.title }}</p>
         <p class="text-sm text-gray-700">{{ userArticle.description }}</p>
         <p class="mt-4 text-sm text-gray-700">see more... </p>
       </div>
     </div>
-    
-    
-
-
-
-    <div v-if="!blogs && !articleStore.fetching_in_progress"  class="pb-4 border-b a-blog border-b-gray-400" v-for="article in articleStore.articles"
-      :key="article.id">
+    <div v-if="!blogs && !articleStore.fetching_in_progress" class="pb-4 border-b a-blog border-b-gray-400"
+      v-for="article in articleStore.articles" :key="article.id">
       <div class="flex justify-between">
-        <div  class="flex items-center mt-5 content">
-        <img :src='article.author.image' @click="goToUser()" class="rounded-full cursor-pointer w-11 h-11" alt="pic">
-          <section  class="ml-2">
+        <div class="flex items-center mt-5 content">
+          <img :src='article.author.image' @click="goToUser()" class="rounded-full cursor-pointer w-11 h-11" alt="pic">
+          <section class="ml-2">
             <p @click="goToUser()" class="text-sm cursor-pointer">{{ article.author.username }}</p>
             <p class="text-sm text-gray-700">{{ article.createdAt }}</p>
           </section>
         </div>
 
-        <button  :class="{'red' : article.favorited }"
-        @click="increaseLike(article.slug)"
+        <button :class="{ 'red': article.favorited }" @click="increaseLike(article.slug)"
           class="flex cursor-pointer items-center justify-center w-auto h-10 px-2 mt-5 border-2 rounded text-bloodRed border-bloodRed bg-cream">
-            <span> {{ article.favoritesCount }} </span>
-            <heart-icon />
-          </button>
-
-       
-        
-        
+          <span> {{ article.favoritesCount }} </span>
+          <heart-icon />
+        </button>
       </div>
-      <div @click="goToArticle( )"  class="w-11/12 mt-4 cursor-pointer">
+      <div @click="goToArticle(article.slug)" class="w-11/12 mt-4 cursor-pointer">
         <p class="">{{ article.title }}</p>
         <p class="text-sm text-gray-700">{{ article.description }}</p>
         <p class="mt-4 text-sm text-gray-700">see more... </p>
       </div>
     </div>
-    
   </main>
 </template>
 
 <script>
+
 import UserIcon from '../Icon/userIcon.vue';
 import HeartIcon from '../Icon/heartIcon.vue';
 import { useArticlesStore } from "../../stores/Articles";
 import BlogLists from '../BlogLists/BlogLists.vue'
+
 export default {
   name: 'mainContent',
 
-  setup(){
+  setup() {
     const articleStore = useArticlesStore();
 
-    return{
+    return {
       articleStore
     }
   },
@@ -94,41 +80,55 @@ export default {
     return {
       artTime: null,
       articles: null,
-      blogs :false,
+      blogs: false,
+      path: this.$route.name
     };
   },
 
-  created() {
 
-      this.articleStore.getPosts();
-      this.articleStore.getUserPosts( this.$route.query.author );
+  // This is new changes , you can read about watch
+  watch: {
+    $route(to, from) {
+      this.path = this.$route.name;
+      if (this.path === 'home') {
+        this.articleStore.getPosts();
+      } else {
+        this.articleStore.getUserPosts(this.$route.query.author);
+      }
+    }
+  },
+
+  created() {
+    this.articleStore.getPosts();
 
   },
 
-  methods :{
-    increaseLike (slug){
+
+  methods: {
+    increaseLike(slug) {
       this.articleStore.toggleFav(slug)
     },
-    showBlogs(data){
+    showBlogs(data) {
       this.blogs = data;
     },
-    goToArticle(data){
-      console.log(data)
-      this.articleStore.getAnArticle(data);
+    goToArticle(slug) {
+      console.log(slug)
+      this.$router.push(`/single-article/${slug}`)
+      this.articleStore.getAnArticle(slug);
     },
-    goToUser(data){
+    goToUser(data) {
       this.articleStore.getAUser(data);
     }
-    
-  }
 
   }
+
+}
 
 </script>
 
 <style scoped>
+/* Why????????? */
 .red {
-
   background-color: #6b21a8;
   color: #fff;
 

@@ -24,15 +24,12 @@ export const useAuthStore = defineStore('authStore', {
        
                  localStorage.setItem('token', response.data.user.token );
                  localStorage.setItem('user',JSON.stringify(response.data.user) );
-
-        
-            setTimeout(() => {
-                this.$router.push({name:'home'});
-              }, 2000);
+            this.$router.push({name:'home'})
             setTimeout(() => {
                 this.operation_in_submission = false ;
+                location.reload()
                 this.operation_show_alert = false ; 
-              }, 3000);
+              }, 1000);
         }
         )
         .catch((error) => {

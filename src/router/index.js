@@ -49,7 +49,15 @@ const router = createRouter({
       }
     },
     {
-      path: '/a-article/',
+      path: '/user_article',
+      name: 'user_article',
+      component: Home,
+      meta:{
+        accsess:true
+      }
+    },
+    {
+      path: '/single-article/:slug',
       name: 'article',
       component:Article,
       meta:{
@@ -64,8 +72,6 @@ const router = createRouter({
         accsess:true
       }
     },
-   
-
   ]
 })
 router.beforeEach((to, from, next) => {

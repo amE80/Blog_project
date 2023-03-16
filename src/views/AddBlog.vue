@@ -52,7 +52,7 @@ components:{TopNav,Field, Form, ErrorMessage},
   methods:{
     submitBlog(article){
      console.log(article)
-      this.articleStore.shareBlog(article)
+      this.articleStore.shareBlog(article={article})
     }
   }
 

@@ -13,7 +13,6 @@ export const useUserStore = defineStore('userStore', {
 
     }),
     actions: {
-      
       async getProfile(){
         axiosAPI.get("user").then((response)=>{
           this.prof = true;
@@ -53,8 +52,9 @@ export const useUserStore = defineStore('userStore', {
         },
         async updateUser(us){
           axiosAPI.put('user',us).then((response)=>{
-            this.$router.push({name:'home'})
-            console.log(response)
+            this.getProfile();
+            console.log(response);
+            alert("Your information updated successfully , Mewo !!!")
           })
           .catch((error) => {
           console.log(error)

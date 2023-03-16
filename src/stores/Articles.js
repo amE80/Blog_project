@@ -14,16 +14,14 @@ export const useArticlesStore = defineStore('articleStore', {
         aBlog:null
     }),
     actions: {
-      async getAnArticle(data){
-        const article = this.articles.find(a => a === data)
-        this.aBlog = article;
-      this.$router.push({ name: 'article' })
+      async getAnArticle(slug){
+        console.log("slug from pinia" , slug);
+        axiosAPI.get(`articles/${slug}`)
+        .then(response=>{
+          console.log("this is one article inforamtion",response)
+        })
       },
-      async getAUser(data){
-        const article = this.articles.find(a => a === data)
-        this.aBlog = article;
-      this.$router.push({ name: 'userProfile' })
-      },
+
       async getUserPosts(a){
         
         this.fetching_in_progress = true;
