@@ -55,6 +55,7 @@ components:{TopNav,Field, Form, ErrorMessage},
       this.articleStore.shareBlog(article)
     }
   }
+
 }
 </script>
 <style scoped>
