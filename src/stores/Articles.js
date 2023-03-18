@@ -129,15 +129,14 @@ export const useArticlesStore = defineStore('articleStore', {
               })
           },
 
-          async shareBlog(a) {
-            const article = a;
-            console.log(article)
-            this.operation_show_alert = true , 
-            this.operation_in_submission = true , 
-            this.operation_alert_variant = "bg-blue-500",
-            this.operation_alert_msg= "successfull move to home page...",
+          async shareBlog(a) {            
+            a.article.tagList = a.article.tagList.split(" ");
+            this.operation_show_alert = true ;
+            this.operation_in_submission = true ;
+            this.operation_alert_variant = "bg-green-500";
+            this.operation_alert_msg= "successfull move to home page...";
 
-            axiosAPI.post('articles', article).then((response)=>{
+            axiosAPI.post('articles', a ).then((response)=>{
               setTimeout(() => {
                 this.operation_in_submission = false ;
                 this.operation_show_alert = false ; 
