@@ -9,11 +9,12 @@ export const useUserStore = defineStore('userStore', {
         operation_show_alert : false , 
         operation_alert_variant : "",
         operation_alert_msg: "",
-        errorMassage:null
+        errorMassage:null,
+        aProfile:null
 
     }),
     actions: {
-      async getProfile(){
+      async getCurrentUser(){
         axiosAPI.get("user").then((response)=>{
           this.prof = true;
           this.user = response.data.user
@@ -21,6 +22,15 @@ export const useUserStore = defineStore('userStore', {
         }).catch((error)=>{
           console.log(error)
         })
+
+      },
+      async getProfile(username){
+        console.log("username from pinia" , username);
+        axiosAPI.get(`profiles/${username}`)
+        .then(response=>{
+          console.log(" inforamtion :", response)
+          this.aProfile = response.data.profile
+          })
 
       },
         async register(u) {
@@ -51,13 +61,22 @@ export const useUserStore = defineStore('userStore', {
           })
         },
         async updateUser(us){
+          this.operation_in_submission = true , 
+          this.operation_show_alert = true , 
+          this.operation_alert_variant = "bg-blue-500",
+          this.operation_alert_msg= "Upadting your information..."
+
           axiosAPI.put('user',us).then((response)=>{
-            this.getProfile();
-            console.log(response);
-            alert("Your information updated successfully , Mewo !!!")
+            setTimeout(() => {
+              this.operation_in_submission = false ;
+              this.operation_show_alert = false ; 
+              this.getCurrentUser();
+            }, 1000);
           })
           .catch((error) => {
           console.log(error)
+          this.operation_in_submission = false ;
+          this.operation_show_alert = false ; 
           })
         }
     }

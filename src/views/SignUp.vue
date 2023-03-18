@@ -60,7 +60,7 @@
             
             <button
             type="submit"
-            class="w-20 md:w-32 font-semibold py-3 px-1 text-sm md:text-base transition bg-mainRed text-cream rounded-lg"
+            class="w-20 md:w-32 font-semibold py-3 px-1 text-sm md:text-base transition  disabled:bg-gray-400 disabled:cursor-wait bg-mainRed text-cream rounded-lg"
             :disabled="this.userStore.operation_in_submission"
           >
             Sign Up

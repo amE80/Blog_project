@@ -7,20 +7,20 @@
       v-for="userArticle in articleStore.userArticles" :key="userArticle.id">
       <div class="flex justify-between">
         <div class="flex items-center mt-5 content">
-          <img @click="goToUser" :src='userArticle.author.image' class="rounded-full cursor-pointer w-11 h-11" alt="pic">
+          <img @click="goToUser(userArticle.author.username)" :src='userArticle.author.image' class="rounded-full cursor-pointer w-11 h-11" alt="pic">
           <section class="ml-2">
-            <p @click="goToUser" class="text-sm cursor-pointer">{{ userArticle.author.username }}</p>
+            <p @click="goToUser(uaserArticle.author.username)" class="text-sm cursor-pointer">{{ userArticle.author.username }}</p>
             <p class="text-sm text-gray-700">{{ userArticle.createdAt }}</p>
           </section>
         </div>
 
-        <button :class="{ 'red': userArticle.favorited }" @click="increaseLike(userArticle.slug)"
+        <button
           class="flex cursor-pointer items-center justify-center w-auto h-10 px-2 mt-5 border-2 rounded text-bloodRed border-bloodRed bg-cream">
           <span> {{ userArticle.favoritesCount }} </span>
           <heart-icon />
         </button>
       </div>
-      <div @click="goToArticle" class="w-11/12 mt-4 cursor-pointer">
+      <div @click="goToArticle(userArticle.slug)" class="w-11/12 mt-4 cursor-pointer">
         <p class="">{{ userArticle.title }}</p>
         <p class="text-sm text-gray-700">{{ userArticle.description }}</p>
         <p class="mt-4 text-sm text-gray-700">see more... </p>
@@ -30,14 +30,14 @@
       v-for="article in articleStore.articles" :key="article.id">
       <div class="flex justify-between">
         <div class="flex items-center mt-5 content">
-          <img :src='article.author.image' @click="goToUser()" class="rounded-full cursor-pointer w-11 h-11" alt="pic">
+          <img :src='article.author.image' @click="goToUser(article.author.username)" class="rounded-full cursor-pointer w-11 h-11" alt="pic">
           <section class="ml-2">
-            <p @click="goToUser()" class="text-sm cursor-pointer">{{ article.author.username }}</p>
+            <p @click="goToUser(article.author.username)" class="text-sm cursor-pointer">{{ article.author.username }}</p>
             <p class="text-sm text-gray-700">{{ article.createdAt }}</p>
           </section>
         </div>
 
-        <button :class="{ 'red': article.favorited }" @click="increaseLike(article.slug)"
+        <button 
           class="flex cursor-pointer items-center justify-center w-auto h-10 px-2 mt-5 border-2 rounded text-bloodRed border-bloodRed bg-cream">
           <span> {{ article.favoritesCount }} </span>
           <heart-icon />
@@ -85,8 +85,6 @@ export default {
     };
   },
 
-
-  // This is new changes , you can read about watch
   watch: {
     $route(to, from) {
       this.path = this.$route.name;
@@ -114,10 +112,10 @@ export default {
     goToArticle(slug) {
       console.log(slug)
       this.$router.push(`/single-article/${slug}`)
-      this.articleStore.getAnArticle(slug);
     },
-    goToUser(data) {
-      this.articleStore.getAUser(data);
+    goToUser(username) {
+      console.log(username)
+      this.$router.push(`/user-profile/${username}`)
     }
 
   }

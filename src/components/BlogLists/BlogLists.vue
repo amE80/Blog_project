@@ -13,7 +13,7 @@ export default{
 
     setup(){
         const userStore = useUserStore();
-            userStore.getProfile()
+            userStore.getCurrentUser()
     return{
       userStore
     }
