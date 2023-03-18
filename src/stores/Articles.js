@@ -11,19 +11,87 @@ export const useArticlesStore = defineStore('articleStore', {
         articles: null,
         article:null,
         userArticles:null,
-        aBlog:null
+        aBlog:null,
+        user:null,
+        allComments:null,
+        operation_in_submission : false , 
+        operation_show_alert : false , 
+        operation_alert_variant : "",
+        operation_alert_msg: "",
     }),
     actions: {
       async getAnArticle(slug){
         console.log("slug from pinia" , slug);
         axiosAPI.get(`articles/${slug}`)
         .then(response=>{
-          console.log("this is one article inforamtion",response)
-        })
-      },
+          response.data.article.createdAt = DateTime.fromISO(response.data.article.createdAt).toFormat("yyyy/MM/dd hh:mm")
+          this.aBlog = response.data.article
+          console.log(" inforamtion :",this.aBlog)
+          })
+        },
+
+        async getComments(slug){
+          this.operation_show_alert = true , 
+          this.operation_in_submission = true , 
+          this.operation_alert_variant = "bg-blue-500",
+          this.operation_alert_msg= "Loading comments...",
+
+          axiosAPI.get(`articles/${slug}/comments`)
+          .then(response=>{
+           
+            const comments = response.data.comments.map((comTime)=> {
+              comTime.createdAt = DateTime.fromISO(comTime.createdAt).toLocaleString(DateTime.DATE_MED)
+              return comTime
+            })
+            
+            console.log('get comment date response',response.data.comments);
+            this.operation_show_alert = false;
+            this.operation_alert_variant = "";
+            this.operation_alert_msg= "";
+            this.allComments = response.data.comments
+            this.operation_in_submission = false 
+          }).catch(error=>{
+            console.log(error)
+          })
+        },
+
+      
+        async postComments(slug , data){
+          this.operation_in_submission = true , 
+
+          axiosAPI.post(`articles/${slug}/comments`, data) 
+          .then(response=>{
+            console.log('post comment response',response);
+            this.getComments(slug);
+          }).catch(error=>{
+            console.log(error)
+          })
+        },
+
+
+        async deleteComments(slug , id){
+          this.operation_in_submission = true , 
+
+          axiosAPI.delete(`articles/${slug}/comments/${id}`)  
+          .then(response=>{
+            console.log('delete comment response',response);
+            this.getComments(slug);
+          }).catch(error=>{
+            console.log(error)
+          })
+        },
+
+        
+        async getCurrentUser(){
+          axiosAPI.get("user").then((response)=>{
+            this.user = response.data.user
+            console.log('user:',this.user)
+          }).catch((error)=>{
+            console.log(error)
+          })
+        },
 
       async getUserPosts(a){
-        
         this.fetching_in_progress = true;
         axiosAPI.get('articles',{ params: { author: a }}
         ).then((response) => {
@@ -64,11 +132,22 @@ export const useArticlesStore = defineStore('articleStore', {
           async shareBlog(a) {
             const article = a;
             console.log(article)
+            this.operation_show_alert = true , 
+            this.operation_in_submission = true , 
+            this.operation_alert_variant = "bg-blue-500",
+            this.operation_alert_msg= "successfull move to home page...",
+
             axiosAPI.post('articles', article).then((response)=>{
-              this.$router.push({name:'home'})
+              setTimeout(() => {
+                this.operation_in_submission = false ;
+                this.operation_show_alert = false ; 
+                this.$router.push({name:'home'})
+              }, 1000);
             })
             .catch((error) => {
               console.log(error)
+              this.operation_in_submission = false ;
+              this.operation_show_alert = false ; 
             })
           },
 
