@@ -3,8 +3,8 @@
         <top-nav />
 
         <div class="text-white text-center font-bold p-1 mb-1 mx-auto rounded w-4/5"
-          v-if="this.articleStore.operation_show_alert"
-          :class="this.articleStore.operation_alert_variant">
+          v-if="articleStore.operation_show_alert"
+          :class="articleStore.operation_alert_variant">
           {{ articleStore.operation_alert_msg }}
        </div>
 
@@ -26,7 +26,7 @@
 
               <button
             type="submit"
-            :disabled="this.articleStore.operation_in_submission"
+            :disabled="articleStore.operation_in_submission"
             class="mt-5 w-24 font-semibold py-2 float-right text-base transition bg-mainRed text-cream rounded-lg  disabled:bg-gray-400 disabled:cursor-wait">
             Share it!
           </button>

@@ -3,8 +3,8 @@
     <top-nav />
 
     <div class="text-white text-center font-bold p-1 mb-1 mx-auto rounded w-4/5"
-          v-if="this.userStore.operation_show_alert"
-          :class="this.userStore.operation_alert_variant">
+          v-if="userStore.operation_show_alert"
+          :class="userStore.operation_alert_variant">
           {{ userStore.operation_alert_msg }}
         </div>
 
@@ -37,7 +37,7 @@
         <button class="mt-5 w-24 font-semibold py-2 float-right text-base transition bg-red-500  text-cream rounded-lg"
           @click="logOut">log out</button>
         <button type="submit"
-          :disabled="this.userStore.operation_in_submission"
+          :disabled="userStore.operation_in_submission"
           class="mt-5 w-24 font-semibold py-2 float-right text-base transition bg-mainRed text-cream rounded-lg disabled:bg-gray-400 disabled:cursor-wait">
           Save it!
         </button>
