@@ -8,7 +8,7 @@
             <li v-if="!user" class="text-sm cursor-pointer md:text-base hover:text-mainRed font-main text-gray-400" ><router-link :to="{name: 'signIn'}" active-class="text-mainRed"> Sign in </router-link> </li>
             <li v-if="user"   class="text-sm cursor-pointer md:text-base hover:text-mainRed font-main text-gray-400"><router-link class="flex content-center" :to="{name: 'edit'}" active-class="text-mainRed"><settings-icon /> Settings </router-link></li>
             <li v-if="!user" class="text-sm cursor-pointer md:text-base hover:text-mainRed font-main text-gray-400"><router-link :to="{name: 'signUp'}" active-class="text-mainRed"> Sign up </router-link></li>
-            <li v-if="user"  class="text-sm cursor-pointer md:text-base hover:text-mainRed font-main text-gray-400" ><router-link :to="{name: 'userProfile'}" active-class="text-mainRed"> {{ user.username }} </router-link></li>
+            <li v-if="user"  class="text-sm cursor-pointer md:text-base hover:text-mainRed font-main text-gray-400" ><a @click="goToProfile" active-class="text-mainRed"> {{ user.username }} </a></li>
         </ul>
           
         </ul>
@@ -25,5 +25,10 @@ export default {
             user:JSON.parse( localStorage.getItem('user'))
         }
     },
+    methods:{
+        goToProfile(){
+            this.$router.push(`/user-profile/${this.user.username}`)
+        }
+    }
 }
 </script>

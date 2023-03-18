@@ -54,7 +54,7 @@
             
             <button
             type="submit"
-            class="w-20 md:w-32 font-semibold py-3 px-1 text-sm md:text-base transition bg-mainRed text-cream rounded-lg"
+            class="w-20 md:w-32 font-semibold py-3 px-1 text-sm md:text-base transition bg-mainRed disabled:bg-gray-400 disabled:cursor-wait text-cream rounded-lg"
             :disabled="this.authStore.operation_in_submission"
           >
             Sign In
