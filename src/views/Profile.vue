@@ -3,11 +3,11 @@
 
     <div class="space-y-10" v-if="userStore.aProfile">
         <header class="bg-gray-700 my-5 shadow-4xl py-6">
-          <div class="mt-4 mx-7 md:mx-20 flex flex-col content-center items-center" >
-            <img class="w-24 h-24 rounded-full " :src="userStore.aProfile.image" alt="user image">
-            <div class="ml-3 mt-3 space-y-3">
+          <div class="mt-4 mx-7 md:mx-20 " >
+            <img class="w-28 h-28 rounded-full mx-auto " :src="userStore.aProfile.image" alt="user image">
+            <div class="ml-3 mt-3 space-y-3 text-center">
               <p class="text-white text-base" >{{ userStore.aProfile.username }}</p>
-              <p class="text-gray-500 text-sm">{{ userStore.aProfile.bio }}</p>
+              <p class="text-gray-500 text-sm ">{{ userStore.aProfile.bio }}</p>
             </div>
           </div>
           <div class="flex justify-end">

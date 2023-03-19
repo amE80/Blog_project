@@ -24,8 +24,8 @@
 
       <footer>
         <div class="text-white text-center font-bold p-1 mb-1 mx-auto rounded w-2/6"
-          v-if="this.articleStore.operation_show_alert"
-          :class="this.articleStore.operation_alert_variant">
+          v-if="articleStore.operation_show_alert"
+          :class="articleStore.operation_alert_variant">
           {{ articleStore.operation_alert_msg }}
         </div>
 
@@ -39,7 +39,7 @@
         <div class="bg-gray-400 h-10 mx-auto flex justify-between mb-4 rounded-b-lg w-2/6"><img class="w-8 h-8 m-1 rounded-full" :src="articleStore.user.image" alt="user profile"> 
           <button @click="submitComment(comment)" 
           class="bg-mainRed text-white rounded m-1.5 px-1  disabled:bg-gray-400 disabled:cursor-wait"
-          :disabled="this.articleStore.operation_in_submission"
+          :disabled="articleStore.operation_in_submission"
           >
           Comment it!
           </button> 
@@ -56,7 +56,7 @@
                   <p class="text-xs text-gray-500">{{ artcomment.createdAt }}</p>
                 </div>
 
-              <trash-icon :class="{ 'dis-icon' : this.articleStore.operation_in_submission}"
+              <trash-icon :class="{ 'dis-icon' : articleStore.operation_in_submission}"
               class=" m-1.5 text-gray-700 cursor-pointer  " 
               @click="deleteComment(artcomment.id)" />  
           </div>

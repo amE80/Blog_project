@@ -18,6 +18,7 @@ export const useArticlesStore = defineStore('articleStore', {
         operation_show_alert : false , 
         operation_alert_variant : "",
         operation_alert_msg: "",
+        isFavorited:false,
     }),
     actions: {
       async getAnArticle(slug){
@@ -52,6 +53,8 @@ export const useArticlesStore = defineStore('articleStore', {
             this.operation_in_submission = false 
           }).catch(error=>{
             console.log(error)
+            this.operation_in_submission = false 
+            this.operation_show_alert = false;
           })
         },
 
@@ -129,15 +132,14 @@ export const useArticlesStore = defineStore('articleStore', {
               })
           },
 
-          async shareBlog(a) {
-            const article = a;
-            console.log(article)
-            this.operation_show_alert = true , 
-            this.operation_in_submission = true , 
-            this.operation_alert_variant = "bg-blue-500",
-            this.operation_alert_msg= "successfull move to home page...",
+          async shareBlog(a) {            
+            a.article.tagList = a.article.tagList.split(" ");
+            this.operation_show_alert = true ;
+            this.operation_in_submission = true ;
+            this.operation_alert_variant = "bg-green-500";
+            this.operation_alert_msg= "successfull move to home page...";
 
-            axiosAPI.post('articles', article).then((response)=>{
+            axiosAPI.post('articles', a ).then((response)=>{
               setTimeout(() => {
                 this.operation_in_submission = false ;
                 this.operation_show_alert = false ; 
@@ -151,18 +153,35 @@ export const useArticlesStore = defineStore('articleStore', {
             })
           },
 
-         toggleFav(slug){
-          const article = this.articles.find(a => a.slug === slug)
-          article.favorited = !article.favorited ;
-
-          if (article.favorited){
-            article.favoritesCount ++ ;
-          }
-          
-          else if (!article.favorited){
-            article.favoritesCount -- 
-          }
-
-         }
+         favArticle(slug){
+          // this.operation_in_submission = true ;
+          if(!this.isFavorited){
+          axiosAPI.post(`articles/${slug}/favorite`).then((response)=>{
+            console.log(response)
+            this.isFavorited = true
+            setTimeout(() => {
+            // this.getPosts()
+            this.operation_in_submission = false ;
+            }, 1000);
+          })
+          .catch((error)=>{
+            console.log(error)
+            this.operation_in_submission = false ;
+          })                           
+        }
+        else if (this.isFavorited){
+            axiosAPI.delete(`articles/${slug}/favorite`).then((response)=>{
+              console.log(response)
+              this.isFavorited = false
+              setTimeout(() => {
+                // this.getPosts()
+                this.operation_in_submission = false 
+                }, 1000);
+            }).catch((error)=>{
+              console.log(error)
+              this.operation_in_submission = false ;
+            })                           
+        }
+       }
     }
 })
