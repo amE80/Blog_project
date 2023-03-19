@@ -52,6 +52,8 @@ export const useArticlesStore = defineStore('articleStore', {
             this.operation_in_submission = false 
           }).catch(error=>{
             console.log(error)
+            this.operation_in_submission = false 
+            this.operation_show_alert = false;
           })
         },
 
