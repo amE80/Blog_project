@@ -18,6 +18,7 @@ export const useArticlesStore = defineStore('articleStore', {
         operation_show_alert : false , 
         operation_alert_variant : "",
         operation_alert_msg: "",
+        isFavorited:false,
     }),
     actions: {
       async getAnArticle(slug){
@@ -152,18 +153,35 @@ export const useArticlesStore = defineStore('articleStore', {
             })
           },
 
-         toggleFav(slug){
-          const article = this.articles.find(a => a.slug === slug)
-          article.favorited = !article.favorited ;
-
-          if (article.favorited){
-            article.favoritesCount ++ ;
-          }
-          
-          else if (!article.favorited){
-            article.favoritesCount -- 
-          }
-
-         }
+         favArticle(slug){
+          // this.operation_in_submission = true ;
+          if(!this.isFavorited){
+          axiosAPI.post(`articles/${slug}/favorite`).then((response)=>{
+            console.log(response)
+            this.isFavorited = true
+            setTimeout(() => {
+            // this.getPosts()
+            this.operation_in_submission = false ;
+            }, 1000);
+          })
+          .catch((error)=>{
+            console.log(error)
+            this.operation_in_submission = false ;
+          })                           
+        }
+        else if (this.isFavorited){
+            axiosAPI.delete(`articles/${slug}/favorite`).then((response)=>{
+              console.log(response)
+              this.isFavorited = false
+              setTimeout(() => {
+                // this.getPosts()
+                this.operation_in_submission = false 
+                }, 1000);
+            }).catch((error)=>{
+              console.log(error)
+              this.operation_in_submission = false ;
+            })                           
+        }
+       }
     }
 })

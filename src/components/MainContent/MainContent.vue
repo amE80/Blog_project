@@ -26,6 +26,7 @@
         <p class="mt-4 text-sm text-gray-700">see more... </p>
       </div>
     </div>
+
     <div v-if="!blogs && !articleStore.fetching_in_progress" class="pb-4 border-b a-blog border-b-gray-400"
       v-for="article in articleStore.articles" :key="article.id">
       <div class="flex justify-between">
@@ -37,8 +38,8 @@
           </section>
         </div>
 
-        <button 
-          class="flex cursor-pointer items-center justify-center w-auto h-10 px-2 mt-5 border-2 rounded text-bloodRed border-bloodRed bg-cream">
+        <button @click="favoriteArt(article.slug ,  )" :disabled="articleStore.operation_in_submission" :class="{ 'bg-purple-700 ' : current }"
+          class="flex cursor-pointer items-center justify-center w-auto h-10 px-2 mt-5 border-2 rounded text-bloodRed border-bloodRed bg-cream disabled:cursor-wait disabled:bg-gray-400">
           <span> {{ article.favoritesCount }} </span>
           <heart-icon />
         </button>
@@ -81,7 +82,8 @@ export default {
       artTime: null,
       articles: null,
       blogs: false,
-      path: this.$route.name
+      path: this.$route.name,
+      current : null
     };
   },
 
@@ -103,8 +105,9 @@ export default {
 
 
   methods: {
-    increaseLike(slug) {
-      this.articleStore.toggleFav(slug)
+    favoriteArt(slug) {
+      this.articleStore.favArticle(slug)
+      this.current = true;
     },
     showBlogs(data) {
       this.blogs = data;
@@ -124,11 +127,9 @@ export default {
 
 </script>
 
-<style scoped>
-/* Why????????? */
-.red {
-  background-color: #6b21a8;
+<style>
+.purple{
+  background-color: #9333ea;
   color: #fff;
-
 }
 </style>
