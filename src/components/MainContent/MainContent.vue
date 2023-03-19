@@ -38,7 +38,7 @@
           </section>
         </div>
 
-        <button @click="favoriteArt(article.slug ,  )" :disabled="articleStore.operation_in_submission" :class="{ 'bg-purple-700 ' : current }"
+        <button @click="favoriteArt(article.slug , article.favorited )" :disabled="articleStore.operation_in_submission" :class="{ 'bg-purple-700 ' : article.favorited }"
           class="flex cursor-pointer items-center justify-center w-auto h-10 px-2 mt-5 border-2 rounded text-bloodRed border-bloodRed bg-cream disabled:cursor-wait disabled:bg-gray-400">
           <span> {{ article.favoritesCount }} </span>
           <heart-icon />
@@ -83,7 +83,7 @@ export default {
       articles: null,
       blogs: false,
       path: this.$route.name,
-      current : null
+      // current : null
     };
   },
 
@@ -105,9 +105,9 @@ export default {
 
 
   methods: {
-    favoriteArt(slug) {
-      this.articleStore.favArticle(slug)
-      this.current = true;
+    favoriteArt(slug , IsFavorite) {
+      this.articleStore.toggleFav(slug , IsFavorite)
+      // this.current = true;
     },
     showBlogs(data) {
       this.blogs = data;
