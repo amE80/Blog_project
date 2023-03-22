@@ -11,8 +11,8 @@
             <p class="text-gray-500 text-xs ">{{ articleStore.aBlog.createdAt }}</p>
           </div>
           <div>
-            <button class="bg-gray-500 mx-2 rounded px-1 text-xs"> <plus-icon class="inline w-4" /><span> Follow {{ articleStore.aBlog.author.username }}</span></button>
-            <button class="bg-gray-500 rounded px-1 text-xs"> <heart-icon class="inline w-4" /><span> Favorited blog ({{ articleStore.aBlog.favoritesCount }}) </span></button>
+            <button v-if="articleStore.aBlog.author.username !== articleStore.user.username " class="bg-gray-500 mx-2 rounded px-1 text-xs"> <plus-icon class="inline w-4" /><span> Follow {{ articleStore.aBlog.author.username }}</span></button>
+            <button class="bg-gray-500 rounded mx-2 px-1 text-xs"> <heart-icon class="inline w-4" /><span> Favorited blog ({{ articleStore.aBlog.favoritesCount }}) </span></button>
           </div>
         </div>
       </header>

@@ -84,7 +84,11 @@ router.beforeEach((to, from, next) => {
     }
   }
   else{
-    next();
-  }
+    if(localStorage.getItem('token') && to.name !== 'home' ) {
+      next({name: 'home'})
+        }
+    else{
+      next()
+    }  }
 });
 export default router
