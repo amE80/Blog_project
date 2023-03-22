@@ -11,7 +11,7 @@
             </div>
           </div>
           <div class="flex justify-end">
-          <button v-if="userStore.user.username !== this.$route.params.username" class="bg-gray-500 mx-2 rounded px-1 text-xs"> <plus-icon class="inline w-4" /><span> Follow {{ userStore.aProfile.username }}</span></button>
+          <button v-if="userStore.user.username !== this.$route.params.username" :disabled="userStore.operation_in_submission" :class="{'white' : userStore.aProfile.following}" class="bg-gray-500 mx-2 rounded px-1 text-xs transition disabled:cursor-wait" @click="followingReq(userStore.aProfile.username )"> <plus-icon class="inline w-4" /><span> Follow {{ userStore.aProfile.username }}</span></button>
         </div>
         </header>
 
@@ -91,6 +91,9 @@ export default{
     sendFavoritedBlog(){
       this.activedBlogs = true
       this.blog = true
+    },
+    followingReq(username){
+      this.userStore.followUser(username)
     }
   },
 
@@ -105,5 +108,9 @@ export default{
 .colorize{
   color: #9333ea;
   border-bottom  : 2px solid #9333ea;
+}
+
+.white{
+  background-color: white;
 }
 </style>
