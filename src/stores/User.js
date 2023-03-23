@@ -10,10 +10,39 @@ export const useUserStore = defineStore('userStore', {
         operation_alert_variant : "",
         operation_alert_msg: "",
         errorMassage:null,
-        aProfile:null
+        aProfile:null,
 
     }),
     actions: {
+      
+      async followUser(username){
+        this.operation_in_submission = true ;
+
+        if(!this.aProfile.following){
+       await axiosAPI.post(`profiles/${username}/follow`).then(response=>{
+        console.log(response)
+        this.aProfile.following = !this.aProfile.following
+        this.operation_in_submission = false ;
+       }).catch(error=>{
+        console.log(error)
+        this.operation_in_submission = false ;
+       })                          
+      }
+      else if(this.aProfile.following){
+      await axiosAPI.delete(`profiles/${username}/follow`).then(response=>{
+         console.log(response)
+         this.aProfile.following = !this.aProfile.following
+         this.operation_in_submission = false ;
+        }).catch(error=>{
+         console.log(error)
+        this.operation_in_submission = false ;
+        })  
+      }                        
+      },
+
+      
+    
+
       async getCurrentUser(){
         axiosAPI.get("user").then((response)=>{
           this.prof = true;
@@ -28,7 +57,7 @@ export const useUserStore = defineStore('userStore', {
         console.log("username from pinia" , username);
         axiosAPI.get(`profiles/${username}`)
         .then(response=>{
-          console.log(" inforamtion :", response)
+          console.log(" inforamtion :", response.data.profile.following)
           this.aProfile = response.data.profile
           })
 

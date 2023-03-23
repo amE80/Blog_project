@@ -154,6 +154,7 @@ export const useArticlesStore = defineStore('articleStore', {
     },
 
     async toggleFav(slug, isFavorited) {
+      this.operation_in_submission = true;
 
       if (!isFavorited) {
         await axiosAPI.post(`articles/${slug}/favorite`)
@@ -162,8 +163,10 @@ export const useArticlesStore = defineStore('articleStore', {
             article.favorited = !article.favorited;
             article.favoritesCount++;
             console.log(response)
+            this.operation_in_submission = false;
           })).catch(err => {
             console.log(err)
+            this.operation_in_submission = false;
           })
       }
       else {
@@ -173,8 +176,10 @@ export const useArticlesStore = defineStore('articleStore', {
             const article = this.articles.find(a => a.slug === slug)
             article.favoritesCount--
             article.favorited = !article.favorited;
+            this.operation_in_submission = false;
           }).catch(err => {
             console.log(err)
+            this.operation_in_submission = false;
           })
 
       }
