@@ -166,6 +166,7 @@ export const useArticlesStore = defineStore('articleStore', {
             this.operation_in_submission = false;
           })).catch(err => {
             console.log(err)
+            alert('sign in first!!!')
             this.operation_in_submission = false;
           })
       }
@@ -179,6 +180,7 @@ export const useArticlesStore = defineStore('articleStore', {
             this.operation_in_submission = false;
           }).catch(err => {
             console.log(err)
+            alert('sign in first!!!')
             this.operation_in_submission = false;
           })
 

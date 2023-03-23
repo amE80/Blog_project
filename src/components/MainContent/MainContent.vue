@@ -38,8 +38,8 @@
           </section>
         </div>
 
-        <button @click="favoriteArt(article.slug , article.favorited )" :disabled="articleStore.operation_in_submission" :class="{ 'bg-purple-500 ' : article.favorited }"
-          class="flex cursor-pointer items-center justify-center w-auto h-10 px-2 mt-5 border-2 rounded text-bloodRed border-bloodRed bg-cream disabled:cursor-wait disabled:bg-gray-400">
+        <button @click="favoriteArt(article.slug , article.favorited )" :disabled="articleStore.operation_in_submission" :class="{ 'purple' : article.favorited }"
+          class="flex cursor-pointer items-center justify-center w-auto h-10 px-2 mt-5 border-2 rounded text-bloodRed border-bloodRed  transition disabled:cursor-not-allowed">
           <span> {{ article.favoritesCount }} </span>
           <heart-icon />
         </button>
@@ -130,6 +130,6 @@ export default {
 <style>
 .purple{
   background-color: #9333ea;
-  color: #fff;
+  color: #fff !important;
 }
 </style>

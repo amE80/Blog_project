@@ -18,7 +18,7 @@
       </header>
 
       <main class="mx-7 md:mx-20 border-b pb-10 border-gray-400">
-        <p class="mb-8">{{ articleStore.aBlog.body }}</p>
+        <p v-html="articleStore.aBlog.body" class="mb-8"></p>
         <p v-for="tag in articleStore.aBlog.tagList" class="bg-gray-300 p-1 rounded inline mx-1 text-gray-700" >{{ tag }}</p>
       </main>
 
