@@ -90,7 +90,8 @@ export default{
     },
     sendFavoritedBlog(){
       this.activedBlogs = true
-      this.blog = true
+      this.blog = false
+      this.articleStore.getFavPosts(this.userStore.aProfile.username);
     },
     followingReq(username){
       this.userStore.followUser(username)

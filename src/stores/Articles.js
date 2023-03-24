@@ -21,6 +21,27 @@ export const useArticlesStore = defineStore('articleStore', {
     isFavorited: false,
   }),
   actions: {
+    
+    async getFavPosts(a){
+      this.fetching_in_progress = true;
+      axiosAPI.get('articles', { params: { favorited: a } }
+      ).then((response) => {
+        //changing date format
+        const articles = response.data.articles.map((artTime) => {
+          artTime.createdAt = DateTime.fromISO(artTime.createdAt).toFormat("yyyy/MM/dd hh:mm")
+          return artTime
+        });
+        console.log('fav art:', articles)
+        this.userArticles = articles;
+        this.fetching_in_progress = false;
+
+      })
+        .catch((error) => {
+          console.log(error);
+          this.fetching_in_progress = false;
+        })
+    },
+
     async getAnArticle(slug) {
       console.log("slug from pinia", slug);
       axiosAPI.get(`articles/${slug}`)
