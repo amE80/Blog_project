@@ -26,7 +26,13 @@
         <p class="mt-4 text-sm text-gray-700">see more... </p>
       </div>
     </div>
-
+    
+    <div class="text-white text-center font-semibold p-1 mb-1 mx-auto rounded w-2/6"
+        v-if="articleStore.operation_show_alert"
+        :class="articleStore.operation_alert_variant">
+        {{ articleStore.operation_alert_msg }}
+      </div>
+      
     <div v-if="!blogs && !articleStore.fetching_in_progress" class="pb-4 border-b a-blog border-b-gray-400"
       v-for="article in articleStore.articles" :key="article.id">
       <div class="flex justify-between">

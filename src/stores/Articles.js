@@ -165,8 +165,15 @@ export const useArticlesStore = defineStore('articleStore', {
             console.log(response)
             this.operation_in_submission = false;
           })).catch(err => {
-            console.log(err)
-            alert('sign in first!!!')
+            console.log('main error', err)
+            this.operation_show_alert= true;
+            this.operation_alert_variant= "bg-purple-600";
+            this.operation_alert_msg= err.response.data.message;
+            setTimeout(() => {
+              this.operation_show_alert = false;
+              this.operation_alert_variant= "";
+              this.operation_alert_msg= "";
+            }, 2000);
             this.operation_in_submission = false;
           })
       }
@@ -179,8 +186,15 @@ export const useArticlesStore = defineStore('articleStore', {
             article.favorited = !article.favorited;
             this.operation_in_submission = false;
           }).catch(err => {
-            console.log(err)
-            alert('sign in first!!!')
+            console.log('main error', err)
+            this.operation_show_alert= true;
+            this.operation_alert_variant= "bg-purple-600";
+            this.operation_alert_msg= err.response.data.message;
+            setTimeout(() => {
+              this.operation_show_alert = false;
+              this.operation_alert_variant= "";
+              this.operation_alert_msg= "";
+            }, 2000);
             this.operation_in_submission = false;
           })
 
