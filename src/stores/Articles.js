@@ -10,7 +10,7 @@ export const useArticlesStore = defineStore('articleStore', {
     artTime: null,
     articles: null,
     article: null,
-    userArticles: null,
+    userArticles: [],
     aBlog: null,
     user: null,
     allComments: null,
