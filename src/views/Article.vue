@@ -3,12 +3,12 @@
 
     <div class="space-y-10 mb-5" v-if="articleStore.aBlog">
       <header class="bg-gray-700 my-5 shadow-4xl py-6">
-        <p class="text-white text-3xl mx-7 md:mx-20"> {{ articleStore.aBlog.title }} </p>
+        <p class="text-white lg:text-3xl mx-7 text-lg md:mx-20 sm:text-2xl"> {{ articleStore.aBlog.title }} </p>
         <div class="mt-4 mx-7 md:mx-20 flex items-center">
           <img class="w-11 h-11 rounded-full " :src="articleStore.aBlog.author.image" alt="user image">
           <div class="ml-2 ">
-            <p class="text-white text-sm " >{{ articleStore.aBlog.author.username }}</p>
-            <p class="text-gray-500 text-xs ">{{ articleStore.aBlog.createdAt }}</p>
+            <p class="text-white text-xs sm:text-sm " >{{ articleStore.aBlog.author.username }}</p>
+            <p class="text-gray-500 text-xs hidden sm:block">{{ articleStore.aBlog.createdAt }}</p>
           </div>
           <div>
             <button v-if="articleStore.aBlog.author.username !== articleStore.user.username " class="bg-gray-500 mx-2 rounded px-1 text-xs"> <plus-icon class="inline w-4" /><span> Follow {{ articleStore.aBlog.author.username }}</span></button>
@@ -23,7 +23,7 @@
       </main>
 
       <footer>
-        <div class="text-white text-center font-bold p-1 mb-1 mx-auto rounded w-2/6"
+        <div class="text-white text-center font-bold p-1 mb-1 mx-auto rounded w-2/4 lg:w-2/6"
           v-if="articleStore.operation_show_alert"
           :class="articleStore.operation_alert_variant">
           {{ articleStore.operation_alert_msg }}
@@ -34,9 +34,9 @@
         <Form class="" :validation-schema="schema" @submit="submitComment(comment)">
 
         <Field as="textarea" name="comment" type="text" v-model="comment.body" 
-          class="text-area mx-auto block rounded-t-lg pl-3 pt-3 text-sm border border-gray-400 w-2/6 focus:border-gray-700 focus:outline-none"
+          class="text-area mx-auto block rounded-t-lg pl-3 pt-3 text-sm border border-gray-400  w-2/3 sm:w-2/4 lg:w-2/6 focus:border-gray-700 focus:outline-none"
           placeholder="write your comment ... " />
-        <div class="bg-gray-400 h-10 mx-auto flex justify-between mb-4 rounded-b-lg w-2/6"><img class="w-8 h-8 m-1 rounded-full" :src="articleStore.user.image" alt="user profile"> 
+        <div class="bg-gray-400 h-10 mx-auto flex justify-between mb-4 rounded-b-lg w-2/3 sm:w-2/4 lg:w-2/6"><img class="w-8 h-8 m-1 rounded-full" :src="articleStore.user.image" alt="user profile"> 
           <button @click="submitComment(comment)" 
           class="bg-mainRed text-white rounded m-1.5 px-1  disabled:bg-gray-400 disabled:cursor-wait"
           :disabled="articleStore.operation_in_submission"
@@ -46,10 +46,10 @@
         </div>
 
         <div class="contain" v-if="articleStore.allComments" v-for="artcomment in articleStore.allComments" :key="articleStore.allComments.id">
-              <div  class="text-area mx-auto block rounded-t-lg pl-3 pt-3 text-sm border border-gray-400 w-2/6 ">
+              <div  class="text-area mx-auto block rounded-t-lg pl-3 pt-3 text-sm border border-gray-400 w-2/3 sm:w-2/4 lg:w-2/6 ">
                 {{ artcomment.body }} 
               </div>
-           <div class="bg-gray-400 h-10 mx-auto flex justify-between mb-4 rounded-b-lg w-2/6">
+           <div class="bg-gray-400 h-10 mx-auto flex justify-between mb-4 rounded-b-lg w-2/3 sm:w-2/4 lg:w-2/6">
                 <div class="flex items-center content-center space-x-2">
                   <img class="w-8 h-8 ml-1 rounded-full" :src="artcomment.author.image" alt="user profile">
                   <p class="text-xs text-gray-700">{{ artcomment.author.username }}</p>

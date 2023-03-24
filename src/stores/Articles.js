@@ -10,7 +10,7 @@ export const useArticlesStore = defineStore('articleStore', {
     artTime: null,
     articles: null,
     article: null,
-    userArticles: null,
+    userArticles: [],
     aBlog: null,
     user: null,
     allComments: null,
@@ -21,6 +21,27 @@ export const useArticlesStore = defineStore('articleStore', {
     isFavorited: false,
   }),
   actions: {
+    
+    async getFavPosts(a){
+      this.fetching_in_progress = true;
+      axiosAPI.get('articles', { params: { favorited: a } }
+      ).then((response) => {
+        //changing date format
+        const articles = response.data.articles.map((artTime) => {
+          artTime.createdAt = DateTime.fromISO(artTime.createdAt).toFormat("yyyy/MM/dd hh:mm")
+          return artTime
+        });
+        console.log('fav art:', articles)
+        this.userArticles = articles;
+        this.fetching_in_progress = false;
+
+      })
+        .catch((error) => {
+          console.log(error);
+          this.fetching_in_progress = false;
+        })
+    },
+
     async getAnArticle(slug) {
       console.log("slug from pinia", slug);
       axiosAPI.get(`articles/${slug}`)
@@ -165,8 +186,15 @@ export const useArticlesStore = defineStore('articleStore', {
             console.log(response)
             this.operation_in_submission = false;
           })).catch(err => {
-            console.log(err)
-            alert('sign in first!!!')
+            console.log('main error', err)
+            this.operation_show_alert= true;
+            this.operation_alert_variant= "bg-purple-600";
+            this.operation_alert_msg= err.response.data.message;
+            setTimeout(() => {
+              this.operation_show_alert = false;
+              this.operation_alert_variant= "";
+              this.operation_alert_msg= "";
+            }, 2000);
             this.operation_in_submission = false;
           })
       }
@@ -179,8 +207,15 @@ export const useArticlesStore = defineStore('articleStore', {
             article.favorited = !article.favorited;
             this.operation_in_submission = false;
           }).catch(err => {
-            console.log(err)
-            alert('sign in first!!!')
+            console.log('main error', err)
+            this.operation_show_alert= true;
+            this.operation_alert_variant= "bg-purple-600";
+            this.operation_alert_msg= err.response.data.message;
+            setTimeout(() => {
+              this.operation_show_alert = false;
+              this.operation_alert_variant= "";
+              this.operation_alert_msg= "";
+            }, 2000);
             this.operation_in_submission = false;
           })
 

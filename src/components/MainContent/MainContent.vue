@@ -2,6 +2,7 @@
   <main class="my-10 mx-7 md:mx-20 font-main">
     <blog-lists @relateBlogs="showBlogs($event)" />
     <div v-if="articleStore.fetching_in_progress" class="text-xl ml-10 mt-10">loading...</div>
+    <div v-if="articleStore.userArticles.length == 0 && !articleStore.fetching_in_progress && blogs" class="text-xl ml-10 mt-10"> There is no blog </div>
 
     <div v-if="blogs && !articleStore.fetching_in_progress" class="pb-4 border-b a-blog border-b-gray-400"
       v-for="userArticle in articleStore.userArticles" :key="userArticle.id">
@@ -26,6 +27,12 @@
         <p class="mt-4 text-sm text-gray-700">see more... </p>
       </div>
     </div>
+    
+    <div class="text-white text-center font-semibold p-1 mb-1 mx-auto rounded w-2/6"
+        v-if="articleStore.operation_show_alert"
+        :class="articleStore.operation_alert_variant">
+        {{ articleStore.operation_alert_msg }}
+      </div>
 
     <div v-if="!blogs && !articleStore.fetching_in_progress" class="pb-4 border-b a-blog border-b-gray-400"
       v-for="article in articleStore.articles" :key="article.id">

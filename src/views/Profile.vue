@@ -22,6 +22,7 @@
             </ul>
 
             <div v-if="articleStore.fetching_in_progress" class="text-xl ml-10 mt-10">loading...</div>
+            <div v-if="articleStore.userArticles.length == 0 && !articleStore.fetching_in_progress" class="text-xl ml-10 mt-10"> There is no blog </div>
 
             <div v-if="!blog && !articleStore.fetching_in_progress" class="pb-4 border-b a-blog border-b-gray-400"
               v-for="userArticle in articleStore.userArticles" :key="userArticle.id">
@@ -90,7 +91,8 @@ export default{
     },
     sendFavoritedBlog(){
       this.activedBlogs = true
-      this.blog = true
+      this.blog = false
+      this.articleStore.getFavPosts(this.userStore.aProfile.username);
     },
     followingReq(username){
       this.userStore.followUser(username)
