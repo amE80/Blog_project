@@ -8,9 +8,8 @@ export const useArticlesStore = defineStore('articleStore', {
   state: () => ({
     fetching_in_progress: false,
     artTime: null,
-    articles: null,
+    articles: [],
     article: null,
-    userArticles: [],
     aBlog: null,
     user: null,
     allComments: null,
@@ -32,7 +31,7 @@ export const useArticlesStore = defineStore('articleStore', {
           return artTime
         });
         console.log('fav art:', articles)
-        this.userArticles = articles;
+        this.articles = articles;
         this.fetching_in_progress = false;
 
       })
@@ -125,7 +124,7 @@ export const useArticlesStore = defineStore('articleStore', {
           return artTime
         });
         console.log('users art')
-        this.userArticles = articles;
+        this.articles = articles;
         this.fetching_in_progress = false;
 
       })

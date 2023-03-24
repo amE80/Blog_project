@@ -1,32 +1,9 @@
 <template>
   <main class="my-10 mx-7 md:mx-20 font-main">
-    <blog-lists @relateBlogs="showBlogs($event)" />
+    <blog-lists />
     <div v-if="articleStore.fetching_in_progress" class="text-xl ml-10 mt-10">loading...</div>
-    <div v-if="articleStore.userArticles.length == 0 && !articleStore.fetching_in_progress && blogs" class="text-xl ml-10 mt-10"> There is no blog </div>
+    <div v-if="articleStore.articles.length == 0 && !articleStore.fetching_in_progress " class="text-xl ml-10 mt-10"> There is no blog </div>
 
-    <div v-if="blogs && !articleStore.fetching_in_progress" class="pb-4 border-b a-blog border-b-gray-400"
-      v-for="userArticle in articleStore.userArticles" :key="userArticle.id">
-      <div class="flex justify-between">
-        <div class="flex items-center mt-5 content">
-          <img @click="goToUser(userArticle.author.username)" :src='userArticle.author.image' class="rounded-full cursor-pointer w-11 h-11" alt="pic">
-          <section class="ml-2">
-            <p @click="goToUser(uaserArticle.author.username)" class="text-sm cursor-pointer">{{ userArticle.author.username }}</p>
-            <p class="text-sm text-gray-700">{{ userArticle.createdAt }}</p>
-          </section>
-        </div>
-
-        <button
-          class="flex cursor-pointer items-center justify-center w-auto h-10 px-2 mt-5 border-2 rounded text-bloodRed border-bloodRed bg-cream">
-          <span> {{ userArticle.favoritesCount }} </span>
-          <heart-icon />
-        </button>
-      </div>
-      <div @click="goToArticle(userArticle.slug)" class="w-11/12 mt-4 cursor-pointer">
-        <p class="">{{ userArticle.title }}</p>
-        <p class="text-sm text-gray-700">{{ userArticle.description }}</p>
-        <p class="mt-4 text-sm text-gray-700">see more... </p>
-      </div>
-    </div>
     
     <div class="text-white text-center font-semibold p-1 mb-1 mx-auto rounded w-2/6"
         v-if="articleStore.operation_show_alert"
@@ -34,7 +11,7 @@
         {{ articleStore.operation_alert_msg }}
       </div>
 
-    <div v-if="!blogs && !articleStore.fetching_in_progress" class="pb-4 border-b a-blog border-b-gray-400"
+    <div v-if="!articleStore.fetching_in_progress" class="pb-4 border-b a-blog border-b-gray-400"
       v-for="article in articleStore.articles" :key="article.id">
       <div class="flex justify-between">
         <div class="flex items-center mt-5 content">
@@ -88,9 +65,7 @@ export default {
     return {
       artTime: null,
       articles: null,
-      blogs: false,
       path: this.$route.name,
-      // current : null
     };
   },
 
@@ -114,11 +89,8 @@ export default {
   methods: {
     favoriteArt(slug , IsFavorite) {
       this.articleStore.toggleFav(slug , IsFavorite)
-      // this.current = true;
     },
-    showBlogs(data) {
-      this.blogs = data;
-    },
+
     goToArticle(slug) {
       console.log(slug)
       this.$router.push(`/single-article/${slug}`)
@@ -137,6 +109,6 @@ export default {
 <style>
 .purple{
   background-color: #9333ea;
-  color: #fff !important;
+  color: #d8b4fe !important;
 }
 </style>
