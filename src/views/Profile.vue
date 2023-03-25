@@ -12,6 +12,8 @@
           </div>
           <div class="flex justify-end">
           <button v-if="userStore.user.username !== this.$route.params.username" :disabled="userStore.operation_in_submission" :class="{'white' : userStore.aProfile.following}" class="bg-gray-500 mx-2 rounded px-1 text-xs transition disabled:cursor-wait" @click="followingReq(userStore.aProfile.username )"> <plus-icon class="inline w-4" /><span> Follow {{ userStore.aProfile.username }}</span></button>
+          <button v-if="userStore.user.username == this.$route.params.username"  class="bg-gray-500 mx-8 rounded p-2 text-xs transition hover:bg-gray-200"><router-link :to="{name: 'edit'}"> Edit profile </router-link></button>
+
         </div>
         </header>
 

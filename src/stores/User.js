@@ -92,7 +92,7 @@ export const useUserStore = defineStore('userStore', {
         async updateUser(us){
           this.operation_in_submission = true , 
           this.operation_show_alert = true , 
-          this.operation_alert_variant = "bg-blue-500",
+          this.operation_alert_variant = "bg-green-500",
           this.operation_alert_msg= "Upadting your information..."
 
           axiosAPI.put('user',us).then((response)=>{
