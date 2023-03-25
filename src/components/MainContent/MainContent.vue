@@ -109,6 +109,6 @@ export default {
 <style>
 .purple{
   background-color: #9333ea;
-  color: #d8b4fe !important;
+  color: #e9d5ff !important;
 }
 </style>

@@ -1,25 +1,26 @@
 <template>
     <top-nav />
 
-    <div class="space-y-10 mb-5" v-if="articleStore.aBlog">
+    <div class="space-y-10 mb-5" v-if="articleStore.articles.author">
       <header class="bg-gray-700 my-5 shadow-4xl py-6">
-        <p class="text-white lg:text-3xl mx-7 text-lg md:mx-20 sm:text-2xl"> {{ articleStore.aBlog.title }} </p>
+        <p class="text-white lg:text-3xl mx-7 text-lg md:mx-20 sm:text-2xl"> {{ articleStore.articles.title }} </p>
         <div class="mt-4 mx-7 md:mx-20 flex items-center">
-          <img class="w-11 h-11 rounded-full " :src="articleStore.aBlog.author.image" alt="user image">
+          <img class="w-11 h-11 rounded-full " :src="articleStore.articles.author.image" alt="user image">
           <div class="ml-2 ">
-            <p class="text-white text-xs sm:text-sm " >{{ articleStore.aBlog.author.username }}</p>
-            <p class="text-gray-500 text-xs hidden sm:block">{{ articleStore.aBlog.createdAt }}</p>
+            <p class="text-white text-xs sm:text-sm " >{{ articleStore.articles.author.username }}</p>
+            <p class="text-gray-500 text-xs hidden sm:block">{{ articleStore.articles.createdAt }}</p>
           </div>
           <div>
-            <button v-if="articleStore.aBlog.author.username !== articleStore.user.username " class="bg-gray-500 mx-2 rounded px-1 text-xs"> <plus-icon class="inline w-4" /><span> Follow {{ articleStore.aBlog.author.username }}</span></button>
-            <button class="bg-gray-500 rounded mx-2 px-1 text-xs"> <heart-icon class="inline w-4" /><span> Favorited blog ({{ articleStore.aBlog.favoritesCount }}) </span></button>
+            <button v-if="articleStore.articles.author.username !== articleStore.user.username" :disabled="articleStore.operation_in_submission" :class="{'bg-gray-200' : articleStore.articles.author.following}" class="bg-gray-500 mx-2 rounded px-1 text-xs transition disabled:cursor-not-allowed" @click="followingReq(articleStore.articles.author.username )"> <plus-icon class="inline w-4" /><span> Follow {{ articleStore.articles.author.username }}</span></button>
+            <button @click="favoriteArt(articleStore.articles.slug , articleStore.articles.favorited )" :disabled="articleStore.operation_in_submission" :class="{ 'bg-gray-200' : articleStore.articles.favorited }"
+             class="bg-gray-500 rounded mx-2 px-1 text-xs transition disabled:cursor-not-allowed"> <heart-icon class="inline w-4" /><span> Favorited blog ({{ articleStore.articles.favoritesCount }}) </span></button>
           </div>
         </div>
       </header>
 
       <main class="mx-7 md:mx-20 border-b pb-10 border-gray-400">
-        <p v-html="articleStore.aBlog.body" class="mb-8"></p>
-        <p v-for="tag in articleStore.aBlog.tagList" class="bg-gray-300 p-1 rounded inline mx-1 text-gray-700" >{{ tag }}</p>
+        <p v-html="articleStore.articles.body" class="mb-8"></p>
+        <p v-for="tag in articleStore.articles.tagList" class="bg-gray-300 p-1 rounded inline mx-1 text-gray-700" >{{ tag }}</p>
       </main>
 
       <footer>
@@ -69,6 +70,7 @@
 
 <script>
 import { useArticlesStore } from "../stores/Articles";
+import { useUserStore } from "../stores/User";
 import TopNav from "../components/Navigation/TopNav.vue";
 import TrashIcon from "../components/Icon/trashIcon.vue"
 import HeartIcon from "../components/Icon/heartIcon.vue";
@@ -78,11 +80,13 @@ import { Field, Form, ErrorMessage, useResetForm } from "vee-validate";
 export default{
     name:"SingleArticle",
     setup() {
-    const articleStore = useArticlesStore();
+    const articleStore = useArticlesStore();  
+    const userStore = useUserStore();
     articleStore.getCurrentUser();
 
     return {
-      articleStore
+      articleStore,
+      userStore
     }
   },
   data(){
@@ -108,12 +112,19 @@ export default{
     deleteComment(id){
       this.articleStore.deleteComments(this.$route.params.slug,id)
     },
+    followingReq(username){
+      this.articleStore.followUser(username)
+    },
+    favoriteArt(slug , IsFavorite) {
+      this.articleStore.toggleArt(slug , IsFavorite)
+    },
   },
 
   created(){
     this.articleStore.getAnArticle(this.$route.params.slug);
     this.articleStore.getComments(this.$route.params.slug);
-  }
+  },
+
 }
 
 </script>

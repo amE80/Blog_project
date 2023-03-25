@@ -10,7 +10,6 @@ export const useArticlesStore = defineStore('articleStore', {
     artTime: null,
     articles: [],
     article: null,
-    aBlog: null,
     user: null,
     allComments: null,
     operation_in_submission: false,
@@ -46,8 +45,8 @@ export const useArticlesStore = defineStore('articleStore', {
       axiosAPI.get(`articles/${slug}`)
         .then(response => {
           response.data.article.createdAt = DateTime.fromISO(response.data.article.createdAt).toFormat("yyyy/MM/dd hh:mm")
-          this.aBlog = response.data.article
-          console.log(" inforamtion :", this.aBlog)
+          this.articles = response.data.article
+          console.log(" inforamtion :", this.articles)
         })
     },
 
@@ -219,6 +218,61 @@ export const useArticlesStore = defineStore('articleStore', {
           })
 
       }
+    },
+    async toggleArt(slug, isFavorited) {
+      this.operation_in_submission = true;
+
+      if (!isFavorited) {
+        await axiosAPI.post(`articles/${slug}/favorite`)
+          .then((response => {
+            const article = this.articles
+            article.favorited = !article.favorited;
+            article.favoritesCount++;
+            console.log(response)
+            this.operation_in_submission = false;
+          })).catch(err => {
+            console.log('main error', err)
+            this.operation_in_submission = false;
+          })
+      }
+      else {
+        await axiosAPI.delete(`articles/${slug}/favorite`)
+          .then(response => {
+            console.log(response);
+            const article = this.articles
+            article.favoritesCount--
+            article.favorited = !article.favorited;
+            this.operation_in_submission = false;
+          }).catch(err => {
+            console.log('main error', err)
+            this.operation_in_submission = false;
+          })
+
+      }
+    },
+    async followUser(username){
+      this.operation_in_submission = true ;
+
+      if(!this.articles.author.following){
+     await axiosAPI.post(`profiles/${username}/follow`).then(response=>{
+      console.log(response)
+      this.articles.author.following = !this.articles.author.following
+      this.operation_in_submission = false ;
+     }).catch(error=>{
+      console.log(error)
+      this.operation_in_submission = false ;
+     })                          
     }
+    else if(this.articles.author.following){
+    await axiosAPI.delete(`profiles/${username}/follow`).then(response=>{
+       console.log(response)
+       this.articles.author.following = !this.articles.author.following
+       this.operation_in_submission = false ;
+      }).catch(error=>{
+       console.log(error)
+      this.operation_in_submission = false ;
+      })  
+    }                        
+    },
   }
 })
