@@ -21,10 +21,11 @@ export const useAuthStore = defineStore('authStore', {
         {
             this.operation_alert_variant = "bg-green-500";
             this.operation_alert_msg= "Success! meow :) moving in home page..";
-       
-                 localStorage.setItem('token', response.data.user.token );
-                 localStorage.setItem('user',JSON.stringify(response.data.user) );
+            setTimeout(() => {
+             localStorage.setItem('token', response.data.user.token );
+             localStorage.setItem('user',JSON.stringify(response.data.user) );
             this.$router.push({name:'home'})
+        }, 1000);
             setTimeout(() => {
                 this.operation_in_submission = false ;
                 location.reload()

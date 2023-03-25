@@ -12,6 +12,8 @@
           </div>
           <div class="flex justify-end">
           <button v-if="userStore.user.username !== this.$route.params.username" :disabled="userStore.operation_in_submission" :class="{'white' : userStore.aProfile.following}" class="bg-gray-500 mx-2 rounded px-1 text-xs transition disabled:cursor-wait" @click="followingReq(userStore.aProfile.username )"> <plus-icon class="inline w-4" /><span> Follow {{ userStore.aProfile.username }}</span></button>
+          <button v-if="userStore.user.username == this.$route.params.username"  class="bg-gray-500 mx-8 rounded p-2 text-xs transition hover:bg-gray-200"><router-link :to="{name: 'edit'}"> Edit profile </router-link></button>
+
         </div>
         </header>
 
@@ -22,30 +24,31 @@
             </ul>
 
             <div v-if="articleStore.fetching_in_progress" class="text-xl ml-10 mt-10">loading...</div>
-            <div v-if="articleStore.userArticles.length == 0 && !articleStore.fetching_in_progress" class="text-xl ml-10 mt-10"> There is no blog </div>
+            <div v-if="articleStore.articles.length == 0 && !articleStore.fetching_in_progress" class="text-xl ml-10 mt-10"> There is no blog </div>
 
-            <div v-if="!blog && !articleStore.fetching_in_progress" class="pb-4 border-b a-blog border-b-gray-400"
-              v-for="userArticle in articleStore.userArticles" :key="userArticle.id">
-                <div class="flex justify-between">
-                    <div class="flex items-center mt-5 content">
-                      <img @click="goToUser" :src='userArticle.author.image' class="rounded-full cursor-pointer w-11 h-11" alt="pic">
-                      <section class="ml-2">
-                        <p @click="goToUser" class="text-sm cursor-pointer">{{ userArticle.author.username }}</p>
-                        <p class="text-sm text-gray-700">{{ userArticle.createdAt }}</p>
-                      </section>
-                    </div>
-                    <button
-                        class="flex cursor-pointer items-center justify-center w-auto h-10 px-2 mt-5 border-2 rounded text-bloodRed border-bloodRed bg-cream">
-                        <span> {{ userArticle.favoritesCount }} </span>
-                        <heart-icon />
-                    </button>
-                </div>
-                <div @click="goToArticle" class="w-11/12 mt-4 cursor-pointer">
-                    <p class="">{{ userArticle.title }}</p>
-                    <p class="text-sm text-gray-700">{{ userArticle.description }}</p>
-                    <p class="mt-4 text-sm text-gray-700">see more... </p>
-                </div>
-          </div>
+            <div v-if="!articleStore.fetching_in_progress" class="pb-4 border-b a-blog border-b-gray-400"
+      v-for="article in articleStore.articles" :key="article.id">
+      <div class="flex justify-between">
+        <div class="flex items-center mt-5 content">
+          <img :src='article.author.image' @click="goToUser(article.author.username)" class="rounded-full cursor-pointer w-11 h-11" alt="pic">
+          <section class="ml-2">
+            <p @click="goToUser(article.author.username)" class="text-sm cursor-pointer">{{ article.author.username }}</p>
+            <p class="text-sm text-gray-700">{{ article.createdAt }}</p>
+          </section>
+        </div>
+
+        <button @click="favoriteArt(article.slug , article.favorited )" :disabled="articleStore.operation_in_submission" :class="{ 'purple' : article.favorited }"
+          class="flex cursor-pointer items-center justify-center w-auto h-10 px-2 mt-5 border-2 rounded text-bloodRed border-bloodRed  transition disabled:cursor-not-allowed">
+          <span> {{ article.favoritesCount }} </span>
+          <heart-icon />
+        </button>
+      </div>
+      <div @click="goToArticle(article.slug)" class="w-11/12 mt-4 cursor-pointer">
+        <p class="">{{ article.title }}</p>
+        <p class="text-sm text-gray-700">{{ article.description }}</p>
+        <p class="mt-4 text-sm text-gray-700">see more... </p>
+      </div>
+    </div>
       </main>
     </div>
 </template>
@@ -74,7 +77,6 @@ export default{
   data(){
     return{
       activedBlogs : false,
-      blog : false
     }
   },
 
@@ -85,17 +87,26 @@ export default{
   methods:{
     sendUserBlog(){
       this.activedBlogs = false
-      this.blog = false
       this.articleStore.getUserPosts(this.userStore.aProfile.username);
-      console.log(this.userStore.user)
     },
     sendFavoritedBlog(){
       this.activedBlogs = true
-      this.blog = false
       this.articleStore.getFavPosts(this.userStore.aProfile.username);
     },
     followingReq(username){
       this.userStore.followUser(username)
+    },
+    favoriteArt(slug , IsFavorite) {
+      this.articleStore.toggleFav(slug , IsFavorite)
+    },
+
+    goToArticle(slug) {
+      console.log(slug)
+      this.$router.push(`/single-article/${slug}`)
+    },
+    goToUser(username) {
+      console.log(username)
+      this.$router.push(`/user-profile/${username}`)
     }
   },
 

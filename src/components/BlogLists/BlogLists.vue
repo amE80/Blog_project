@@ -29,13 +29,11 @@ export default{
     methods:{
         sendAllBlog(){
             this.activedBlogs = false;
-            this.$emit('relateBlogs',this.activedBlogs);
             this.$router.push({name:'home'})
         },
         sendUserBlog(){
             this.username = this.userInformation.username;
             this.activedBlogs = true;
-            this.$emit('relateBlogs',this.activedBlogs);
             this.$router.push({ name: 'user_article', query: {author:this.username}})
         }
     }
