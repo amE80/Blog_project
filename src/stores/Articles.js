@@ -225,9 +225,8 @@ export const useArticlesStore = defineStore('articleStore', {
       if (!isFavorited) {
         await axiosAPI.post(`articles/${slug}/favorite`)
           .then((response => {
-            const article = this.articles
-            article.favorited = !article.favorited;
-            article.favoritesCount++;
+            this.articles.favorited = !this.articles.favorited;
+            this.articles.favoritesCount++;
             console.log(response)
             this.operation_in_submission = false;
           })).catch(err => {
@@ -239,9 +238,8 @@ export const useArticlesStore = defineStore('articleStore', {
         await axiosAPI.delete(`articles/${slug}/favorite`)
           .then(response => {
             console.log(response);
-            const article = this.articles
-            article.favoritesCount--
-            article.favorited = !article.favorited;
+            this.articles.favorited = !this.articles.favorited;
+            this.articles.favoritesCount--
             this.operation_in_submission = false;
           }).catch(err => {
             console.log('main error', err)
@@ -274,5 +272,35 @@ export const useArticlesStore = defineStore('articleStore', {
       })  
     }                        
     },
+    async deleteBlog(slug){
+      this.operation_in_submission=true;
+      await axiosAPI.delete(`articles/${slug}`).then(response=>{
+        console.log(response)
+        this.operation_in_submission = false ;
+        this.$router.push({ name: 'user_article', query: {author:this.username}})
+       }).catch(error=>{
+        console.log(error)
+       this.operation_in_submission = false ;
+       })  
+    },
+    async updateBlog(slug , data){
+      this.operation_in_submission = true , 
+      this.operation_show_alert = true , 
+      this.operation_alert_variant = "bg-green-500",
+      this.operation_alert_msg= "Upadting your blog..."
+
+      axiosAPI.put(`articles/${slug}`, data).then((response)=>{
+        setTimeout(() => {
+          this.operation_in_submission = false ;
+          this.operation_show_alert = false ; 
+          this.getCurrentUser();
+        }, 1000);
+      })
+      .catch((error) => {
+      console.log(error)
+      this.operation_in_submission = false ;
+      this.operation_show_alert = false ; 
+      })
+    }
   }
 })

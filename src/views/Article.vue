@@ -11,8 +11,11 @@
             <p class="text-gray-500 text-xs hidden sm:block">{{ articleStore.articles.createdAt }}</p>
           </div>
           <div>
-            <button v-if="articleStore.articles.author.username !== articleStore.user.username" :disabled="articleStore.operation_in_submission" :class="{'bg-gray-200' : articleStore.articles.author.following}" class="bg-gray-500 mx-2 rounded px-1 text-xs transition disabled:cursor-not-allowed" @click="followingReq(articleStore.articles.author.username )"> <plus-icon class="inline w-4" /><span> Follow {{ articleStore.articles.author.username }}</span></button>
-            <button @click="favoriteArt(articleStore.articles.slug , articleStore.articles.favorited )" :disabled="articleStore.operation_in_submission" :class="{ 'bg-gray-200' : articleStore.articles.favorited }"
+            <button v-if="articleStore.articles.author.username !== articleStore.user.username" :disabled="articleStore.operation_in_submission" :class="{'white' : articleStore.articles.author.following}" class="bg-gray-500 ml-4 mr-2 rounded px-1 text-xs transition disabled:cursor-not-allowed" @click="followingReq(articleStore.articles.author.username )"> <plus-icon class="inline w-4" /><span> Follow {{ articleStore.articles.author.username }}</span></button>
+            <button v-if="articleStore.articles.author.username == articleStore.user.username"  :disabled="articleStore.operation_in_submission" class="bg-gray-500 ml-4 mr-2 rounded px-1 text-xs transition disabled:cursor-not-allowed hover:bg-gray-200" @click="deleteBlog"><span><trash-icon class="inline w-4" /> Delete blog</span></button>
+            <button v-if="articleStore.articles.author.username == articleStore.user.username"   class="bg-gray-500 mx-2 rounded px-1 text-xs transition  hover:bg-gray-200" @click="editBlog"><span><PencilSquareIcon class="inline w-4" /> Edit blog</span></button>
+
+            <button @click="favoriteArt(articleStore.articles.slug , articleStore.articles.favorited )" :disabled="articleStore.operation_in_submission" :class="{ 'white' : this.articleStore.articles.favorited }"
              class="bg-gray-500 rounded mx-2 px-1 text-xs transition disabled:cursor-not-allowed"> <heart-icon class="inline w-4" /><span> Favorited blog ({{ articleStore.articles.favoritesCount }}) </span></button>
           </div>
         </div>
@@ -75,6 +78,7 @@ import TopNav from "../components/Navigation/TopNav.vue";
 import TrashIcon from "../components/Icon/trashIcon.vue"
 import HeartIcon from "../components/Icon/heartIcon.vue";
 import PlusIcon from "../components/Icon/plusIcon.vue";
+import PencilSquareIcon from "../components/Icon/pencil-squareIcon.vue";
 import { Field, Form, ErrorMessage, useResetForm } from "vee-validate";
 
 export default{
@@ -101,7 +105,7 @@ export default{
   },
   components:{
     TopNav,TrashIcon,HeartIcon,PlusIcon,
-    Form, Field, ErrorMessage ,
+    Form, Field, ErrorMessage ,PencilSquareIcon
   },
   methods:{
     submitComment(comment){
@@ -117,7 +121,14 @@ export default{
     },
     favoriteArt(slug , IsFavorite) {
       this.articleStore.toggleArt(slug , IsFavorite)
+      console.log(this.articleStore.articles.favorited)
     },
+    deleteBlog(){
+      this.articleStore.deleteBlog(this.$route.params.slug)
+    },
+    editBlog(){
+      this.$router.push(`/edit-article/${this.$route.params.slug}`)
+    }
   },
 
   created(){
@@ -129,6 +140,9 @@ export default{
 
 </script>
 <style scoped>
+.white{
+  background-color: lightgray !important;
+}
 .text-area{
     min-height: 8rem;
     max-height: 30rem;

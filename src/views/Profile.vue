@@ -111,6 +111,7 @@ export default{
   },
 
   created(){
+    this.articleStore.getUserPosts(this.$route.params.username);
     this.userStore.getProfile(this.$route.params.username);
     this.userStore.getCurrentUser()
   },
