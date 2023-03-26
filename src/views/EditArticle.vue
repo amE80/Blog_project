@@ -35,7 +35,7 @@ import { Field, Form, ErrorMessage } from "vee-validate";
 import TopNav from '../components/Navigation/TopNav.vue';
 import { useArticlesStore } from "../stores/Articles.js";
 export default{
-    name : 'addBlog',
+    name : 'editBlog',
 components:{TopNav,Field, Form, ErrorMessage},
   setup(){
     const articleStore = useArticlesStore();
