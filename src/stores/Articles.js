@@ -225,9 +225,8 @@ export const useArticlesStore = defineStore('articleStore', {
       if (!isFavorited) {
         await axiosAPI.post(`articles/${slug}/favorite`)
           .then((response => {
-            const article = this.articles
-            article.favorited = !article.favorited;
-            article.favoritesCount++;
+            this.articles.favorited = !this.articles.favorited;
+            this.articles.favoritesCount++;
             console.log(response)
             this.operation_in_submission = false;
           })).catch(err => {
@@ -239,9 +238,8 @@ export const useArticlesStore = defineStore('articleStore', {
         await axiosAPI.delete(`articles/${slug}/favorite`)
           .then(response => {
             console.log(response);
-            const article = this.articles
-            article.favoritesCount--
-            article.favorited = !article.favorited;
+            this.articles.favorited = !this.articles.favorited;
+            this.articles.favoritesCount--
             this.operation_in_submission = false;
           }).catch(err => {
             console.log('main error', err)

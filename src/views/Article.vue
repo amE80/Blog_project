@@ -11,8 +11,8 @@
             <p class="text-gray-500 text-xs hidden sm:block">{{ articleStore.articles.createdAt }}</p>
           </div>
           <div>
-            <button v-if="articleStore.articles.author.username !== articleStore.user.username" :disabled="articleStore.operation_in_submission" :class="{'bg-gray-200' : articleStore.articles.author.following}" class="bg-gray-500 mx-2 rounded px-1 text-xs transition disabled:cursor-not-allowed" @click="followingReq(articleStore.articles.author.username )"> <plus-icon class="inline w-4" /><span> Follow {{ articleStore.articles.author.username }}</span></button>
-            <button @click="favoriteArt(articleStore.articles.slug , articleStore.articles.favorited )" :disabled="articleStore.operation_in_submission" :class="{ 'bg-gray-200' : articleStore.articles.favorited }"
+            <button v-if="articleStore.articles.author.username !== articleStore.user.username" :disabled="articleStore.operation_in_submission" :class="{'white' : articleStore.articles.author.following}" class="bg-gray-500 mx-2 rounded px-1 text-xs transition disabled:cursor-not-allowed" @click="followingReq(articleStore.articles.author.username )"> <plus-icon class="inline w-4" /><span> Follow {{ articleStore.articles.author.username }}</span></button>
+            <button @click="favoriteArt(articleStore.articles.slug , articleStore.articles.favorited )" :disabled="articleStore.operation_in_submission" :class="{ 'white' : this.articleStore.articles.favorited }"
              class="bg-gray-500 rounded mx-2 px-1 text-xs transition disabled:cursor-not-allowed"> <heart-icon class="inline w-4" /><span> Favorited blog ({{ articleStore.articles.favoritesCount }}) </span></button>
           </div>
         </div>
@@ -117,6 +117,7 @@ export default{
     },
     favoriteArt(slug , IsFavorite) {
       this.articleStore.toggleArt(slug , IsFavorite)
+      console.log(this.articleStore.articles.favorited)
     },
   },
 
@@ -129,6 +130,9 @@ export default{
 
 </script>
 <style scoped>
+.white{
+  background-color: lightgray !important;
+}
 .text-area{
     min-height: 8rem;
     max-height: 30rem;
