@@ -6,6 +6,7 @@ import Edit from '../views/EditUser.vue'
 import AddBlog from '../views/AddBlog.vue'
 import Article from '../views/Article.vue'
 import UserProfile from '../views/Profile.vue'
+import EditArticle from '../views/EditArticle.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -68,6 +69,14 @@ const router = createRouter({
       path: '/user-profile/:username',
       name: 'userProfile',
       component:UserProfile,
+      meta:{
+        accsess:true
+      }
+    },
+    {
+      path: '/edit-article/:slug',
+      name: 'editArticle',
+      component:EditArticle,
       meta:{
         accsess:true
       }

@@ -272,5 +272,35 @@ export const useArticlesStore = defineStore('articleStore', {
       })  
     }                        
     },
+    async deleteBlog(slug){
+      this.operation_in_submission=true;
+      await axiosAPI.delete(`articles/${slug}`).then(response=>{
+        console.log(response)
+        this.operation_in_submission = false ;
+        this.$router.push({ name: 'user_article', query: {author:this.username}})
+       }).catch(error=>{
+        console.log(error)
+       this.operation_in_submission = false ;
+       })  
+    },
+    async updateBlog(slug , data){
+      this.operation_in_submission = true , 
+      this.operation_show_alert = true , 
+      this.operation_alert_variant = "bg-green-500",
+      this.operation_alert_msg= "Upadting your blog..."
+
+      axiosAPI.put(`articles/${slug}`, data).then((response)=>{
+        setTimeout(() => {
+          this.operation_in_submission = false ;
+          this.operation_show_alert = false ; 
+          this.getCurrentUser();
+        }, 1000);
+      })
+      .catch((error) => {
+      console.log(error)
+      this.operation_in_submission = false ;
+      this.operation_show_alert = false ; 
+      })
+    }
   }
 })
