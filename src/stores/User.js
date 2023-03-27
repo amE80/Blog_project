@@ -4,7 +4,7 @@ import { axiosAPI } from '../plugin/axios';
 export const useUserStore = defineStore('userStore', {
     state: () => ({
         prof: false,
-        user: null,
+        user: {},
         operation_in_submission : false , 
         operation_show_alert : false , 
         operation_alert_variant : "",
