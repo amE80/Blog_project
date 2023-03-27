@@ -1,22 +1,25 @@
 <template>
     <top-nav />
 
-    <div class="space-y-10 mb-5" v-if="articleStore.articles.author">
+    <div class="space-y-10 mb-5" v-if="articleStore.articles && articleStore.user">
       <header class="bg-gray-700 my-5 shadow-4xl py-6">
-        <p class="text-white lg:text-3xl mx-7 text-lg md:mx-20 sm:text-2xl"> {{ articleStore.articles.title }} </p>
+        <p class="text-white lg:text-3xl mx-7 text-2xl md:mx-20 sm:text-2xl"> {{ articleStore.articles.title }} </p>
         <div class="mt-4 mx-7 md:mx-20 flex items-center">
-          <img class="w-11 h-11 rounded-full " :src="articleStore.articles.author.image" alt="user image">
+          <img class="w-11 h-11 rounded-full cursor-pointer" @click="goToUser(articleStore.articles.author.username)" :src="articleStore.articles.author.image" alt="user image">
           <div class="ml-2 ">
-            <p class="text-white text-xs sm:text-sm " >{{ articleStore.articles.author.username }}</p>
+            <p class="text-white text-xs sm:text-sm cursor-pointer" @click="goToUser(articleStore.articles.author.username)" >{{ articleStore.articles.author.username }}</p>
             <p class="text-gray-500 text-xs hidden sm:block">{{ articleStore.articles.createdAt }}</p>
           </div>
-          <div>
-            <button v-if="articleStore.articles.author.username !== articleStore.user.username" :disabled="articleStore.operation_in_submission" :class="{'white' : articleStore.articles.author.following}" class="bg-gray-500 ml-4 mr-2 rounded px-1 text-xs transition disabled:cursor-not-allowed" @click="followingReq(articleStore.articles.author.username )"> <plus-icon class="inline w-4" /><span> Follow {{ articleStore.articles.author.username }}</span></button>
-            <button v-if="articleStore.articles.author.username == articleStore.user.username"  :disabled="articleStore.operation_in_submission" class="bg-gray-500 ml-4 mr-2 rounded px-1 text-xs transition disabled:cursor-not-allowed hover:bg-gray-200" @click="deleteBlog"><span><trash-icon class="inline w-4" /> Delete blog</span></button>
-            <button v-if="articleStore.articles.author.username == articleStore.user.username"   class="bg-gray-500 mx-2 rounded px-1 text-xs transition  hover:bg-gray-200" @click="editBlog"><span><PencilSquareIcon class="inline w-4" /> Edit blog</span></button>
+          <div class="flex">
+            <button v-if="articleStore.articles.author.username !== articleStore.user.username && !articleStore.articles.author.following" :disabled="articleStore.operation_in_submission"  class="bg-gray-500 ml-4 mr-2 rounded px-1 text-xs disabled:cursor-not-allowed" @click="followingReq(articleStore.articles.author.username )"> <plus-icon class="hidden sm:inline w-4" /><span> Follow {{ articleStore.articles.author.username }}</span></button>
+            <button v-if="articleStore.articles.author.username !== articleStore.user.username && articleStore.articles.author.following" :disabled="articleStore.operation_in_submission"  class="bg-gray-200 ml-4 mr-2 rounded px-1 text-xs disabled:cursor-not-allowed" @click="followingReq(articleStore.articles.author.username )"> <plus-icon class="hidden sm:inline w-4" /><span> Unfollow {{ articleStore.articles.author.username }}</span></button>
+
+
+            <button v-if="articleStore.articles.author.username == articleStore.user.username"  :disabled="articleStore.operation_in_submission" class="bg-gray-500 ml-4 mr-2 rounded px-1 text-xs transition disabled:cursor-not-allowed hover:bg-gray-200" @click="deleteBlog"><span><trash-icon class="hidden sm:inline w-4" /> Delete blog</span></button>
+            <button v-if="articleStore.articles.author.username == articleStore.user.username"   class="bg-gray-500 mx-2 rounded px-1 text-xs transition  hover:bg-gray-200" @click="editBlog"><span><PencilSquareIcon class="hidden sm:inline w-4" /> Edit blog</span></button>
 
             <button @click="favoriteArt(articleStore.articles.slug , articleStore.articles.favorited )" :disabled="articleStore.operation_in_submission" :class="{ 'white' : this.articleStore.articles.favorited }"
-             class="bg-gray-500 rounded mx-2 px-1 text-xs transition disabled:cursor-not-allowed"> <heart-icon class="inline w-4" /><span> Favorited blog ({{ articleStore.articles.favoritesCount }}) </span></button>
+             class="bg-gray-500 rounded mx-2 px-1 text-xs transition disabled:cursor-not-allowed"> <heart-icon class="hidden sm:inline w-4" /><span> Favorited blog ({{ articleStore.articles.favoritesCount }}) </span></button>
           </div>
         </div>
       </header>
@@ -60,7 +63,7 @@
                   <p class="text-xs text-gray-500">{{ artcomment.createdAt }}</p>
                 </div>
 
-              <trash-icon :class="{ 'dis-icon' : articleStore.operation_in_submission}"
+              <trash-icon v-if="artcomment.author.username == articleStore.user.username" :class="{ 'dis-icon' : articleStore.operation_in_submission}"
               class=" m-1.5 text-gray-700 cursor-pointer  " 
               @click="deleteComment(artcomment.id)" />  
           </div>
@@ -71,9 +74,8 @@
 </template>
 
 
-<script>
+<script >
 import { useArticlesStore } from "../stores/Articles";
-import { useUserStore } from "../stores/User";
 import TopNav from "../components/Navigation/TopNav.vue";
 import TrashIcon from "../components/Icon/trashIcon.vue"
 import HeartIcon from "../components/Icon/heartIcon.vue";
@@ -85,12 +87,11 @@ export default{
     name:"SingleArticle",
     setup() {
     const articleStore = useArticlesStore();  
-    const userStore = useUserStore();
     articleStore.getCurrentUser();
 
     return {
       articleStore,
-      userStore
+      
     }
   },
   data(){
@@ -128,7 +129,11 @@ export default{
     },
     editBlog(){
       this.$router.push(`/edit-article/${this.$route.params.slug}`)
+    },
+    goToUser(username) {
+      this.$router.push(`/user-profile/${username}`)
     }
+
   },
 
   created(){

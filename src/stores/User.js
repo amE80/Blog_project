@@ -4,7 +4,7 @@ import { axiosAPI } from '../plugin/axios';
 export const useUserStore = defineStore('userStore', {
     state: () => ({
         prof: false,
-        user: null,
+        user: {},
         operation_in_submission : false , 
         operation_show_alert : false , 
         operation_alert_variant : "",
@@ -101,6 +101,9 @@ export const useUserStore = defineStore('userStore', {
               this.operation_show_alert = false ; 
               this.getCurrentUser();
             }, 1000);
+            setTimeout(() => {
+              this.$router.push(`/user-profile/${this.user.username}`)
+            }, 1500);
           })
           .catch((error) => {
           console.log(error)

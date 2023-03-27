@@ -1,7 +1,7 @@
 <template>
     <ul class="border-b border-b-gray-400 flex">
       <li @click="sendAllBlog" :class="{'colorize' : !activedBlogs}" class="cursor-pointer font-medium  mr-3 text-gray-400 px-1"> All shared blogs</li>
-      <li @click="sendUserBlog" :class="{'colorize' : activedBlogs}" v-if="token" class="cursor-pointer font-medium ml-3 text-gray-400 px-1 ">Your blogs</li>
+      <li @click="sendUserBlog" :class="{'colorize' : activedBlogs}" v-if="token" class="cursor-pointer font-medium ml-3 text-gray-400 px-1 ">Your feed</li>
     </ul>
 </template>
 <script>

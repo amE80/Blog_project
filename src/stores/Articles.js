@@ -19,7 +19,27 @@ export const useArticlesStore = defineStore('articleStore', {
     isFavorited: false,
   }),
   actions: {
-    
+    async getUserFeed(a) {
+      this.fetching_in_progress = true;
+      axiosAPI.get('articles/feed'
+      // axiosAPI.get('articles/feed', { params: { author: a } }
+
+    ).then((response) => {
+        //changing date format
+        const articles = response.data.articles.map((artTime) => {
+          artTime.createdAt = DateTime.fromISO(artTime.createdAt).toFormat("yyyy/MM/dd hh:mm")
+          return artTime
+        });
+        console.log('users art feed')
+        this.articles = articles;
+        this.fetching_in_progress = false;
+
+      })
+        .catch((error) => {
+          console.log(error);
+          this.fetching_in_progress = false;
+        })
+    },
     async getFavPosts(a){
       this.fetching_in_progress = true;
       axiosAPI.get('articles', { params: { favorited: a } }
@@ -116,7 +136,7 @@ export const useArticlesStore = defineStore('articleStore', {
     async getUserPosts(a) {
       this.fetching_in_progress = true;
       axiosAPI.get('articles', { params: { author: a } }
-      ).then((response) => {
+    ).then((response) => {
         //changing date format
         const articles = response.data.articles.map((artTime) => {
           artTime.createdAt = DateTime.fromISO(artTime.createdAt).toFormat("yyyy/MM/dd hh:mm")
@@ -134,7 +154,7 @@ export const useArticlesStore = defineStore('articleStore', {
     },
     async getPosts() {
       this.fetching_in_progress = true;
-      axiosAPI.get('articles').then((response) => {
+      axiosAPI.get('articles',{ params: { limit: 9999 }}).then((response) => {
         //changing date format
         const articles = response.data.articles.map((artTime) => {
           artTime.createdAt = DateTime.fromISO(artTime.createdAt).toFormat("yyyy/MM/dd hh:mm")
@@ -186,8 +206,8 @@ export const useArticlesStore = defineStore('articleStore', {
           })).catch(err => {
             console.log('main error', err)
             this.operation_show_alert= true;
-            this.operation_alert_variant= "bg-purple-600";
-            this.operation_alert_msg= err.response.data.message;
+            this.operation_alert_variant= "bg-red-600";
+            this.operation_alert_msg= "Authentication is required";
             setTimeout(() => {
               this.operation_show_alert = false;
               this.operation_alert_variant= "";
@@ -207,8 +227,8 @@ export const useArticlesStore = defineStore('articleStore', {
           }).catch(err => {
             console.log('main error', err)
             this.operation_show_alert= true;
-            this.operation_alert_variant= "bg-purple-600";
-            this.operation_alert_msg= err.response.data.message;
+            this.operation_alert_variant= "bg-red-600";
+            this.operation_alert_msg= "Authentication is required";
             setTimeout(() => {
               this.operation_show_alert = false;
               this.operation_alert_variant= "";
@@ -293,7 +313,7 @@ export const useArticlesStore = defineStore('articleStore', {
         setTimeout(() => {
           this.operation_in_submission = false ;
           this.operation_show_alert = false ; 
-          this.getCurrentUser();
+          this.$router.push(`/single-article/${slug}`)
         }, 1000);
       })
       .catch((error) => {

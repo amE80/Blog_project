@@ -11,15 +11,18 @@
             </div>
           </div>
           <div class="flex justify-end">
-          <button v-if="userStore.user.username !== this.$route.params.username" :disabled="userStore.operation_in_submission" :class="{'white' : userStore.aProfile.following}" class="bg-gray-500 mx-2 rounded px-1 text-xs transition disabled:cursor-wait" @click="followingReq(userStore.aProfile.username )"> <plus-icon class="inline w-4" /><span> Follow {{ userStore.aProfile.username }}</span></button>
-          <button v-if="userStore.user.username == this.$route.params.username"  class="bg-gray-500 mx-8 rounded p-2 text-xs transition hover:bg-gray-200"><router-link :to="{name: 'edit'}"> Edit profile </router-link></button>
+          <button v-if="userStore.user.username !== this.$route.params.username && !userStore.aProfile.following" :disabled="userStore.operation_in_submission"  class="bg-gray-500 mx-2 rounded px-1 text-xs transition disabled:cursor-wait" @click="followingReq(userStore.aProfile.username )"> <plus-icon class="inline w-4" /><span> Follow {{ userStore.aProfile.username }}</span></button>
+          <button v-if="userStore.user.username !== this.$route.params.username && userStore.aProfile.following" :disabled="userStore.operation_in_submission" class="bg-gray-200 mx-2 rounded px-1 text-xs transition disabled:cursor-wait" @click="followingReq(userStore.aProfile.username )"> <plus-icon class="inline w-4" /><span> Unfollow {{ userStore.aProfile.username }}</span></button>
+
+
+          <router-link v-if="userStore.user.username == this.$route.params.username"  class="bg-gray-500 mx-8 rounded p-2 text-xs transition hover:bg-gray-200" :to="{name: 'edit'}"> Edit profile </router-link>
 
         </div>
         </header>
 
         <main class="mx-7 md:mx-20">
             <ul class="border-b border-b-gray-400  flex">
-              <li @click="sendUserBlog" :class="{'colorize' : !activedBlogs}"  class="cursor-pointer font-medium mr-3 text-gray-400 px-1 ">Your blogs</li>
+              <li @click="sendUserBlog" :class="{'colorize' : !activedBlogs}"  class="cursor-pointer font-medium mr-3 text-gray-400 px-1 ">User blogs</li>
               <li @click="sendFavoritedBlog" :class="{'colorize' : activedBlogs}" class="cursor-pointer font-medium  ml-3 text-gray-400 px-1"> Favorited blogs </li>
             </ul>
 
