@@ -5,7 +5,7 @@
     <div v-if="articleStore.articles.length == 0 && !articleStore.fetching_in_progress " class="text-xl ml-10 mt-10"> There is no blog </div>
 
     
-    <div class="text-white text-center font-semibold p-1 mb-1 mx-auto rounded w-2/6"
+    <div class="text-white text-center p-1 mb-1 mx-auto rounded w-2/6"
         v-if="articleStore.operation_show_alert"
         :class="articleStore.operation_alert_variant">
         {{ articleStore.operation_alert_msg }}
@@ -75,7 +75,9 @@ export default {
       if (this.path === 'home') {
         this.articleStore.getPosts();
       } else {
-        this.articleStore.getUserPosts(this.$route.query.author);
+        // this.articleStore.getUserPosts(this.$route.query.author);
+        this.articleStore.getUserFeed();
+
       }
     }
   },
