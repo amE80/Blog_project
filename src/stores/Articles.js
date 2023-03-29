@@ -21,10 +21,7 @@ export const useArticlesStore = defineStore('articleStore', {
   actions: {
     async getUserFeed(a) {
       this.fetching_in_progress = true;
-      axiosAPI.get('articles/feed'
-      // axiosAPI.get('articles/feed', { params: { author: a } }
-
-    ).then((response) => {
+      axiosAPI.get('articles/feed',{ params: { limit: 200 }}).then((response) => {
         //changing date format
         const articles = response.data.articles.map((artTime) => {
           artTime.createdAt = DateTime.fromISO(artTime.createdAt).toFormat("yyyy/MM/dd hh:mm")
@@ -154,7 +151,7 @@ export const useArticlesStore = defineStore('articleStore', {
     },
     async getPosts() {
       this.fetching_in_progress = true;
-      axiosAPI.get('articles',{ params: { limit: 9999 }}).then((response) => {
+      axiosAPI.get('articles',{ params: { limit: 2000 }}).then((response) => {
         //changing date format
         const articles = response.data.articles.map((artTime) => {
           artTime.createdAt = DateTime.fromISO(artTime.createdAt).toFormat("yyyy/MM/dd hh:mm")
@@ -207,7 +204,7 @@ export const useArticlesStore = defineStore('articleStore', {
             console.log('main error', err)
             this.operation_show_alert= true;
             this.operation_alert_variant= "bg-red-600";
-            this.operation_alert_msg= "Authentication is required";
+            this.operation_alert_msg= "you should be sign in first!";
             setTimeout(() => {
               this.operation_show_alert = false;
               this.operation_alert_variant= "";
@@ -228,7 +225,7 @@ export const useArticlesStore = defineStore('articleStore', {
             console.log('main error', err)
             this.operation_show_alert= true;
             this.operation_alert_variant= "bg-red-600";
-            this.operation_alert_msg= "Authentication is required";
+            this.operation_alert_msg= "you should be sign in first!";
             setTimeout(() => {
               this.operation_show_alert = false;
               this.operation_alert_variant= "";

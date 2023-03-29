@@ -75,7 +75,6 @@ export default {
       if (this.path === 'home') {
         this.articleStore.getPosts();
       } else {
-        // this.articleStore.getUserPosts(this.$route.query.author);
         this.articleStore.getUserFeed();
 
       }

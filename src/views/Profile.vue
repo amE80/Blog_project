@@ -80,6 +80,7 @@ export default{
   data(){
     return{
       activedBlogs : false,
+      path :this.$route.name
     }
   },
 
@@ -90,11 +91,11 @@ export default{
   methods:{
     sendUserBlog(){
       this.activedBlogs = false
-      this.articleStore.getUserPosts(this.userStore.aProfile.username);
+      this.$router.push(`/user-profile/${this.$route.params.username}`)
     },
     sendFavoritedBlog(){
-      this.activedBlogs = true
-      this.articleStore.getFavPosts(this.userStore.aProfile.username);
+      this.activedBlogs = true;
+      this.$router.push(`/user-profile/fav/${this.$route.params.username}`)
     },
     followingReq(username){
       this.userStore.followUser(username)
@@ -108,6 +109,8 @@ export default{
       this.$router.push(`/single-article/${slug}`)
     },
     goToUser(username) {
+      this.articleStore.getUserPosts(username);
+      this.activedBlogs = false
       console.log(username)
       this.$router.push(`/user-profile/${username}`)
     }
@@ -117,6 +120,19 @@ export default{
     this.articleStore.getUserPosts(this.$route.params.username);
     this.userStore.getProfile(this.$route.params.username);
     this.userStore.getCurrentUser()
+  },
+  watch: {
+   $route(to , from){
+    this.path = this.$route.name;
+    if (this.path === 'userProfile') {
+      this.articleStore.getUserPosts(this.userStore.aProfile.username);
+    } 
+    else {
+      this.articleStore.getFavPosts(this.userStore.aProfile.username);
+    }
+
+   this.userStore.getProfile(this.$route.params.username);
+    }
   },
 }
 </script>

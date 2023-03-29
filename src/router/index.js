@@ -74,6 +74,14 @@ const router = createRouter({
       }
     },
     {
+      path: '/user-profile/fav/:username',
+      name: 'userProfileFav',
+      component:UserProfile,
+      meta:{
+        accsess:true
+      }
+    },
+    {
       path: '/edit-article/:slug',
       name: 'editArticle',
       component:EditArticle,
