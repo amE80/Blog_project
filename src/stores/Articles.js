@@ -102,6 +102,10 @@ export const useArticlesStore = defineStore('articleStore', {
 
         axiosAPI.post(`articles/${slug}/comments`, data)
           .then(response => {
+            toast.success("Comment made successfully", {
+              autoClose: 1000,
+              position: toast.POSITION.BOTTOM_RIGHT,
+            });
             console.log('post comment response', response);
             this.getComments(slug);
           }).catch(error => {
@@ -115,6 +119,10 @@ export const useArticlesStore = defineStore('articleStore', {
 
         axiosAPI.delete(`articles/${slug}/comments/${id}`)
           .then(response => {
+            toast.success("The comment deleted!", {
+              autoClose: 1000,
+              position: toast.POSITION.BOTTOM_RIGHT,
+            });
             console.log('delete comment response', response);
             this.getComments(slug);
             this.wantDeleteComment = false
@@ -287,6 +295,10 @@ export const useArticlesStore = defineStore('articleStore', {
         console.log(response)
         this.operation_in_submission = false ;
         this.wantDelete=false;
+        toast.success("The blog deleted!", {
+          autoClose: 2000,
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
         this.$router.push({ name: 'user_article', query: {author:this.username}})
        }).catch(error=>{
         console.log(error)

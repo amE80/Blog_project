@@ -2,7 +2,7 @@
     <top-nav />
 
     <div v-if="articleStore.wantDelete" class=" w-full bg-backcolor h-screen fixed top-0 left-0 !z-50 flex justify-center">
-      <div class="border w-1/3 top-1/2 bg-white rounded-lg absolute opacity-100 !z-40">
+      <div class="border w-1/3 top-1/3 bg-white rounded-lg absolute opacity-100 !z-40">
        <p class="m-4">Are you sure to delete this blog?</p>
        <div class="text-right">
           <button @click="closeDiv" class="font-semibold p-1 mx-2 text-base transition text-gray-700 rounded-lg border hover:bg-gray-300 disabled:bg-gray-400 disabled:cursor-wait">No</button>
