@@ -8,7 +8,7 @@
             <li v-if="!user" class="text-xs sm:text-sm cursor-pointer md:text-base hover:text-mainRed font-main text-gray-400" ><router-link :to="{name: 'signIn'}" active-class="text-mainRed"> Sign in </router-link> </li>
             <li v-if="user"   class="text-xs sm:text-sm cursor-pointer md:text-base hover:text-mainRed font-main text-gray-400"><router-link class="flex item-center" :to="{name: 'edit'}" active-class="text-mainRed"><settings-icon class="w-4 h-4 md:w-6 md:h-6" /> Settings </router-link></li>
             <li v-if="!user" class="text-xs sm:text-sm cursor-pointer md:text-base hover:text-mainRed font-main text-gray-400"><router-link :to="{name: 'signUp'}" active-class="text-mainRed"> Sign up </router-link></li>
-            <li v-if="user"  class="text-xs sm:text-sm cursor-pointer md:text-base hover:text-mainRed font-main text-gray-400" ><router-link :to="{path : `/user-profile/${this.user.username}` }" active-class="text-mainRed"> {{ userStore.user.username }} </router-link></li>
+            <li v-if="user"  class="text-xs sm:text-sm cursor-pointer md:text-base hover:text-mainRed font-main text-gray-400 truncate w-36 " ><router-link class="" :to="{path : `/user-profile/${this.user.username}` }" active-class="text-mainRed"> {{ userStore.user.username }} </router-link></li>
         </ul>
           
         </ul>

@@ -1,7 +1,26 @@
 <template>
     <top-nav />
 
-    <div class="space-y-10 mb-5" v-if="articleStore.articles && articleStore.user">
+    <div v-if="articleStore.wantDelete" class=" w-full bg-backcolor h-screen fixed top-0 left-0 !z-50 flex justify-center">
+      <div class="border w-1/3 top-1/2 bg-white rounded-lg absolute opacity-100 !z-40">
+       <p class="m-4">Are you sure to delete this blog?</p>
+       <div class="text-right">
+          <button @click="closeDiv" class="font-semibold p-1 mx-2 text-base transition text-gray-700 rounded-lg border hover:bg-gray-300 disabled:bg-gray-400 disabled:cursor-wait">No</button>
+          <button @click="deleteBlog" :disabled="articleStore.operation_in_submission" class="disabled:cursor-not-allowed font-semibold p-1 mx-2 mt-8 mb-2 text-base transition text-gray-700 rounded-lg border hover:bg-gray-300  disabled:bg-gray-400 ">Yes</button>
+       </div>
+      </div>
+    </div>
+    <div v-if="articleStore.wantDeleteComment" class=" w-full bg-backcolor h-screen fixed top-0 left-0 !z-50 flex justify-center">
+      <div class="border w-1/3 top-1/2 bg-white rounded-lg absolute opacity-100 !z-40">
+       <p class="m-4">Are you sure to delete this comment?</p>
+       <div class="text-right">
+          <button @click="closeDivComment" class="font-semibold p-1 mx-2 text-base transition text-gray-700 rounded-lg border hover:bg-gray-300 disabled:bg-gray-400 disabled:cursor-wait">No</button>
+          <button @click="deleteComment" :disabled="articleStore.operation_in_submission" class="disabled:cursor-not-allowed font-semibold p-1 mx-2 mt-8 mb-2 text-base transition text-gray-700 rounded-lg border hover:bg-gray-300  disabled:bg-gray-400 ">Yes</button>
+       </div>
+      </div>
+    </div>
+
+    <div class="space-y-10 mb-5 h-screen !z-10" :class="{'bg-gray-600' : articleStore.wantDelete}" v-if="articleStore.articles.author.image && articleStore.user">
       <header class="bg-gray-700 my-5 shadow-4xl py-6">
         <p class="text-white lg:text-3xl mx-7 text-2xl md:mx-20 sm:text-2xl"> {{ articleStore.articles.title }} </p>
         <div class="mt-4 mx-7 md:mx-20 flex items-center">
@@ -15,7 +34,7 @@
             <button v-if="articleStore.articles.author.username !== articleStore.user.username && articleStore.articles.author.following" :disabled="articleStore.operation_in_submission"  class="bg-gray-200 ml-4 mr-2 rounded px-1 text-xs disabled:cursor-not-allowed" @click="followingReq(articleStore.articles.author.username )"> <plus-icon class="hidden sm:inline w-4" /><span> Unfollow {{ articleStore.articles.author.username }}</span></button>
 
 
-            <button v-if="articleStore.articles.author.username == articleStore.user.username"  :disabled="articleStore.operation_in_submission" class="bg-gray-500 ml-4 mr-2 rounded px-1 text-xs transition disabled:cursor-not-allowed hover:bg-gray-200" @click="deleteBlog"><span><trash-icon class="hidden sm:inline w-4" /> Delete blog</span></button>
+            <button v-if="articleStore.articles.author.username == articleStore.user.username"  :disabled="articleStore.operation_in_submission" class="bg-gray-500 ml-4 mr-2 rounded px-1 text-xs transition disabled:cursor-not-allowed hover:bg-gray-200" @click="openDiv"><span><trash-icon class="hidden sm:inline w-4" /> Delete blog</span></button>
             <button v-if="articleStore.articles.author.username == articleStore.user.username"   class="bg-gray-500 mx-2 rounded px-1 text-xs transition  hover:bg-gray-200" @click="editBlog"><span><PencilSquareIcon class="hidden sm:inline w-4" /> Edit blog</span></button>
 
             <button @click="favoriteArt(articleStore.articles.slug , articleStore.articles.favorited )" :disabled="articleStore.operation_in_submission" :class="{ 'white' : this.articleStore.articles.favorited }"
@@ -63,9 +82,10 @@
                   <p class="text-xs text-gray-500">{{ artcomment.createdAt }}</p>
                 </div>
 
-              <trash-icon v-if="artcomment.author.username == articleStore.user.username" :class="{ 'dis-icon' : articleStore.operation_in_submission}"
-              class=" m-1.5 text-gray-700 cursor-pointer  " 
-              @click="deleteComment(artcomment.id)" />  
+              <trash-icon v-if="artcomment.author.username == articleStore.user.username" 
+                class=" m-1.5 text-gray-700 cursor-pointer  " 
+              @click="openDivComment(artcomment.id)
+              " />  
           </div>
         </div>
       </Form>
@@ -101,7 +121,8 @@ export default{
       },
       comment:{
         body:"",
-      }
+      },
+      artId :null
     }
   },
   components:{
@@ -114,8 +135,15 @@ export default{
       this.articleStore.postComments( this.$route.params.slug ,comment = {comment});
       this.comment.body = ''
     },
-    deleteComment(id){
-      this.articleStore.deleteComments(this.$route.params.slug,id)
+    openDivComment(id){
+      this.articleStore.wantDeleteComment = true
+      this.artId = id
+    },
+    closeDivComment(){
+      this.articleStore.wantDeleteComment = false
+    },
+    deleteComment(){
+      this.articleStore.deleteComments(this.$route.params.slug,this.artId)
     },
     followingReq(username){
       this.articleStore.followUser(username)
@@ -123,6 +151,12 @@ export default{
     favoriteArt(slug , IsFavorite) {
       this.articleStore.toggleArt(slug , IsFavorite)
       console.log(this.articleStore.articles.favorited)
+    },
+    openDiv(){
+      this.articleStore.wantDelete = true
+    },
+    closeDiv(){
+      this.articleStore.wantDelete = false
     },
     deleteBlog(){
       this.articleStore.deleteBlog(this.$route.params.slug)

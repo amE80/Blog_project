@@ -17,6 +17,8 @@ export const useArticlesStore = defineStore('articleStore', {
     operation_alert_variant: "",
     operation_alert_msg: "",
     isFavorited: false,
+    wantDelete: false,
+    wantDeleteComment:false
   }),
   actions: {
     async getUserFeed(a) {
@@ -115,6 +117,7 @@ export const useArticlesStore = defineStore('articleStore', {
           .then(response => {
             console.log('delete comment response', response);
             this.getComments(slug);
+            this.wantDeleteComment = false
           }).catch(error => {
             console.log(error)
           })
@@ -283,6 +286,7 @@ export const useArticlesStore = defineStore('articleStore', {
       await axiosAPI.delete(`articles/${slug}`).then(response=>{
         console.log(response)
         this.operation_in_submission = false ;
+        this.wantDelete=false;
         this.$router.push({ name: 'user_article', query: {author:this.username}})
        }).catch(error=>{
         console.log(error)

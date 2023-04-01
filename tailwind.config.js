@@ -14,6 +14,7 @@ module.exports = {
         'mainRed': "#9333ea",
         'cream': "#fff",
         'bloodRed' : "#6b21a8",
+        'backcolor':'rgba(0,0,0,0.5)'
         },
     },
     debugScreens: {
