@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { DateTime } from "luxon"
 import { axiosAPI } from '../plugin/axios';
-
+import { toast } from 'vue3-toastify';
 
 // Pay attention to names which I wrote here , names are important for pinia to work
 export const useArticlesStore = defineStore('articleStore', {
@@ -170,22 +170,21 @@ export const useArticlesStore = defineStore('articleStore', {
 
     async shareBlog(a) {
       a.article.tagList = a.article.tagList.split(" ");
-      this.operation_show_alert = true;
       this.operation_in_submission = true;
-      this.operation_alert_variant = "bg-green-500";
-      this.operation_alert_msg = "successfull move to home page...";
 
       axiosAPI.post('articles', a).then((response) => {
+        toast.success("successfull move to home page...", {
+          autoClose: 2000,
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+        this.operation_in_submission = false;
         setTimeout(() => {
-          this.operation_in_submission = false;
-          this.operation_show_alert = false;
           this.$router.push({ name: 'home' })
-        }, 1000);
+        }, 2000);
       })
         .catch((error) => {
           console.log(error)
           this.operation_in_submission = false;
-          this.operation_show_alert = false;
         })
     },
 
@@ -201,15 +200,10 @@ export const useArticlesStore = defineStore('articleStore', {
             console.log(response)
             this.operation_in_submission = false;
           })).catch(err => {
-            console.log('main error', err)
-            this.operation_show_alert= true;
-            this.operation_alert_variant= "bg-red-600";
-            this.operation_alert_msg= "you should be sign in first!";
-            setTimeout(() => {
-              this.operation_show_alert = false;
-              this.operation_alert_variant= "";
-              this.operation_alert_msg= "";
-            }, 2000);
+            toast.warning("you should be sign in first!", {
+              autoClose: 2000,
+              position: toast.POSITION.BOTTOM_RIGHT,
+            });
             this.operation_in_submission = false;
           })
       }
@@ -222,15 +216,10 @@ export const useArticlesStore = defineStore('articleStore', {
             article.favorited = !article.favorited;
             this.operation_in_submission = false;
           }).catch(err => {
-            console.log('main error', err)
-            this.operation_show_alert= true;
-            this.operation_alert_variant= "bg-red-600";
-            this.operation_alert_msg= "you should be sign in first!";
-            setTimeout(() => {
-              this.operation_show_alert = false;
-              this.operation_alert_variant= "";
-              this.operation_alert_msg= "";
-            }, 2000);
+            toast.warning("you should be sign in first!", {
+              autoClose: 2000,
+              position: toast.POSITION.BOTTOM_RIGHT,
+            });
             this.operation_in_submission = false;
           })
 
@@ -302,16 +291,16 @@ export const useArticlesStore = defineStore('articleStore', {
     },
     async updateBlog(slug , data){
       this.operation_in_submission = true , 
-      this.operation_show_alert = true , 
-      this.operation_alert_variant = "bg-green-500",
-      this.operation_alert_msg= "Upadting your blog..."
 
       axiosAPI.put(`articles/${slug}`, data).then((response)=>{
+        toast.success("Upadting your blog...", {
+          autoClose: 2000,
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+        this.operation_in_submission = false ;
         setTimeout(() => {
-          this.operation_in_submission = false ;
-          this.operation_show_alert = false ; 
           this.$router.push(`/single-article/${slug}`)
-        }, 1000);
+        }, 2000);
       })
       .catch((error) => {
       console.log(error)

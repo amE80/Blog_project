@@ -2,12 +2,6 @@
   <div>
     <top-nav />
 
-    <div class="text-white text-center font-bold p-1 mb-1 mx-auto rounded w-4/5"
-          v-if="userStore.operation_show_alert"
-          :class="userStore.operation_alert_variant">
-          {{ userStore.operation_alert_msg }}
-        </div>
-
     <div v-if="!userStore.prof" class="text-center mt-20 text-2xl">Loading..</div>
     <Form v-if="userStore.prof" class="w-4/5 sm:w-3/5 lg:w-2/5 space-y-4 mx-auto mt-10 " :validation-schema="schema"
       @submit="submitUserInfo">

@@ -1,5 +1,7 @@
 import { defineStore } from "pinia";
 import { axiosAPI } from '../plugin/axios';
+import { toast } from 'vue3-toastify';
+
 
 export const useAuthStore = defineStore('authStore', {
     state: () => ({
@@ -19,22 +21,28 @@ export const useAuthStore = defineStore('authStore', {
 
         axiosAPI.post('users/login',u).then((response)=>
         {
-            this.operation_alert_variant = "bg-green-500";
-            this.operation_alert_msg= "Success! meow :) moving in home page..";
+            this.operation_show_alert = false ; 
+            this.operation_in_submission = false ;
+            toast.success("Success! meow :) moving in home page..", {
+                autoClose: 2000,
+                position: toast.POSITION.BOTTOM_RIGHT,
+              });
             setTimeout(() => {
              localStorage.setItem('token', response.data.user.token );
              localStorage.setItem('user',JSON.stringify(response.data.user) );
             this.$router.push({name:'home'})
-        }, 1000);
+        }, 2000);
             setTimeout(() => {
-                this.operation_in_submission = false ;
                 location.reload()
-                this.operation_show_alert = false ; 
-              }, 1000);
+              }, 2000);
         }
         )
         .catch((error) => {
             console.log(error)
+            toast.error( 'Sign in failed!' , {
+                autoClose: 2000,
+                position: toast.POSITION.BOTTOM_RIGHT,
+              });
             const values=error.response.data.errors
             this.errorMassage = Object.entries(values);
             this.operation_in_submission = false ;

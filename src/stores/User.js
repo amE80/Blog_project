@@ -1,5 +1,7 @@
 import { defineStore } from "pinia";
 import { axiosAPI } from '../plugin/axios';
+import { toast } from 'vue3-toastify';
+
 
 export const useUserStore = defineStore('userStore', {
     state: () => ({
@@ -70,15 +72,17 @@ export const useUserStore = defineStore('userStore', {
         this.operation_alert_msg= "Please wait! It's take a few time"
         axiosAPI.post('users',u).then((response)=>
         {
-            this.operation_alert_variant = "bg-green-500";
-            this.operation_alert_msg= "Success! meow :) moving in sign in page..";
+            toast.success("Success! meow :) moving in sign in page..", {
+              autoClose: 2000,
+              position: toast.POSITION.BOTTOM_RIGHT,
+            });
+            this.operation_in_submission = false ;
+            this.operation_show_alert = false ; 
+
             setTimeout(() => {
                 this.$router.push({name:'signIn'});
               }, 2000);
-            setTimeout(() => {
-                this.operation_in_submission = false ;
-                this.operation_show_alert = false ; 
-              }, 3000);
+        
           
         }
         )
@@ -87,23 +91,25 @@ export const useUserStore = defineStore('userStore', {
             this.errorMassage = Object.entries(values);
             this.operation_in_submission = false ;
             this.operation_show_alert = false ; 
+            toast.error( 'Register failed!' , {
+              autoClose: 2000,
+              position: toast.POSITION.BOTTOM_RIGHT,
+            });
           })
         },
         async updateUser(us){
           this.operation_in_submission = true , 
-          this.operation_show_alert = true , 
-          this.operation_alert_variant = "bg-green-500",
-          this.operation_alert_msg= "Upadting your information..."
 
           axiosAPI.put('user',us).then((response)=>{
-            setTimeout(() => {
-              this.operation_in_submission = false ;
-              this.operation_show_alert = false ; 
+            toast.success("Upadting your information...", {
+              autoClose: 2000,
+              position: toast.POSITION.BOTTOM_RIGHT,
+            });
+            this.operation_in_submission = false ;
               this.getCurrentUser();
-            }, 1000);
             setTimeout(() => {
               this.$router.push(`/user-profile/${this.user.username}`)
-            }, 1500);
+            }, 2000);
           })
           .catch((error) => {
           console.log(error)

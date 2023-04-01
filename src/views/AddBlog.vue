@@ -2,12 +2,6 @@
     <div>
         <top-nav />
 
-        <div class="text-white text-center font-bold p-1 mb-1 mx-auto rounded w-4/5"
-          v-if="articleStore.operation_show_alert"
-          :class="articleStore.operation_alert_variant">
-          {{ articleStore.operation_alert_msg }}
-       </div>
-
         <Form class="w-4/5 sm:w-3/5 lg:w-2/5 space-y-4 mx-auto mt-16 " :validation-schema="schema" @submit="submitBlog(article)">
             <Field type="text" v-model="article.title" name="title" class="block w-full px-2 py-2 text-xs md:text-sm font-semibold transition bg-white border border-solid rounded border-gray-400 focus:border-gray-700 focus:outline-none"
               placeholder="Type your title here" />

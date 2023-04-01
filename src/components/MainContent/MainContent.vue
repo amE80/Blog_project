@@ -4,13 +4,6 @@
     <div v-if="articleStore.fetching_in_progress" class="text-xl ml-10 mt-10">loading...</div>
     <div v-if="articleStore.articles.length == 0 && !articleStore.fetching_in_progress " class="text-xl ml-10 mt-10"> There is no blog </div>
 
-    
-    <div class="text-white text-center p-1 mb-1 mx-auto rounded w-2/6"
-        v-if="articleStore.operation_show_alert"
-        :class="articleStore.operation_alert_variant">
-        {{ articleStore.operation_alert_msg }}
-      </div>
-
     <div v-if="!articleStore.fetching_in_progress" class="pb-4 border-b a-blog border-b-gray-400"
       v-for="article in articleStore.articles" :key="article.id">
       <div class="flex justify-between">
