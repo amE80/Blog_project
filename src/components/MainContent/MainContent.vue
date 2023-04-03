@@ -1,9 +1,7 @@
 <template>
-  <main class="my-10 mx-7 md:mx-20 font-main">
-    <blog-lists />
-    <div v-if="articleStore.fetching_in_progress" class="text-xl ml-10 mt-10">loading...</div>
-    <div v-if="articleStore.articles.length == 0 && !articleStore.fetching_in_progress " class="text-xl ml-10 mt-10"> There is no blog </div>
-
+  <main class=" mx-7 md:mx-20 font-main">
+    <!-- <div v-if="articleStore.fetching_in_progress" class="text-xl ml-10 mt-10">loading...</div> -->
+    <!-- <div v-if="articleStore.articles.length == 0 && !articleStore.fetching_in_progress " class="text-xl ml-10 mt-10"> There is no blog </div> -->
     <div v-if="!articleStore.fetching_in_progress" class="pb-4 border-b a-blog border-b-gray-400"
       v-for="article in articleStore.articles" :key="article.id">
       <div class="flex justify-between">
@@ -35,13 +33,13 @@
 import UserIcon from '../Icon/userIcon.vue';
 import HeartIcon from '../Icon/heartIcon.vue';
 import { useArticlesStore } from "../../stores/Articles";
-import BlogLists from '../BlogLists/BlogLists.vue'
 
 export default {
   name: 'mainContent',
 
-  setup() {
-    const articleStore = useArticlesStore();
+  async setup() {
+    const articleStore = useArticlesStore()
+    await useArticlesStore().getPosts()
 
     return {
       articleStore
@@ -51,7 +49,7 @@ export default {
   components: {
     UserIcon,
     HeartIcon,
-    BlogLists
+  
   },
 
   data() {
@@ -74,10 +72,10 @@ export default {
     }
   },
 
-  created() {
-    this.articleStore.getPosts();
+  // created() {
+  //   this.articleStore.getPosts();
 
-  },
+  // },
 
 
   methods: {
@@ -92,7 +90,8 @@ export default {
     goToUser(username) {
       console.log(username)
       this.$router.push(`/user-profile/${username}`)
-    }
+    },
+  
 
   }
 

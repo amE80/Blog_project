@@ -28,16 +28,16 @@
         placeholder="profile image URL" />
 
       <div class="flex justify-between">
-        <button class="mt-5 w-24 font-semibold py-2 float-right text-base transition bg-red-500  text-cream rounded-lg"
-          @click="logOut">log out</button>
-
+        
         <button type="submit"
-          :disabled="userStore.operation_in_submission"
-          class="mt-5 w-24 font-semibold py-2 float-right text-base transition bg-mainRed text-cream rounded-lg disabled:bg-gray-400 disabled:cursor-wait">
-          Save it!
-        </button>
-      </div>
-    </Form>
+        :disabled="userStore.operation_in_submission"
+        class="mt-5 w-24 font-semibold py-2 float-right text-base transition bg-mainRed text-cream rounded-lg disabled:bg-gray-400 disabled:cursor-wait">
+        Save it!
+      </button>
+    </div>
+  </Form>
+  <button class="mt-5 w-24 font-semibold py-2 float-right text-base transition bg-red-500  text-cream rounded-lg"
+    @click="logOut">log out</button>
   </div>
 </template>
 <script>
