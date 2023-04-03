@@ -30,6 +30,7 @@
       <div class="flex justify-between">
         <button class="mt-5 w-24 font-semibold py-2 float-right text-base transition bg-red-500  text-cream rounded-lg"
           @click="logOut">log out</button>
+
         <button type="submit"
           :disabled="userStore.operation_in_submission"
           class="mt-5 w-24 font-semibold py-2 float-right text-base transition bg-mainRed text-cream rounded-lg disabled:bg-gray-400 disabled:cursor-wait">
@@ -68,11 +69,11 @@ export default {
 
   methods: {
     logOut() {
-      this.userStore.logOut()
+      this.userStore.logOut();
     },
     submitUserInfo(user) {
-      console.log("this is user information", user)
-      this.userStore.updateUser(user = { user })
+      console.log("this is user information", user);
+      this.userStore.updateUser(user = { user });
     }
   }
 }

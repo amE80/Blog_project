@@ -117,13 +117,16 @@ export const useUserStore = defineStore('userStore', {
           this.operation_show_alert = false ; 
           })
         },
+
         async logOut(){
           toast.success('you logged out!',{
             position: toast.POSITION.BOTTOM_RIGHT,
             autoClose: 2000,
           })
           localStorage.clear()
-          this.$router.push({ name: 'home' })
+          setTimeout(() => {
+            this.$router.go({ name: 'home' })
+          }, 2000);
         }
     }
 })
