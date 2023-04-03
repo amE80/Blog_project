@@ -72,7 +72,7 @@ export const useUserStore = defineStore('userStore', {
         this.operation_alert_msg= "Please wait! It's take a few time"
        await axiosAPI.post('users',u).then((response)=>
         {
-            toast.success("Success! meow :) moving in sign in page..", {
+            toast.success("you registered successfully!", {
               autoClose: 2000,
               position: toast.POSITION.BOTTOM_RIGHT,
             });
@@ -91,7 +91,7 @@ export const useUserStore = defineStore('userStore', {
             this.errorMassage = Object.entries(values);
             this.operation_in_submission = false ;
             this.operation_show_alert = false ; 
-            toast.error( 'Register failed!' , {
+            toast.error( 'Registeration failed!' , {
               autoClose: 2000,
               position: toast.POSITION.BOTTOM_RIGHT,
             });
@@ -101,7 +101,7 @@ export const useUserStore = defineStore('userStore', {
           this.operation_in_submission = true , 
 
          await axiosAPI.put('user',us).then((response)=>{
-            toast.success("Upadting your information...", {
+            toast.success("your information updated!", {
               autoClose: 2000,
               position: toast.POSITION.BOTTOM_RIGHT,
             });
@@ -116,6 +116,14 @@ export const useUserStore = defineStore('userStore', {
           this.operation_in_submission = false ;
           this.operation_show_alert = false ; 
           })
+        },
+        async logOut(){
+          toast.success('you logged out!',{
+            position: toast.POSITION.BOTTOM_RIGHT,
+            autoClose: 2000,
+          })
+          localStorage.clear()
+          this.$router.push({ name: 'home' })
         }
     }
 })

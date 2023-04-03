@@ -102,7 +102,7 @@ export const useArticlesStore = defineStore('articleStore', {
 
       await axiosAPI.post(`articles/${slug}/comments`, data)
           .then(response => {
-            toast.success("Comment made successfully", {
+            toast.success("Comment made successfully!", {
               autoClose: 1000,
               position: toast.POSITION.BOTTOM_RIGHT,
             });
@@ -184,7 +184,7 @@ export const useArticlesStore = defineStore('articleStore', {
       this.operation_in_submission = true;
 
       await axiosAPI.post('articles', a).then((response) => {
-        toast.success("successfull move to home page...", {
+        toast.success("the blog shared successfully!", {
           autoClose: 2000,
           position: toast.POSITION.BOTTOM_RIGHT,
         });
@@ -211,7 +211,7 @@ export const useArticlesStore = defineStore('articleStore', {
             console.log(response)
             this.operation_in_submission = false;
           })).catch(err => {
-            toast.warning("you should be sign in first!", {
+            toast.warning("you should sign in first!", {
               autoClose: 2000,
               position: toast.POSITION.BOTTOM_RIGHT,
             });
@@ -227,7 +227,7 @@ export const useArticlesStore = defineStore('articleStore', {
             article.favorited = !article.favorited;
             this.operation_in_submission = false;
           }).catch(err => {
-            toast.warning("you should be sign in first!", {
+            toast.warning("you should sign in first!", {
               autoClose: 2000,
               position: toast.POSITION.BOTTOM_RIGHT,
             });
@@ -309,7 +309,7 @@ export const useArticlesStore = defineStore('articleStore', {
       this.operation_in_submission = true , 
 
       await axiosAPI.put(`articles/${slug}`, data).then((response)=>{
-        toast.success("Upadting your blog...", {
+        toast.success("your blog is updated!", {
           autoClose: 2000,
           position: toast.POSITION.BOTTOM_RIGHT,
         });

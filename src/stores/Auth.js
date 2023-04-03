@@ -23,7 +23,7 @@ export const useAuthStore = defineStore('authStore', {
         {
             this.operation_show_alert = false ; 
             this.operation_in_submission = false ;
-            toast.success("Success! meow :) moving in home page..", {
+            toast.success("mewo:) you logged in successfully!", {
                 autoClose: 2000,
                 position: toast.POSITION.BOTTOM_RIGHT,
               });

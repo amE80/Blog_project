@@ -68,8 +68,7 @@ export default {
 
   methods: {
     logOut() {
-      localStorage.clear()
-      this.$router.go({ name: 'home' })
+      this.userStore.logOut()
     },
     submitUserInfo(user) {
       console.log("this is user information", user)
