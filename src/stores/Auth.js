@@ -19,7 +19,7 @@ export const useAuthStore = defineStore('authStore', {
             this.operation_alert_variant = "bg-blue-500",
             this.operation_alert_msg= "Please wait! It's take a few time"
 
-        axiosAPI.post('users/login',u).then((response)=>
+       await axiosAPI.post('users/login',u).then((response)=>
         {
             this.operation_show_alert = false ; 
             this.operation_in_submission = false ;

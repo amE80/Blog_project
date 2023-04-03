@@ -23,7 +23,7 @@ export const useArticlesStore = defineStore('articleStore', {
   actions: {
     async getUserFeed(a) {
       this.fetching_in_progress = true;
-      axiosAPI.get('articles/feed',{ params: { limit: 200 }}).then((response) => {
+     await axiosAPI.get('articles/feed',{ params: { limit: 200 }}).then((response) => {
         //changing date format
         const articles = response.data.articles.map((artTime) => {
           artTime.createdAt = DateTime.fromISO(artTime.createdAt).toFormat("yyyy/MM/dd hh:mm")
@@ -41,7 +41,7 @@ export const useArticlesStore = defineStore('articleStore', {
     },
     async getFavPosts(a){
       this.fetching_in_progress = true;
-      axiosAPI.get('articles', { params: { favorited: a } }
+     await axiosAPI.get('articles', { params: { favorited: a } }
       ).then((response) => {
         //changing date format
         const articles = response.data.articles.map((artTime) => {
@@ -61,7 +61,7 @@ export const useArticlesStore = defineStore('articleStore', {
 
     async getAnArticle(slug) {
       console.log("slug from pinia", slug);
-      axiosAPI.get(`articles/${slug}`)
+      await axiosAPI.get(`articles/${slug}`)
         .then(response => {
           response.data.article.createdAt = DateTime.fromISO(response.data.article.createdAt).toFormat("yyyy/MM/dd hh:mm")
           this.articles = response.data.article
@@ -75,7 +75,7 @@ export const useArticlesStore = defineStore('articleStore', {
         this.operation_alert_variant = "bg-blue-500",
         this.operation_alert_msg = "Loading comments...",
 
-        axiosAPI.get(`articles/${slug}/comments`)
+        await axiosAPI.get(`articles/${slug}/comments`)
           .then(response => {
 
             const comments = response.data.comments.map((comTime) => {
@@ -100,7 +100,7 @@ export const useArticlesStore = defineStore('articleStore', {
     async postComments(slug, data) {
       this.operation_in_submission = true,
 
-        axiosAPI.post(`articles/${slug}/comments`, data)
+      await axiosAPI.post(`articles/${slug}/comments`, data)
           .then(response => {
             toast.success("Comment made successfully", {
               autoClose: 1000,
@@ -117,7 +117,7 @@ export const useArticlesStore = defineStore('articleStore', {
     async deleteComments(slug, id) {
       this.operation_in_submission = true,
 
-        axiosAPI.delete(`articles/${slug}/comments/${id}`)
+      await axiosAPI.delete(`articles/${slug}/comments/${id}`)
           .then(response => {
             toast.success("The comment deleted!", {
               autoClose: 1000,
@@ -133,7 +133,7 @@ export const useArticlesStore = defineStore('articleStore', {
 
 
     async getCurrentUser() {
-      axiosAPI.get("user").then((response) => {
+      await axiosAPI.get("user").then((response) => {
         this.user = response.data.user
         console.log('user:', this.user)
       }).catch((error) => {
@@ -143,7 +143,7 @@ export const useArticlesStore = defineStore('articleStore', {
 
     async getUserPosts(a) {
       this.fetching_in_progress = true;
-      axiosAPI.get('articles', { params: { author: a } }
+      await axiosAPI.get('articles', { params: { author: a } }
     ).then((response) => {
         //changing date format
         const articles = response.data.articles.map((artTime) => {
@@ -162,7 +162,7 @@ export const useArticlesStore = defineStore('articleStore', {
     },
     async getPosts() {
       this.fetching_in_progress = true;
-      axiosAPI.get('articles',{ params: { limit: 2000 }}).then((response) => {
+      await axiosAPI.get('articles',{ params: { limit: 2000 }}).then((response) => {
         //changing date format
         const articles = response.data.articles.map((artTime) => {
           artTime.createdAt = DateTime.fromISO(artTime.createdAt).toFormat("yyyy/MM/dd hh:mm")
@@ -183,7 +183,7 @@ export const useArticlesStore = defineStore('articleStore', {
       a.article.tagList = a.article.tagList.split(" ");
       this.operation_in_submission = true;
 
-      axiosAPI.post('articles', a).then((response) => {
+      await axiosAPI.post('articles', a).then((response) => {
         toast.success("successfull move to home page...", {
           autoClose: 2000,
           position: toast.POSITION.BOTTOM_RIGHT,
@@ -308,7 +308,7 @@ export const useArticlesStore = defineStore('articleStore', {
     async updateBlog(slug , data){
       this.operation_in_submission = true , 
 
-      axiosAPI.put(`articles/${slug}`, data).then((response)=>{
+      await axiosAPI.put(`articles/${slug}`, data).then((response)=>{
         toast.success("Upadting your blog...", {
           autoClose: 2000,
           position: toast.POSITION.BOTTOM_RIGHT,

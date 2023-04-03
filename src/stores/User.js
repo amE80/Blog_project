@@ -46,7 +46,7 @@ export const useUserStore = defineStore('userStore', {
     
 
       async getCurrentUser(){
-        axiosAPI.get("user").then((response)=>{
+       await axiosAPI.get("user").then((response)=>{
           this.prof = true;
           this.user = response.data.user
 
@@ -57,7 +57,7 @@ export const useUserStore = defineStore('userStore', {
       },
       async getProfile(username){
         console.log("username from pinia" , username);
-        axiosAPI.get(`profiles/${username}`)
+       await axiosAPI.get(`profiles/${username}`)
         .then(response=>{
           console.log(" inforamtion :", response.data.profile.following)
           this.aProfile = response.data.profile
@@ -70,7 +70,7 @@ export const useUserStore = defineStore('userStore', {
         this.operation_show_alert = true , 
         this.operation_alert_variant = "bg-blue-500",
         this.operation_alert_msg= "Please wait! It's take a few time"
-        axiosAPI.post('users',u).then((response)=>
+       await axiosAPI.post('users',u).then((response)=>
         {
             toast.success("Success! meow :) moving in sign in page..", {
               autoClose: 2000,
@@ -100,7 +100,7 @@ export const useUserStore = defineStore('userStore', {
         async updateUser(us){
           this.operation_in_submission = true , 
 
-          axiosAPI.put('user',us).then((response)=>{
+         await axiosAPI.put('user',us).then((response)=>{
             toast.success("Upadting your information...", {
               autoClose: 2000,
               position: toast.POSITION.BOTTOM_RIGHT,
