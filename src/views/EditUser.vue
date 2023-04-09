@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div >
     <top-nav />
 
     <div v-if="!userStore.prof" class="text-center mt-20 text-2xl">Loading..</div>
-    <Form v-if="userStore.prof" class="w-4/5 sm:w-3/5 lg:w-2/5 space-y-4 mx-auto mt-10 " :validation-schema="schema"
+    <Form v-if="userStore.prof" class="w-4/5 sm:w-3/5 lg:w-2/5 space-y-4 mx-auto mt-10" :validation-schema="schema"
       @submit="submitUserInfo">
       <div class="flex justify-center">
         <img :src="userStore.user.image" class="rounded-full w-16 h-16" alt="user profile">
@@ -27,17 +27,19 @@
         class="block w-full px-2 py-2 text-xs md:text-sm font-normal transition bg-white border border-solid rounded border-gray-400 focus:border-gray-700 focus:outline-none"
         placeholder="profile image URL" />
 
-      <div class="flex justify-between">
+      <div class="flex justify-end">
         
         <button type="submit"
         :disabled="userStore.operation_in_submission"
-        class="mt-5 w-24 font-semibold py-2 float-right text-base transition bg-mainRed text-cream rounded-lg disabled:bg-gray-400 disabled:cursor-wait">
+        class="mt-5 w-24 font-semibold py-2 text-base transition bg-mainRed text-cream rounded-lg disabled:bg-gray-400 disabled:cursor-wait">
         Save it!
       </button>
     </div>
   </Form>
-  <button class="mt-5 w-24 font-semibold py-2 float-right text-base transition bg-red-500  text-cream rounded-lg"
+  <div class="w-4/5 sm:w-3/5 lg:w-2/5 mx-auto flex justify-start">
+    <button class="mt-5 w-24 font-semibold py-2 text-base transition bg-red-500  text-cream rounded-lg "
     @click="logOut">log out</button>
+  </div>
   </div>
 </template>
 <script>
