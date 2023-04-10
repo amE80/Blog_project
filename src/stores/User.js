@@ -8,6 +8,7 @@ export const useUserStore = defineStore('userStore', {
         prof: false,
         user: {},
         operation_in_submission : false , 
+        operation_in_submission_logOut : false , 
         operation_show_alert : false , 
         operation_alert_variant : "",
         operation_alert_msg: "",
@@ -18,8 +19,7 @@ export const useUserStore = defineStore('userStore', {
     actions: {
       
       async followUser(username){
-        this.operation_in_submission = true ;
-
+        this.operation_in_submission = true;
         if(!this.aProfile.following){
        await axiosAPI.post(`profiles/${username}/follow`).then(response=>{
         console.log(response)
@@ -42,9 +42,6 @@ export const useUserStore = defineStore('userStore', {
       }                        
       },
 
-      
-    
-
       async getCurrentUser(){
        await axiosAPI.get("user").then((response)=>{
           this.prof = true;
@@ -66,31 +63,23 @@ export const useUserStore = defineStore('userStore', {
       },
         async register(u) {
         this.errorMassage=null,
-        this.operation_in_submission = true , 
-        this.operation_show_alert = true , 
-        this.operation_alert_variant = "bg-blue-500",
-        this.operation_alert_msg= "Please wait! It's take a few time"
+        this.operation_in_submission = true,
        await axiosAPI.post('users',u).then((response)=>
         {
             toast.success("you registered successfully!", {
               autoClose: 2000,
               position: toast.POSITION.BOTTOM_RIGHT,
             });
-            this.operation_in_submission = false ;
-            this.operation_show_alert = false ; 
-
             setTimeout(() => {
+              this.operation_in_submission = false ;
                 this.$router.push({name:'signIn'});
               }, 2000);
-        
-          
         }
         )
         .catch((error) => {
             const values=error.response.data.errors
             this.errorMassage = Object.entries(values);
             this.operation_in_submission = false ;
-            this.operation_show_alert = false ; 
             toast.error( 'Registeration failed!' , {
               autoClose: 2000,
               position: toast.POSITION.BOTTOM_RIGHT,
@@ -119,6 +108,7 @@ export const useUserStore = defineStore('userStore', {
         },
 
         async logOut(){
+          this.operation_in_submission_logOut = true
           toast.success('you logged out!',{
             position: toast.POSITION.BOTTOM_RIGHT,
             autoClose: 2000,
@@ -126,6 +116,7 @@ export const useUserStore = defineStore('userStore', {
           localStorage.clear()
           setTimeout(() => {
             this.$router.go({ name: 'home' })
+            this.operation_in_submission_logOut = false
           }, 2000);
         }
     }

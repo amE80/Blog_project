@@ -15,22 +15,18 @@ export const useAuthStore = defineStore('authStore', {
         async login(u) {
             this.errorMassage=null,
             this.operation_in_submission = true , 
-            this.operation_show_alert = true , 
-            this.operation_alert_variant = "bg-blue-500",
-            this.operation_alert_msg= "Please wait! It's take a few time"
 
        await axiosAPI.post('users/login',u).then((response)=>
         {
-            this.operation_show_alert = false ; 
-            this.operation_in_submission = false ;
-            toast.success("mewo:) you logged in successfully!", {
-                autoClose: 2000,
-                position: toast.POSITION.BOTTOM_RIGHT,
-              });
-            setTimeout(() => {
-             localStorage.setItem('token', response.data.user.token );
-             localStorage.setItem('user',JSON.stringify(response.data.user) );
+          toast.success("mewo:) you logged in successfully!", {
+            autoClose: 2000,
+            position: toast.POSITION.BOTTOM_RIGHT,
+          });
+          setTimeout(() => {
+            localStorage.setItem('token', response.data.user.token );
+            localStorage.setItem('user',JSON.stringify(response.data.user) );
             this.$router.push({name:'home'})
+            this.operation_in_submission = false ;
         }, 2000);
             setTimeout(() => {
                 location.reload()

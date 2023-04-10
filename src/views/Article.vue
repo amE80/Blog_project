@@ -5,8 +5,8 @@
       <div class="border w-1/3 top-1/3 bg-white rounded-lg absolute opacity-100 !z-40">
        <p class="m-4">Are you sure to delete this blog?</p>
        <div class="text-right">
-          <button @click="closeDiv" class="font-semibold p-1 mx-2 text-base transition text-gray-700 rounded-lg border hover:bg-gray-300 disabled:bg-gray-400 disabled:cursor-wait">No</button>
-          <button @click="deleteBlog" :disabled="articleStore.operation_in_submission" class="disabled:cursor-not-allowed font-semibold p-1 mx-2 mt-8 mb-2 text-base transition text-gray-700 rounded-lg border hover:bg-gray-300  disabled:bg-gray-400 ">Yes</button>
+          <button @click="closeDiv" class="font-semibold p-1 mx-2 text-base transition text-gray-700 rounded-lg border border-gray-500 px-10 hover:bg-gray-300 ">No</button>
+          <button @click="deleteBlog" :disabled="articleStore.operation_in_submission" class="disabled:cursor-not-allowed font-semibold py-1 px-10  mx-2 mt-8 mb-2 border-gray-500 text-base transition text-gray-700 rounded-lg border hover:bg-gray-300  disabled:bg-gray-400 ">Yes</button>
        </div>
       </div>
     </div>
@@ -14,8 +14,8 @@
       <div class="border w-1/3 top-1/2 bg-white rounded-lg absolute opacity-100 !z-40">
        <p class="m-4">Are you sure to delete this comment?</p>
        <div class="text-right">
-          <button @click="closeDivComment" class="font-semibold p-1 mx-2 text-base transition text-gray-700 rounded-lg border hover:bg-gray-300 disabled:bg-gray-400 disabled:cursor-wait">No</button>
-          <button @click="deleteComment" :disabled="articleStore.operation_in_submission" class="disabled:cursor-not-allowed font-semibold p-1 mx-2 mt-8 mb-2 text-base transition text-gray-700 rounded-lg border hover:bg-gray-300  disabled:bg-gray-400 ">Yes</button>
+          <button @click="closeDivComment" class="font-semibold p-1 mx-2 text-base transition text-gray-700 rounded-lg border px-10 border-gray-500 hover:bg-gray-300">No</button>
+          <button @click="deleteComment" :disabled="articleStore.operation_in_submission" class="disabled:cursor-not-allowed font-semibold py-1 px-10 border-gray-500 mx-2 mt-8 mb-2 text-base transition text-gray-700 rounded-lg border hover:bg-gray-300  disabled:bg-gray-400 ">Yes</button>
        </div>
       </div>
     </div>
@@ -39,6 +39,7 @@
 
             <button @click="favoriteArt(articleStore.articles.slug , articleStore.articles.favorited )" :disabled="articleStore.operation_in_submission" :class="{ 'white' : this.articleStore.articles.favorited }"
              class="bg-gray-500 rounded mx-2 px-1 text-xs transition disabled:cursor-not-allowed"> <heart-icon class="hidden sm:inline w-4" /><span> Favorited blog ({{ articleStore.articles.favoritesCount }}) </span></button>
+             <div v-if="articleStore.operation_in_submission" class="loaders"></div>
           </div>
         </div>
       </header>
@@ -64,10 +65,11 @@
           placeholder="write your comment ... " />
         <div class="bg-gray-400 h-10 mx-auto flex justify-between mb-4 rounded-b-lg w-2/3 sm:w-2/4 lg:w-2/6"><img class="w-8 h-8 m-1 rounded-full" :src="articleStore.user.image" alt="user profile"> 
           <button @click="submitComment(comment)" 
-          class="bg-mainRed text-white rounded m-1.5 px-1  disabled:bg-gray-400 disabled:cursor-wait"
-          :disabled="articleStore.operation_in_submission"
+          class="bg-mainRed text-white rounded m-1.5 w-32 disabled:cursor-wait"
+          :disabled="articleStore.operation_in_submission_comment"
           >
-          Comment it!
+          <span v-if="!articleStore.operation_in_submission_comment">Comment it!</span>
+          <div v-if="articleStore.operation_in_submission_comment" class="loaderCom mx-auto"></div>
           </button> 
         </div>
 
@@ -189,5 +191,25 @@ export default{
 .dis-icon{
   color: rgba(220, 220, 220, 0.768);
   cursor: wait ;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.loaders{
+  border: 2px solid #581c87;
+  border-radius: 50%;
+  border-top: 2px solid #e9d5ff;
+  width: 22px;
+  height: 22px;
+  animation: spin 0.8s linear infinite;
+}
+.loaderCom{
+  border: 2px solid #581c87;
+  border-radius: 50%;
+  border-top: 2px solid #e9d5ff;
+  width: 24px;
+  height: 24px;
+  animation: spin 0.8s linear infinite;
 }
 </style>

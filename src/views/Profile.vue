@@ -11,9 +11,14 @@
             </div>
           </div>
           <div class="flex justify-end">
-          <button v-if="userStore.user.username !== this.$route.params.username && !userStore.aProfile.following" :disabled="userStore.operation_in_submission"  class="bg-gray-500 mx-2 rounded px-1 text-xs transition disabled:cursor-wait" @click="followingReq(userStore.aProfile.username )"> <plus-icon class="inline w-4" /><span> Follow {{ userStore.aProfile.username }}</span></button>
-          <button v-if="userStore.user.username !== this.$route.params.username && userStore.aProfile.following" :disabled="userStore.operation_in_submission" class="bg-gray-200 mx-2 rounded px-1 text-xs transition disabled:cursor-wait" @click="followingReq(userStore.aProfile.username )"> <plus-icon class="inline w-4" /><span> Unfollow {{ userStore.aProfile.username }}</span></button>
-
+            <div v-if="userStore.operation_in_submission" class="loaders inline"></div>
+            <button v-if="userStore.user.username !== this.$route.params.username && !userStore.aProfile.following" :disabled="userStore.operation_in_submission"  class="bg-gray-500 flex items-center justify-center w-auto px-2 mx-2 rounded text-xs transition disabled:cursor-wait" @click="followingReq(userStore.aProfile.username )"> <plus-icon class="inline w-4" />
+              <span> Follow {{ userStore.aProfile.username }}</span>
+            </button>
+            <button v-if="userStore.user.username !== this.$route.params.username && userStore.aProfile.following" :disabled="userStore.operation_in_submission" class="bg-gray-200 flex items-center justify-center w-aut px-2 mx-2 rounded text-xs transition disabled:cursor-wait" @click="followingReq(userStore.aProfile.username )"> <plus-icon class="inline w-4" />
+              <span> Unfollow {{ userStore.aProfile.username }}</span>
+            </button>
+          
 
           <router-link v-if="userStore.user.username == this.$route.params.username"  class="bg-gray-500 mx-8 rounded p-2 text-xs transition hover:bg-gray-200" :to="{name: 'edit'}"> Edit profile </router-link>
 
@@ -145,5 +150,17 @@ export default{
 
 .white{
   background-color: white;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.loaders{
+  border: 2px solid #581c87;
+  border-radius: 50%;
+  border-top: 2px solid #e9d5ff;
+  width: 18px;
+  height: 18px;
+  animation: spin 0.8s linear infinite;
 }
 </style>

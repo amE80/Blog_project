@@ -31,18 +31,22 @@
         
         <button type="submit"
         :disabled="userStore.operation_in_submission"
-        class="mt-5 w-24 font-semibold py-2 text-base transition bg-mainRed text-cream rounded-lg disabled:bg-gray-400 disabled:cursor-wait">
-        Save it!
+        class="mt-5 w-24 font-semibold py-3 disabled:py-2 text-base transition bg-mainRed text-cream rounded-lg  disabled:cursor-not-allowed">
+        <span v-if="!userStore.operation_in_submission">Save it!</span>
+        <div v-if="userStore.operation_in_submission" class="loader mx-auto"></div>
       </button>
     </div>
   </Form>
   <div class="w-4/5 sm:w-3/5 lg:w-2/5 mx-auto flex justify-start">
-    <button class="mt-5 w-24 font-semibold py-2 text-base transition bg-red-500  text-cream rounded-lg "
-    @click="logOut">log out</button>
+    <button class="mt-5 w-24 font-semibold py-3 disabled:cursor-not-allowed disabled:py-2 text-base transition bg-red-500  text-cream rounded-lg "
+    @click="logOut" :disabled="userStore.operation_in_submission_logOut">
+    <span v-if="!userStore.operation_in_submission_logOut">Log out</span>
+    <div v-if="userStore.operation_in_submission_logOut" class="loaders mx-auto"></div>
+    </button>
   </div>
   </div>
 </template>
-<script>
+<script >
 import { useUserStore } from "../stores/User.js";
 import { Field, Form, ErrorMessage } from "vee-validate";
 import TopNav from '../components/Navigation/TopNav.vue'
@@ -85,4 +89,17 @@ export default {
   min-height: 10rem;
   max-height: 25rem;
 }
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.loaders{
+  border: 4px solid red;
+  border-radius: 50%;
+  border-top: 4px solid #e9d5ff;
+  width: 30px;
+  height: 30px;
+  animation: spin 1s linear infinite;
+}
+
 </style>

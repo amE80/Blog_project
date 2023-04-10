@@ -21,13 +21,14 @@
               <button
             type="submit"
             :disabled="articleStore.operation_in_submission"
-            class="mt-5 w-24 font-semibold py-2 float-right text-base transition bg-mainRed text-cream rounded-lg  disabled:bg-gray-400 disabled:cursor-wait">
-            Share it!
+            class="mt-5 w-24 font-semibold py-3 disabled:py-2 float-right text-base transition bg-mainRed text-cream rounded-lg  disabled:cursor-not-allowed">
+            <span v-if="!articleStore.operation_in_submission">Share it!</span>
+            <div v-if="articleStore.operation_in_submission" class="loader mx-auto"></div>
           </button>
         </Form>
     </div>
 </template>
-<script >
+<script>
 import { Field, Form, ErrorMessage } from "vee-validate";
 import TopNav from '../components/Navigation/TopNav.vue';
 import { useArticlesStore } from "../stores/Articles.js";

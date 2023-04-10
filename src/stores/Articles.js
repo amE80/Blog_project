@@ -13,6 +13,7 @@ export const useArticlesStore = defineStore('articleStore', {
     user: null,
     allComments: null,
     operation_in_submission: false,
+    operation_in_submission_comment: false,
     operation_show_alert: false,
     operation_alert_variant: "",
     operation_alert_msg: "",
@@ -70,11 +71,8 @@ export const useArticlesStore = defineStore('articleStore', {
     },
 
     async getComments(slug) {
-      this.operation_show_alert = true,
-        this.operation_in_submission = true,
-        this.operation_alert_variant = "bg-blue-500",
-        this.operation_alert_msg = "Loading comments...",
-
+        this.operation_in_submission_comment = true,
+        
         await axiosAPI.get(`articles/${slug}/comments`)
           .then(response => {
 
@@ -84,21 +82,17 @@ export const useArticlesStore = defineStore('articleStore', {
             })
 
             console.log('get comment date response', response.data.comments);
-            this.operation_show_alert = false;
-            this.operation_alert_variant = "";
-            this.operation_alert_msg = "";
             this.allComments = response.data.comments
-            this.operation_in_submission = false
+            this.operation_in_submission_comment = false
           }).catch(error => {
             console.log(error)
-            this.operation_in_submission = false
-            this.operation_show_alert = false;
+            this.operation_in_submission_comment = false
           })
     },
 
 
     async postComments(slug, data) {
-      this.operation_in_submission = true,
+      this.operation_in_submission_comment = true,
 
       await axiosAPI.post(`articles/${slug}/comments`, data)
           .then(response => {
@@ -110,12 +104,13 @@ export const useArticlesStore = defineStore('articleStore', {
             this.getComments(slug);
           }).catch(error => {
             console.log(error)
+            this.operation_in_submission_comment = false
           })
     },
 
 
     async deleteComments(slug, id) {
-      this.operation_in_submission = true,
+      this.operation_in_submission_comment = true,
 
       await axiosAPI.delete(`articles/${slug}/comments/${id}`)
           .then(response => {
@@ -128,6 +123,7 @@ export const useArticlesStore = defineStore('articleStore', {
             this.wantDeleteComment = false
           }).catch(error => {
             console.log(error)
+            this.operation_in_submission_comment = false
           })
     },
 
