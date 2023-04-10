@@ -295,7 +295,7 @@ export const useArticlesStore = defineStore('articleStore', {
           autoClose: 2000,
           position: toast.POSITION.BOTTOM_RIGHT,
         });
-        this.$router.push({ name: 'user_article', query: {author:this.username}})
+        this.$router.push({ name: 'home'})
        }).catch(error=>{
         console.log(error)
        this.operation_in_submission = false ;
@@ -321,5 +321,5 @@ export const useArticlesStore = defineStore('articleStore', {
       })
     }
   },
-  persist: true,
+  // persist: true,
 })

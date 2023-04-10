@@ -1,7 +1,7 @@
 <template>
     <main class=" mx-7 md:mx-20 font-main">
       <!-- <div v-if="articleStore.fetching_in_progress" class="text-xl ml-10 mt-10">loading...</div> -->
-      <!-- <div v-if="articleStore.articles.length == 0 && !articleStore.fetching_in_progress " class="text-xl ml-10 mt-10"> There is no blog </div> -->
+      <div v-if="articleStore.articles.length == 0 && !articleStore.fetching_in_progress " class="text-xl ml-10 mt-10"> There is no blog </div>
       <div v-if="!articleStore.fetching_in_progress" class="pb-4 border-b a-blog border-b-gray-400"
         v-for="article in articleStore.articles" :key="article.id">
         <div class="flex justify-between">
@@ -33,20 +33,26 @@
   import UserIcon from '../Icon/userIcon.vue';
   import HeartIcon from '../Icon/heartIcon.vue';
   import { useArticlesStore } from "../../stores/Articles";
-  import { toast } from 'vue3-toastify';
+  import { useRoute, useRouter } from 'vue-router';
   
   export default {
-    name: 'allBlogs',
+    name: 'userBlogs',
   
     async setup() {
+      const router = useRouter()
+      const route = useRoute()
       const articleStore = useArticlesStore()
-      await useArticlesStore().getPosts()
+      await useArticlesStore().getUserPosts(route.params.username)
   
       return {
         articleStore
       }
     },
-  
+    watch: {
+   $route(to , from){
+    this.articleStore.getUserPosts(this.$route.params.username);
+    }
+    },
     components: {
       UserIcon,
       HeartIcon,
@@ -57,7 +63,6 @@
       return {
         artTime: null,
         articles: null,
-        token: localStorage.getItem('token'),
       };
     },
 
@@ -67,28 +72,14 @@
       },
   
       goToArticle(slug) {
-        if(this.token){
-          console.log(slug)
-          this.$router.push(`/single-article/${slug}`)
-        }else{
-          toast.warning("you should sign in first!", {
-              autoClose: 2000,
-              position: toast.POSITION.BOTTOM_RIGHT,
-            });
-        }
+        console.log(slug)
+        this.$router.push(`/single-article/${slug}`)
       },
       goToUser(username) {
-        if(this.token){
-          console.log(username)
-          this.$router.push(`/user-profile/${username}`)
-        }else{
-          toast.warning("you should sign in first!", {
-              autoClose: 2000,
-              position: toast.POSITION.BOTTOM_RIGHT,
-            });
-        }
+        console.log(username)
+        this.$router.push(`/user-profile/${username}`)
       },
-    
+      
   
     }
   

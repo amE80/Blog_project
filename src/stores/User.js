@@ -102,6 +102,10 @@ export const useUserStore = defineStore('userStore', {
           })
           .catch((error) => {
           console.log(error)
+          toast.error("Something went wrong!", {
+            autoClose: 2000,
+            position: toast.POSITION.BOTTOM_RIGHT,
+          });
           this.operation_in_submission = false ;
           this.operation_show_alert = false ; 
           })

@@ -1,5 +1,5 @@
 <template>
-     <nav v-if="userStore.user" class=" w-full h-10 sticky top-0 bg-white     ">
+     <nav v-if="userStore.user" class=" w-full h-10 sticky top-0 bg-white">
         <ul class="flex items-center justify-between my-3 mx-1 sm:mx-7 md:mx-20">
              <li class=" text-lg sm:text-2xl font-bold md:text-3xl text-mainRed "> <h2> <router-link :to="{name: 'home'}"> Blog Hub </router-link> </h2></li>
          <ul class="flex items-center content-center space-x-2 sm:space-x-4">      
