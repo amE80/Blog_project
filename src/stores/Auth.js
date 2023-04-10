@@ -45,5 +45,6 @@ export const useAuthStore = defineStore('authStore', {
             this.operation_show_alert = false ; 
           })
         }
-    }
+    },
+    persist: true,
 })

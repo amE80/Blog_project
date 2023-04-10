@@ -119,5 +119,6 @@ export const useUserStore = defineStore('userStore', {
             this.operation_in_submission_logOut = false
           }, 2000);
         }
-    }
+    },
+    persist: true,
 })

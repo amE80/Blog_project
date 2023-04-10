@@ -320,5 +320,6 @@ export const useArticlesStore = defineStore('articleStore', {
       this.operation_show_alert = false ; 
       })
     }
-  }
+  },
+  persist: true,
 })
