@@ -4,13 +4,14 @@
     </div>
 </template>
 
-<script setup>
-   
-    defineProps({
-        height:{type: String},
-        width:{type: String},
-        borderRadius:{type: String},
-    })
+<script>
+   export default{
+       props: {
+           height: String,
+           width: String,
+           borderRadius: String,
+       }
+   }
 
 </script>
 <style scoped>
