@@ -34,16 +34,19 @@
   import HeartIcon from '../Icon/heartIcon.vue';
   import { useArticlesStore } from "../../stores/Articles";
   import { toast } from 'vue3-toastify';
+  import { useUserStore } from '../../stores/User';
   
   export default {
     name: 'allBlogs',
   
     async setup() {
       const articleStore = useArticlesStore()
+      const userStore = useUserStore()
       await useArticlesStore().getPosts()
   
       return {
-        articleStore
+        articleStore,
+        userStore
       }
     },
   
@@ -57,7 +60,7 @@
       return {
         artTime: null,
         articles: null,
-        token: localStorage.getItem('token'),
+        token: this.userStore.user.token,
       };
     },
 

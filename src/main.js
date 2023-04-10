@@ -14,7 +14,9 @@ const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate)
 app.use(
   Vue3Toasity,
-  {});
+  {
+    
+  });
 pinia.use(({ store }) => {
   store.$router = markRaw(router)
 });

@@ -5,7 +5,7 @@
     </ul>
     <Suspense>
             <template #default>
-                <component :is="componentId"></component>
+                <component :is="componentName"></component>
             </template>
             <template #fallback>
                 <main-content-skeleton />
@@ -39,19 +39,19 @@ export default{
             token: localStorage.getItem('token'),
             username:null,
             userInformation :JSON.parse(localStorage.getItem('user')),
-            componentId : 'allBlogs'
+            componentName : 'allBlogs'
         }
     },
     
     methods:{
         sendAllBlog(){
             this.activedBlogs = false;
-            this.componentId = 'allBlogs';
+            this.componentName = 'allBlogs';
         },
         sendUserBlog(){
             this.username = this.userInformation.username;
             this.activedBlogs = true;
-            this.componentId = 'feedBlogs';
+            this.componentName = 'feedBlogs';
         }
     }
 }

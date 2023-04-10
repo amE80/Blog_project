@@ -22,7 +22,7 @@ export const useArticlesStore = defineStore('articleStore', {
     wantDeleteComment:false
   }),
   actions: {
-    async getUserFeed(a) {
+    async getUserFeed() {
       this.fetching_in_progress = true;
      await axiosAPI.get('articles/feed',{ params: { limit: 200 }}).then((response) => {
         //changing date format
@@ -40,9 +40,9 @@ export const useArticlesStore = defineStore('articleStore', {
           this.fetching_in_progress = false;
         })
     },
-    async getFavPosts(a){
+    async getFavPosts(username){
       this.fetching_in_progress = true;
-     await axiosAPI.get('articles', { params: { favorited: a } }
+     await axiosAPI.get('articles', { params: { favorited: username } }
       ).then((response) => {
         //changing date format
         const articles = response.data.articles.map((artTime) => {
@@ -137,9 +137,9 @@ export const useArticlesStore = defineStore('articleStore', {
       })
     },
 
-    async getUserPosts(a) {
+    async getUserPosts(username) {
       this.fetching_in_progress = true;
-      await axiosAPI.get('articles', { params: { author: a } }
+      await axiosAPI.get('articles', { params: { author: username } }
     ).then((response) => {
         //changing date format
         const articles = response.data.articles.map((artTime) => {
@@ -175,11 +175,11 @@ export const useArticlesStore = defineStore('articleStore', {
         })
     },
 
-    async shareBlog(a) {
-      a.article.tagList = a.article.tagList.split(" ");
+    async shareBlog(articleInfo) {
+      articleInfo.article.tagList = articleInfo.article.tagList.split(" ");
       this.operation_in_submission = true;
 
-      await axiosAPI.post('articles', a).then((response) => {
+      await axiosAPI.post('articles', articleInfo).then((response) => {
         toast.success("the blog shared successfully!", {
           autoClose: 2000,
           position: toast.POSITION.BOTTOM_RIGHT,

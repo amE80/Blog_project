@@ -76,6 +76,7 @@ export default {
   methods: {
     logOut() {
       this.userStore.logOut();
+      this.userStore.$reset()
     },
     submitUserInfo(user) {
       console.log("this is user information", user);
