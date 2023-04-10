@@ -1,7 +1,7 @@
 <template>
     <main class=" mx-7 md:mx-20 font-main">
       <!-- <div v-if="articleStore.fetching_in_progress" class="text-xl ml-10 mt-10">loading...</div> -->
-      <div v-if="articleStore.articles.length == 0 && !articleStore.fetching_in_progress " class="text-xl ml-10 mt-10"> There is no blog </div>
+      <div v-if="!articleStore.articles.length && !articleStore.fetching_in_progress " class="text-xl ml-10 mt-10"> There is no blog </div>
       <div v-if="!articleStore.fetching_in_progress" class="pb-4 border-b a-blog border-b-gray-400"
         v-for="article in articleStore.articles" :key="article.id">
         <div class="flex justify-between">

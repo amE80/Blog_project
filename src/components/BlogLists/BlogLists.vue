@@ -36,9 +36,9 @@ export default{
     data(){
         return{
             activedBlogs: false,
-            token: localStorage.getItem('token'),
+            token: this.userStore.user.token,
             username:null,
-            userInformation :JSON.parse(localStorage.getItem('user')),
+            userInformation : this.userStore.user,
             componentName : 'allBlogs'
         }
     },

@@ -123,8 +123,8 @@ export default{
   border: 2px solid #581c87;
   border-radius: 50%;
   border-top: 2px solid #e9d5ff;
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
   animation: spin 0.8s linear infinite;
 }
 </style>
