@@ -50,14 +50,6 @@ const router = createRouter({
       }
     },
     {
-      path: '/user_article',
-      name: 'user_article',
-      component: Home,
-      meta:{
-        accsess:true
-      }
-    },
-    {
       path: '/single-article/:slug',
       name: 'article',
       component:Article,
@@ -68,14 +60,6 @@ const router = createRouter({
     {
       path: '/user-profile/:username',
       name: 'userProfile',
-      component:UserProfile,
-      meta:{
-        accsess:true
-      }
-    },
-    {
-      path: '/user-profile/fav/:username',
-      name: 'userProfileFav',
       component:UserProfile,
       meta:{
         accsess:true

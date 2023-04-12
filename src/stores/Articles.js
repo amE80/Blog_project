@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { DateTime } from "luxon"
 import { axiosAPI } from '../plugin/axios';
-
+import { toast } from 'vue3-toastify';
 
 // Pay attention to names which I wrote here , names are important for pinia to work
 export const useArticlesStore = defineStore('articleStore', {
@@ -13,15 +13,18 @@ export const useArticlesStore = defineStore('articleStore', {
     user: null,
     allComments: null,
     operation_in_submission: false,
+    operation_in_submission_comment: false,
     operation_show_alert: false,
     operation_alert_variant: "",
     operation_alert_msg: "",
     isFavorited: false,
+    wantDelete: false,
+    wantDeleteComment:false
   }),
   actions: {
-    async getUserFeed(a) {
+    async getUserFeed() {
       this.fetching_in_progress = true;
-      axiosAPI.get('articles/feed',{ params: { limit: 200 }}).then((response) => {
+     await axiosAPI.get('articles/feed',{ params: { limit: 200 }}).then((response) => {
         //changing date format
         const articles = response.data.articles.map((artTime) => {
           artTime.createdAt = DateTime.fromISO(artTime.createdAt).toFormat("yyyy/MM/dd hh:mm")
@@ -37,9 +40,9 @@ export const useArticlesStore = defineStore('articleStore', {
           this.fetching_in_progress = false;
         })
     },
-    async getFavPosts(a){
+    async getFavPosts(username){
       this.fetching_in_progress = true;
-      axiosAPI.get('articles', { params: { favorited: a } }
+     await axiosAPI.get('articles', { params: { favorited: username } }
       ).then((response) => {
         //changing date format
         const articles = response.data.articles.map((artTime) => {
@@ -59,7 +62,7 @@ export const useArticlesStore = defineStore('articleStore', {
 
     async getAnArticle(slug) {
       console.log("slug from pinia", slug);
-      axiosAPI.get(`articles/${slug}`)
+      await axiosAPI.get(`articles/${slug}`)
         .then(response => {
           response.data.article.createdAt = DateTime.fromISO(response.data.article.createdAt).toFormat("yyyy/MM/dd hh:mm")
           this.articles = response.data.article
@@ -68,12 +71,9 @@ export const useArticlesStore = defineStore('articleStore', {
     },
 
     async getComments(slug) {
-      this.operation_show_alert = true,
-        this.operation_in_submission = true,
-        this.operation_alert_variant = "bg-blue-500",
-        this.operation_alert_msg = "Loading comments...",
-
-        axiosAPI.get(`articles/${slug}/comments`)
+        this.operation_in_submission_comment = true,
+        
+        await axiosAPI.get(`articles/${slug}/comments`)
           .then(response => {
 
             const comments = response.data.comments.map((comTime) => {
@@ -82,47 +82,54 @@ export const useArticlesStore = defineStore('articleStore', {
             })
 
             console.log('get comment date response', response.data.comments);
-            this.operation_show_alert = false;
-            this.operation_alert_variant = "";
-            this.operation_alert_msg = "";
             this.allComments = response.data.comments
-            this.operation_in_submission = false
+            this.operation_in_submission_comment = false
           }).catch(error => {
             console.log(error)
-            this.operation_in_submission = false
-            this.operation_show_alert = false;
+            this.operation_in_submission_comment = false
           })
     },
 
 
     async postComments(slug, data) {
-      this.operation_in_submission = true,
+      this.operation_in_submission_comment = true,
 
-        axiosAPI.post(`articles/${slug}/comments`, data)
+      await axiosAPI.post(`articles/${slug}/comments`, data)
           .then(response => {
+            toast.success("Comment made successfully!", {
+              autoClose: 1000,
+              position: toast.POSITION.BOTTOM_RIGHT,
+            });
             console.log('post comment response', response);
             this.getComments(slug);
           }).catch(error => {
             console.log(error)
+            this.operation_in_submission_comment = false
           })
     },
 
 
     async deleteComments(slug, id) {
-      this.operation_in_submission = true,
+      this.operation_in_submission_comment = true,
 
-        axiosAPI.delete(`articles/${slug}/comments/${id}`)
+      await axiosAPI.delete(`articles/${slug}/comments/${id}`)
           .then(response => {
+            toast.success("The comment deleted!", {
+              autoClose: 1000,
+              position: toast.POSITION.BOTTOM_RIGHT,
+            });
             console.log('delete comment response', response);
             this.getComments(slug);
+            this.wantDeleteComment = false
           }).catch(error => {
             console.log(error)
+            this.operation_in_submission_comment = false
           })
     },
 
 
     async getCurrentUser() {
-      axiosAPI.get("user").then((response) => {
+      await axiosAPI.get("user").then((response) => {
         this.user = response.data.user
         console.log('user:', this.user)
       }).catch((error) => {
@@ -130,9 +137,9 @@ export const useArticlesStore = defineStore('articleStore', {
       })
     },
 
-    async getUserPosts(a) {
+    async getUserPosts(username) {
       this.fetching_in_progress = true;
-      axiosAPI.get('articles', { params: { author: a } }
+      await axiosAPI.get('articles', { params: { author: username } }
     ).then((response) => {
         //changing date format
         const articles = response.data.articles.map((artTime) => {
@@ -151,7 +158,7 @@ export const useArticlesStore = defineStore('articleStore', {
     },
     async getPosts() {
       this.fetching_in_progress = true;
-      axiosAPI.get('articles',{ params: { limit: 2000 }}).then((response) => {
+      await axiosAPI.get('articles',{ params: { limit: 2000 }}).then((response) => {
         //changing date format
         const articles = response.data.articles.map((artTime) => {
           artTime.createdAt = DateTime.fromISO(artTime.createdAt).toFormat("yyyy/MM/dd hh:mm")
@@ -168,24 +175,23 @@ export const useArticlesStore = defineStore('articleStore', {
         })
     },
 
-    async shareBlog(a) {
-      a.article.tagList = a.article.tagList.split(" ");
-      this.operation_show_alert = true;
+    async shareBlog(articleInfo) {
+      articleInfo.article.tagList = articleInfo.article.tagList.split(" ");
       this.operation_in_submission = true;
-      this.operation_alert_variant = "bg-green-500";
-      this.operation_alert_msg = "successfull move to home page...";
 
-      axiosAPI.post('articles', a).then((response) => {
+      await axiosAPI.post('articles', articleInfo).then((response) => {
+        toast.success("the blog shared successfully!", {
+          autoClose: 2000,
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+        this.operation_in_submission = false;
         setTimeout(() => {
-          this.operation_in_submission = false;
-          this.operation_show_alert = false;
           this.$router.push({ name: 'home' })
-        }, 1000);
+        }, 2000);
       })
         .catch((error) => {
           console.log(error)
           this.operation_in_submission = false;
-          this.operation_show_alert = false;
         })
     },
 
@@ -201,15 +207,10 @@ export const useArticlesStore = defineStore('articleStore', {
             console.log(response)
             this.operation_in_submission = false;
           })).catch(err => {
-            console.log('main error', err)
-            this.operation_show_alert= true;
-            this.operation_alert_variant= "bg-red-600";
-            this.operation_alert_msg= "you should be sign in first!";
-            setTimeout(() => {
-              this.operation_show_alert = false;
-              this.operation_alert_variant= "";
-              this.operation_alert_msg= "";
-            }, 2000);
+            toast.warning("you should sign in first!", {
+              autoClose: 2000,
+              position: toast.POSITION.BOTTOM_RIGHT,
+            });
             this.operation_in_submission = false;
           })
       }
@@ -222,15 +223,10 @@ export const useArticlesStore = defineStore('articleStore', {
             article.favorited = !article.favorited;
             this.operation_in_submission = false;
           }).catch(err => {
-            console.log('main error', err)
-            this.operation_show_alert= true;
-            this.operation_alert_variant= "bg-red-600";
-            this.operation_alert_msg= "you should be sign in first!";
-            setTimeout(() => {
-              this.operation_show_alert = false;
-              this.operation_alert_variant= "";
-              this.operation_alert_msg= "";
-            }, 2000);
+            toast.warning("you should sign in first!", {
+              autoClose: 2000,
+              position: toast.POSITION.BOTTOM_RIGHT,
+            });
             this.operation_in_submission = false;
           })
 
@@ -294,7 +290,12 @@ export const useArticlesStore = defineStore('articleStore', {
       await axiosAPI.delete(`articles/${slug}`).then(response=>{
         console.log(response)
         this.operation_in_submission = false ;
-        this.$router.push({ name: 'user_article', query: {author:this.username}})
+        this.wantDelete=false;
+        toast.success("The blog deleted!", {
+          autoClose: 2000,
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+        this.$router.push({ name: 'home'})
        }).catch(error=>{
         console.log(error)
        this.operation_in_submission = false ;
@@ -302,16 +303,16 @@ export const useArticlesStore = defineStore('articleStore', {
     },
     async updateBlog(slug , data){
       this.operation_in_submission = true , 
-      this.operation_show_alert = true , 
-      this.operation_alert_variant = "bg-green-500",
-      this.operation_alert_msg= "Upadting your blog..."
 
-      axiosAPI.put(`articles/${slug}`, data).then((response)=>{
+      await axiosAPI.put(`articles/${slug}`, data).then((response)=>{
+        toast.success("your blog is updated!", {
+          autoClose: 2000,
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+        this.operation_in_submission = false ;
         setTimeout(() => {
-          this.operation_in_submission = false ;
-          this.operation_show_alert = false ; 
           this.$router.push(`/single-article/${slug}`)
-        }, 1000);
+        }, 2000);
       })
       .catch((error) => {
       console.log(error)
@@ -319,5 +320,6 @@ export const useArticlesStore = defineStore('articleStore', {
       this.operation_show_alert = false ; 
       })
     }
-  }
+  },
+  // persist: true,
 })

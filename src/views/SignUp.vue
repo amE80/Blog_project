@@ -5,12 +5,7 @@
       
       <div class="w-9/12 sm:w-7/12 lg:w-5/12 mx-auto mt-20">
         <p class="text-5xl text-center mb-9 text-mainRed font-semibold">Welcome! </p>
-        <div class="text-white text-center font-bold p-4 mb-4 rounded"
-        v-if="this.userStore.operation_show_alert"
-        :class="this.userStore.operation_alert_variant"
-        >
-          {{ userStore.operation_alert_msg }}
-        </div>
+      
         <div v-if="userStore.errorMassage" class="bg-red-500 p-4 rounded"
         >
          <p v-for="(value,index) in userStore.errorMassage" :key="index" class=" text-white text-center font-bold">the {{ value[0] + " "+ value[1] }}</p>
@@ -60,10 +55,11 @@
             
             <button
             type="submit"
-            class="w-20 md:w-32 font-semibold py-3 px-1 text-sm md:text-base transition  disabled:bg-gray-400 disabled:cursor-wait bg-mainRed text-cream rounded-lg"
+            class="w-20 md:w-32 font-semibold py-3 px-1 text-sm md:text-base transition disabled:py-2 disabled:cursor-not-allowed bg-mainRed text-cream rounded-lg"
             :disabled="this.userStore.operation_in_submission"
           >
-            Sign Up
+            <span v-if="!userStore.operation_in_submission">Sign Up</span>
+            <div v-if="userStore.operation_in_submission" class="loader mx-auto"></div>
           </button>
 
           </div>
@@ -120,3 +116,18 @@ methods:{
 
 
 </script>
+<style>
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.loader{
+  border: 4px solid #581c87;
+  border-radius: 50%;
+  border-top: 4px solid #e9d5ff;
+  width: 30px;
+  height: 30px;
+  animation: spin 0.8s linear infinite;
+}
+
+</style>

@@ -6,12 +6,6 @@
       <div class="w-9/12 sm:w-7/12 lg:w-5/12 mx-auto mt-20">
         <p class="text-4xl md:text-5xl text-center mb-9 text-mainRed font-semibold">Welcome Back! </p>
 
-        <div class="text-white text-center font-bold p-4 mb-4 rounded"
-        v-if="this.authStore.operation_show_alert"
-        :class="this.authStore.operation_alert_variant"
-        >
-          {{ authStore.operation_alert_msg }}
-        </div>
         <div v-if="authStore.errorMassage" class="bg-red-500 p-4 rounded"
         >
          <p v-for="(value,index) in authStore.errorMassage" :key="index" class=" text-white text-center font-bold">
@@ -52,12 +46,13 @@
            <router-link :to="{name: 'signUp'}" class="font-medium hover:underline text-sm md:text-base">Don't have an account? sign up here</router-link>
                 
             
-            <button
+           <button
             type="submit"
-            class="w-20 md:w-32 font-semibold py-3 px-1 text-sm md:text-base transition bg-mainRed disabled:bg-gray-400 disabled:cursor-wait text-cream rounded-lg"
+            class="w-20 md:w-32 font-semibold py-3 px-1 text-sm md:text-base transition disabled:py-2 disabled:cursor-not-allowed bg-mainRed text-cream rounded-lg"
             :disabled="this.authStore.operation_in_submission"
           >
-            Sign In
+            <span v-if="!authStore.operation_in_submission">Sign In</span>
+            <div v-if="authStore.operation_in_submission" class="loader mx-auto"></div>
           </button>
 
           </div>

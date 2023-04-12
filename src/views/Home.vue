@@ -2,15 +2,14 @@
 <div>
         <top-nav />
         <Header />
-        <main-content />
-        
+        <blog-lists />
 </div>
 </template>
 
 <script>
 import Header from "../components/Header/Header.vue";
 import TopNav from "../components/Navigation/TopNav.vue";
-import MainContent from "../components/MainContent/MainContent.vue";
+import BlogLists from '../components/BlogLists/BlogLists.vue'      
 
 export default{
 
@@ -20,7 +19,7 @@ components:{
     
     TopNav,
     Header,
-    MainContent,
+    BlogLists,
 }
 }
 </script>
