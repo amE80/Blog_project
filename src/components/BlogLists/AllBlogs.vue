@@ -66,7 +66,14 @@
 
     methods: {
       favoriteArt(slug , IsFavorite) {
-        this.articleStore.toggleFav(slug , IsFavorite)
+        if(this.token){
+          this.articleStore.toggleFav(slug , IsFavorite)
+        }else{
+          toast.warning("you should sign in first!", {
+              autoClose: 2000,
+              position: toast.POSITION.BOTTOM_RIGHT,
+            });
+        }
       },
   
       goToArticle(slug) {

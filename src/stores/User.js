@@ -14,6 +14,8 @@ export const useUserStore = defineStore('userStore', {
         operation_alert_msg: "",
         errorMassage:null,
         aProfile:null,
+        activedBlogs: false,
+        componentName : 'allBlogs',
 
     }),
     actions: {

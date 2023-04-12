@@ -20,6 +20,14 @@ const router = createRouter({
       }
     },
     {
+      path: '/feed',
+      name: 'homeFeed',
+      component: Home,
+      meta:{
+        accsess:true
+      }
+    },
+    {
       path: '/sign-in',
       name: 'signIn',
       component: SignIn,
@@ -60,6 +68,14 @@ const router = createRouter({
     {
       path: '/user-profile/:username',
       name: 'userProfile',
+      component:UserProfile,
+      meta:{
+        accsess:true
+      }
+    },
+    {
+      path: '/user-profile/fav/:username',
+      name: 'userProfileFav',
       component:UserProfile,
       meta:{
         accsess:true

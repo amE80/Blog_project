@@ -207,10 +207,6 @@ export const useArticlesStore = defineStore('articleStore', {
             console.log(response)
             this.operation_in_submission = false;
           })).catch(err => {
-            toast.warning("you should sign in first!", {
-              autoClose: 2000,
-              position: toast.POSITION.BOTTOM_RIGHT,
-            });
             this.operation_in_submission = false;
           })
       }
@@ -223,10 +219,6 @@ export const useArticlesStore = defineStore('articleStore', {
             article.favorited = !article.favorited;
             this.operation_in_submission = false;
           }).catch(err => {
-            toast.warning("you should sign in first!", {
-              autoClose: 2000,
-              position: toast.POSITION.BOTTOM_RIGHT,
-            });
             this.operation_in_submission = false;
           })
 
