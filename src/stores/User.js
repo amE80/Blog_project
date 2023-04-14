@@ -14,6 +14,10 @@ export const useUserStore = defineStore('userStore', {
         operation_alert_msg: "",
         errorMassage:null,
         aProfile:null,
+        activedBlogs: false,
+        componentName : 'allBlogs',
+        componentOfUserPage : 'userBlogs',
+        activedProfileBlogs : false,
 
     }),
     actions: {
@@ -56,7 +60,7 @@ export const useUserStore = defineStore('userStore', {
         console.log("username from pinia" , username);
        await axiosAPI.get(`profiles/${username}`)
         .then(response=>{
-          console.log(" inforamtion :", response.data.profile.following)
+          console.log(" inforamtion :", response.data.profile)
           this.aProfile = response.data.profile
           })
 

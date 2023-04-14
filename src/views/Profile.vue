@@ -27,17 +27,19 @@
 
         <main class="">
             <ul class="border-b border-b-gray-400 mx-7 md:mx-20 flex">
-              <li @click="sendUserBlog" :class="{'colorize' : !activedBlogs}"  class="cursor-pointer font-medium mr-3 text-gray-400 px-1 ">User blogs</li>
-              <li @click="sendFavoritedBlog" :class="{'colorize' : activedBlogs}" class="cursor-pointer font-medium  ml-3 text-gray-400 px-1"> Favorited blogs </li>
+              <li @click="sendUserBlog" :class="{'colorize' : !userStore.activedProfileBlogs}"  class="cursor-pointer font-medium mr-3 text-gray-400 px-1 ">User blogs</li>
+              <li @click="sendFavoritedBlog" :class="{'colorize' : userStore.activedProfileBlogs}" class="cursor-pointer font-medium  ml-3 text-gray-400 px-1"> Favorited blogs </li>
             </ul>
-            <Suspense>
-              <template #default>
-                  <component :is="componentName"></component>
-              </template>
-              <template #fallback>
-                  <main-content-skeleton />
-              </template>
-            </Suspense> 
+            <template v-if="startSkeleton">
+              <Suspense>
+                <template #default>
+                    <component :is="userStore.componentOfUserPage"></component>
+                </template>
+                <template #fallback>
+                    <main-content-skeleton />
+                </template>
+              </Suspense> 
+            </template>
       </main>
     </div>
 </template>
@@ -66,10 +68,24 @@ export default{
   },
   data(){
     return{
-      activedBlogs : false,
-      componentName :'userBlogs'
+      componentName :'userBlogs',
+      startSkeleton:true
     }
   },
+
+  watch:{
+        componentName(newValue , oldValue){
+            console.log('component name changed');
+            setTimeout(()=>{
+                this.startSkeleton = true;
+            },100)
+        },
+        $route(to , from){
+          this.userStore.getProfile(this.$route.params.username);
+        }
+        // immediate: true,
+        // deep : true
+    },
 
   components:{
     TopNav,HeartIcon,PlusIcon,
@@ -78,12 +94,19 @@ export default{
 
   methods:{
     sendUserBlog(){
-      this.activedBlogs = false
+      this.userStore.activedProfileBlogs = false
       this.componentName = 'userBlogs'
+      this.startSkeleton = false
+      this.userStore.componentOfUserPage = 'userBlogs'
+      this.$router.push(`/user-profile/${this.$route.params.username}`)
     },
     sendFavoritedBlog(){
-      this.activedBlogs = true;
+      this.userStore.activedProfileBlogs = true;
       this.componentName = 'favBlogs'  
+      this.startSkeleton = false
+      this.userStore.componentOfUserPage = 'favBlogs'
+      this.$router.push(`/user-profile/fav/${this.$route.params.username}`)
+
     },
     followingReq(username){
       this.userStore.followUser(username)
@@ -97,12 +120,6 @@ export default{
     this.userStore.getProfile(this.$route.params.username);
     this.userStore.getCurrentUser()
   },
-  watch: {
-   $route(to , from){
-    this.userStore.getProfile(this.$route.params.username);
-    }
-  },
-
 }
 </script>
 

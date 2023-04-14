@@ -1,16 +1,19 @@
 <template>
     <ul class="border-b border-b-gray-400 flex mx-7 md:mx-20">
-      <li @click="sendAllBlog" :class="{'colorize' : !activedBlogs}" class="cursor-pointer font-medium  mr-3 text-gray-400 px-1 transition"> All shared blogs</li>
-      <li @click="sendUserBlog" :class="{'colorize' : activedBlogs}" v-if="token" class="cursor-pointer font-medium ml-3 text-gray-400 px-1 transition">Your feed</li>
+      <li @click="sendAllBlog" :class="{'colorize' : !userStore.activedBlogs}" class="cursor-pointer font-medium  mr-3 text-gray-400 px-1 transition"> All shared blogs</li>
+      <li @click="sendUserBlog" :class="{'colorize' : userStore.activedBlogs}" v-if="token" class="cursor-pointer font-medium ml-3 text-gray-400 px-1 transition">Your feed</li>
     </ul>
-    <Suspense>
-            <template #default>
-                <component :is="componentName"></component>
-            </template>
-            <template #fallback>
-                <main-content-skeleton />
-            </template>
-    </Suspense> 
+
+    <template v-if="startSkeleton">
+        <Suspense>
+                <template #default>
+                    <component :is="userStore.componentName"></component>
+                </template>
+                <template #fallback>
+                    <main-content-skeleton />
+                </template>
+        </Suspense> 
+    </template>
 
 </template>
 <script>
@@ -35,23 +38,43 @@ export default{
 
     data(){
         return{
-            activedBlogs: false,
-            token: this.userStore.user.token,
-            username:null,
-            userInformation : this.userStore.user,
+            token: Object.keys(this.userStore.user).length,
+            startSkeleton : true,
             componentName : 'allBlogs'
+
         }
+    },
+
+    watch:{
+        componentName(newValue , oldValue){
+            console.log('component name changed');
+            setTimeout(()=>{
+                this.startSkeleton = true;
+
+            },100)
+        },
+        // immediate: true,
+        // deep : true
     },
     
     methods:{
         sendAllBlog(){
-            this.activedBlogs = false;
+            this.userStore.activedBlogs = false;
+            this.userStore.componentName = 'allBlogs';
             this.componentName = 'allBlogs';
+
+            console.log('component name' , this.userStore.componentName);
+            this.startSkeleton = false;
+            this.$router.push({ name : 'home' })
         },
         sendUserBlog(){
-            this.username = this.userInformation.username;
-            this.activedBlogs = true;
+            this.userStore.activedBlogs = true;
             this.componentName = 'feedBlogs';
+
+            this.userStore.componentName = 'feedBlogs';
+            console.log('component name' , this.userStore.componentName);
+            this.startSkeleton = false;
+            this.$router.push({ name : 'homeFeed' })
         }
     }
 }
