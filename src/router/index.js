@@ -1,5 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import Home from '../views/Home.vue'
+import SignIn from '../views/SignIn.vue'
+import SignUp from '../views/SignUp.vue'
+import Edit from '../views/EditUser.vue'
+import AddBlog from '../views/AddBlog.vue'
+import Article from '../views/Article.vue'
+import UserProfile from '../views/Profile.vue'
+import EditArticle from '../views/EditArticle.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,17 +14,98 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: Home,
+      meta:{
+        accsess:false
+      }
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
-    }
+      path: '/feed',
+      name: 'homeFeed',
+      component: Home,
+      meta:{
+        accsess:true
+      }
+    },
+    {
+      path: '/sign-in',
+      name: 'signIn',
+      component: SignIn,
+      meta:{
+        accsess:false
+      }    },
+    {
+      path: '/sign-up',
+      name: 'signUp',
+      component: SignUp,
+      meta:{
+        accsess:false
+      }    },
+    {
+      path: '/edit-user',
+      name: 'edit',
+      component: Edit,
+      meta:{
+        accsess:true
+      }
+    },
+    {
+      path: '/add-blog',
+      name: 'addBlog',
+      component: AddBlog,
+      meta:{
+        accsess:true
+      }
+    },
+    {
+      path: '/single-article/:slug',
+      name: 'article',
+      component:Article,
+      meta:{
+        accsess:true
+      }
+    },
+    {
+      path: '/user-profile/:username',
+      name: 'userProfile',
+      component:UserProfile,
+      meta:{
+        accsess:true
+      }
+    },
+    {
+      path: '/user-profile/fav/:username',
+      name: 'userProfileFav',
+      component:UserProfile,
+      meta:{
+        accsess:true
+      }
+    },
+    {
+      path: '/edit-article/:slug',
+      name: 'editArticle',
+      component:EditArticle,
+      meta:{
+        accsess:true
+      }
+    },
   ]
 })
-
+router.beforeEach((to, from, next) => {
+  if(to.meta.accsess){
+    if(localStorage.getItem('token')){
+      next()
+    }
+    else{
+      next({name: 'home'})
+    }
+  }
+  else{
+    if(localStorage.getItem('token') && to.name !== 'home' ) {
+      next({name: 'home'})
+        }
+    else{
+      next()
+    }  }
+});
 export default router
